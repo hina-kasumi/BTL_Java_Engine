@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "tileset/oak_woods_tileset.tsx",
+    "activeFile": "",
     "expandedProjectPaths": [
         "tileset",
         "."
@@ -29,7 +29,6 @@
     "map.tileWidth": 24,
     "map.width": 300,
     "openFiles": [
-        "tileset/oak_woods_tileset.tsx"
     ],
     "project": "BTL_Java.tiled-project",
     "recentFiles": [
