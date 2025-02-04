@@ -3,11 +3,12 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "tileset/oak_woods_tileset.tsx",
     "expandedProjectPaths": [
         "tileset",
         "."
     ],
+    "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "Layer_0000_9.tsx": {
             "dynamicWrapping": true,
@@ -22,8 +23,11 @@
     },
     "last.imagePath": "D:/nguye/Projects/BTL_Java_GameEngine/assets/maps/oak_woods_v1.0",
     "map.fixedSize": true,
+    "map.height": 24,
+    "map.orientation": 1,
     "map.tileHeight": 24,
     "map.tileWidth": 24,
+    "map.width": 300,
     "openFiles": [
         "tileset/oak_woods_tileset.tsx"
     ],

@@ -23,7 +23,6 @@ public class Player extends Entity {
     private boolean movingRight;
     private boolean isAttacking = false;
     private boolean isJump = false;
-    private final float jumpForce = 10f; // Lực nhảy
 
     public Player(float x, float y) {
         super(x, y, 19, 45, 89, 78, 2f);
@@ -59,8 +58,8 @@ public class Player extends Entity {
         animation.add(new Animation<>(frameDuration, frames.get(0), Animation.PlayMode.LOOP));
         animation.add(new Animation<>(frameDuration, frames.get(1), Animation.PlayMode.LOOP));
         animation.add(new Animation<>(frameDuration, frames.get(2), Animation.PlayMode.NORMAL));
-        animation.add(new Animation<>(frameDuration, frames.get(2), Animation.PlayMode.LOOP));
-        animation.add(new Animation<>(frameDuration, frames.get(2), Animation.PlayMode.LOOP));
+        animation.add(new Animation<>(frameDuration, frames.get(3), Animation.PlayMode.LOOP));
+        animation.add(new Animation<>(frameDuration, frames.get(4), Animation.PlayMode.LOOP));
     }
 
     private void loadTempTextureRegion(List<TextureRegion[][]> tempTexture, Texture texture, int frameNumber) {
@@ -74,8 +73,18 @@ public class Player extends Entity {
     @Override
     public void update(float delta) {
         stateTime += delta;
-        float speed = 150f;
 
+        jumpUpdate(); //xử lý nhảy
+        horizontalMoveUpdate(); // xử lý di chuyển ngang
+        attackUpdate(); // xử lý tấn công
+        updateAnimation(); // xử lý cập nhật animation
+
+        position.add(velocity.x * delta, 0);
+        hitbox.setPosition(position.x, position.y); // Cập nhật vị trí hitbox
+    }
+
+    private void jumpUpdate (){
+        final float jumpForce = 15f;
         if (Gdx.input.isKeyPressed(Input.Keys.K) && !isJump) {
             isJump = true;
             velocity.y = jumpForce;
@@ -89,14 +98,10 @@ public class Player extends Entity {
                 position.y = 0;
             }
         }
-        hitbox.setPosition(position.x, position.y); // Cập nhật vị trí hitbox
-        if (isAttacking) {
-            if (animation.get(2).isAnimationFinished(stateTime)) {
-                isAttacking = false;
-            }
-            return;
-        }
+    }
 
+    private void horizontalMoveUpdate() {
+        float speed = 150f;
         velocity.x = 0;
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             velocity.x -= speed;
@@ -106,20 +111,36 @@ public class Player extends Entity {
             movingRight = true;
             velocity.x += speed;
         }
+    }
+
+    private void attackUpdate() {
         if (Gdx.input.isKeyPressed(Input.Keys.J)) {
             isAttacking = true;
-            stateTime = 0;
-            velocity.x = 0;
+            if (animation.get(2).isAnimationFinished(stateTime)) {
+                stateTime = 0;
+            }
         }
 
-        updateAnimation();
-        position.add(velocity.x * delta, 0);
-        hitbox.setPosition(position.x, position.y); // Cập nhật vị trí hitbox
+        if (isAttacking) {
+            if (animation.get(2).isAnimationFinished(stateTime)) {
+                isAttacking = false;
+            }
+            if (!isJump)
+                velocity.x = 0;
+        }
     }
 
     private void updateAnimation() {
         if (isAttacking) {
             playerState = PlayerState.ATTACK;
+            return;
+        }
+        if (isJump) {
+            if (velocity.y > 0) {
+                playerState = PlayerState.JUMP;
+            } else {
+                playerState = PlayerState.FALL;
+            }
             return;
         }
         if (velocity.x == 0)
@@ -134,6 +155,8 @@ public class Player extends Entity {
         switch (playerState) {
             case ATTACK -> currentFrame = animation.get(2).getKeyFrame(stateTime, false);
             case RUNNING -> currentFrame = animation.get(1).getKeyFrame(stateTime, true);
+            case JUMP -> currentFrame = animation.get(3).getKeyFrame(stateTime, true);
+            case FALL -> currentFrame = animation.get(4).getKeyFrame(stateTime, true);
             default -> currentFrame = animation.get(0).getKeyFrame(stateTime, true);
         }
 
