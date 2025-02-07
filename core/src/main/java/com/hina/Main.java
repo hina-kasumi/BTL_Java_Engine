@@ -2,27 +2,67 @@ package com.hina;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.hina.entities.Player.Player;
-import com.hina.screens.Background;
+
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
  */
 public class Main extends ApplicationAdapter {
-    private SpriteBatch batch;
+
+    private World world;
+    private OrthographicCamera camera;
     private Player player;
-    private FitViewport viewport;
-    private Background background;
+    private Box2DDebugRenderer box2DDebugRenderer;
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
-        player = new Player(0, 0);
-        viewport = new FitViewport(1280, 720);
-        background = new Background();
+        world = new World(new Vector2(0, -9.8f), true);
+        box2DDebugRenderer = new Box2DDebugRenderer();
+        camera = new OrthographicCamera(32, 18);
+        camera.position.set(16, 9, 0);
+        camera.update();
+        player = new Player(world);
+
+        world.setContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact contact) {
+                player.setOnGround(true);
+            }
+
+            @Override
+            public void endContact(Contact contact) {
+                player.setOnGround(false);
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold manifold) {
+
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse contactImpulse) {
+
+            }
+        });
+
+        makeGround();
+    }
+
+    private void makeGround() {
+        BodyDef groundDef = new BodyDef();
+        groundDef.type = BodyDef.BodyType.StaticBody;
+        groundDef.position.set(10, 0);
+        Body ground = world.createBody(groundDef);
+
+        PolygonShape groundShape = new PolygonShape();
+        groundShape.setAsBox(10, 1);
+        ground.createFixture(groundShape, 0);
+        groundShape.dispose();
     }
 
     @Override
@@ -32,38 +72,24 @@ public class Main extends ApplicationAdapter {
     }
 
     private void update() {
-        float delta = Gdx.graphics.getDeltaTime();
-
-        player.update(delta);
+        world.step(1/60f, 6, 2); // Cập nhật vật lý
+        player.update(Gdx.graphics.getDeltaTime());
     }
 
     private void draw() {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Clear screen
-        viewport.apply();
-        batch.setProjectionMatrix(viewport.getCamera().combined);
-        batch.begin();
+        ScreenUtils.clear(0, 0, 0, 1); // Xóa màn hình đen
+        player.draw();
 
-        background.draw(batch, viewport.getWorldWidth(), viewport.getWorldHeight());
-        player.draw(batch);
-
-        batch.end();
-
-        drawHitbox();
-    }
-
-    private void drawHitbox(){
-        player.renderHitbox(viewport.getCamera().combined);
+        box2DDebugRenderer.render(world, camera.combined);
     }
 
     @Override
     public void dispose() {
-        batch.dispose();
+        world.dispose();
         player.dispose();
-        background.dispose();
     }
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height, true);
     }
 }
