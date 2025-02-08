@@ -27,7 +27,7 @@ public class Player extends Entity {
 
         FixtureDef playerFixtureDef = new FixtureDef();
         playerFixtureDef.shape = playerShape;
-        playerFixtureDef.density = 1.5f;
+        playerFixtureDef.density = 1f;
 
         body.createFixture(playerFixtureDef);
 
@@ -37,7 +37,7 @@ public class Player extends Entity {
     @Override
     public void update(float delta) {
         final float speed = 5f;
-        final float jumpStrength = 100f;
+        final float jumpStrength = 150f;
         float movingSpeed = 0;
 
 
@@ -52,6 +52,7 @@ public class Player extends Entity {
 
         if (Gdx.input.isKeyPressed(Input.Keys.K) && onGround) {
             body.applyLinearImpulse(new Vector2(0, jumpStrength), body.getWorldCenter(), true);
+            onGround = false;
         }
     }
 

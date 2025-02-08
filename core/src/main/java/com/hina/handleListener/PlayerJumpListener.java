@@ -19,16 +19,7 @@ public class PlayerJumpListener {
     }
 
     public void endContact(Contact contact) {
-        Fixture fixtureA = contact.getFixtureA();
-        Fixture fixtureB = contact.getFixtureB();
 
-        Body bodyA = fixtureA.getBody();
-        Body bodyB = fixtureB.getBody();
-
-        // Kiểm tra nếu một trong hai vật thể là "player" và vật kia là "ground"
-        if ("player".equals(bodyA.getUserData()) || "player".equals(bodyB.getUserData())) {
-            player.setOnGround(false);
-        }
     }
 
     private boolean isPlayerOnGround(Contact contact) {

@@ -46,6 +46,16 @@ public class Main extends ApplicationAdapter {
         groundShape.setAsBox(10, 1);
         ground.createFixture(groundShape, 0);
         groundShape.dispose();
+
+        BodyDef blockDef = new BodyDef();
+        blockDef.type = BodyDef.BodyType.StaticBody;
+        blockDef.position.set(10, 1);
+        Body block = world.createBody(blockDef);
+        block.setUserData("block");
+        PolygonShape blockShape = new PolygonShape();
+        blockShape.setAsBox(2, 2);
+        block.createFixture(blockShape, 0);
+        blockShape.dispose();
     }
 
     @Override
