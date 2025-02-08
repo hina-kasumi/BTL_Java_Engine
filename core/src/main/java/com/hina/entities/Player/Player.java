@@ -46,6 +46,7 @@ public class Player extends Entity {
         FixtureDef playerFixtureDef = new FixtureDef();
         playerFixtureDef.shape = playerShape;
         playerFixtureDef.density = Math.max(playerHeight, playerWidth) * 1.5f;
+        playerFixtureDef.friction = 0f;
 
         createAnimation();
         body.createFixture(playerFixtureDef);
