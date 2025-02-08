@@ -3,6 +3,7 @@ package com.hina;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -20,13 +21,15 @@ public class Main extends ApplicationAdapter {
     private OrthographicCamera camera;
     private Player player;
     private Box2DDebugRenderer box2DDebugRenderer;
+    private SpriteBatch batch;
 
     @Override
     public void create() {
+        batch = new SpriteBatch();
         world = new World(new Vector2(0, -9.8f), true);
         box2DDebugRenderer = new Box2DDebugRenderer();
         camera = new OrthographicCamera(32, 18);
-        camera.position.set(16, 9, 0);
+//        camera.position.set(16, 9, 0);
         camera.update();
         player = new Player(world);
 
@@ -71,7 +74,12 @@ public class Main extends ApplicationAdapter {
 
     private void draw() {
         ScreenUtils.clear(0, 0, 0, 1); // Xóa màn hình đen
-        player.draw();
+        camera.position.set(player.getPosition().x, player.getPosition().y, 0);
+        camera.update();
+
+        batch.begin();
+        player.draw(batch);
+        batch.end();
 
         box2DDebugRenderer.render(world, camera.combined);
     }
@@ -79,6 +87,7 @@ public class Main extends ApplicationAdapter {
     @Override
     public void dispose() {
         world.dispose();
+        batch.dispose();
         player.dispose();
     }
 
