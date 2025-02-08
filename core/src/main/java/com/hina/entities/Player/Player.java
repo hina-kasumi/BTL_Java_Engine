@@ -27,6 +27,7 @@ public class Player extends Entity {
     private boolean onGround = false;
     private boolean attacking;
     private PlayerState playerState;
+    private boolean movingRight = true;
 
 
     public Player(World world) {
@@ -81,14 +82,35 @@ public class Player extends Entity {
         final float jumpStrength = Math.min(playerHeight, playerWidth) * 100;
         float movingSpeed = 0;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            movingSpeed += speed;
-        }
+        playerState = PlayerState.IDLE;
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             movingSpeed -= speed;
+            movingRight = false;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            movingSpeed += speed;
+            movingRight = true;
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.J)) {
+            attacking = true;
+
+            if (attackAnimation.isAnimationFinished(state)) {
+                state = 0;
+            }
+        }
+
+        if (attacking) {
+            if (attackAnimation.isAnimationFinished(state)) {
+                attacking = false;
+            }
+            if (onGround) {
+                movingSpeed = 0;
+            }
         }
 
         body.setLinearVelocity(movingSpeed, body.getLinearVelocity().y);
+        updateAnimation();
 
         if (Gdx.input.isKeyPressed(Input.Keys.K) && onGround) {
             body.applyLinearImpulse(new Vector2(0, jumpStrength), body.getWorldCenter(), true);
@@ -97,14 +119,40 @@ public class Player extends Entity {
     }
 
 
+    private void updateAnimation() {
+        if (attacking) {
+            playerState = PlayerState.ATTACK;
+            return;
+        }
+        if (body.getLinearVelocity().x != 0) {
+            playerState = PlayerState.RUNNING;
+        }
+        if (body.getLinearVelocity().y > 0 && !onGround) {
+            playerState = PlayerState.JUMP;
+        } else if (body.getLinearVelocity().y < 0 && !onGround) {
+            playerState = PlayerState.FALL;
+        }
+    }
+
+
     public void draw(SpriteBatch batch) {
         state += Gdx.graphics.getDeltaTime();
-        TextureRegion currentFrame = idleAnimation.getKeyFrame(state, true);
+        TextureRegion currentFrame;
 
+        switch (playerState) {
+            case RUNNING -> currentFrame = movingAnimation.getKeyFrame(state, true);
+            case ATTACK -> currentFrame = attackAnimation.getKeyFrame(state, false);
+            case JUMP -> currentFrame = jumpAnimation.getKeyFrame(state, true);
+            case FALL -> currentFrame = fallAnimation.getKeyFrame(state, true);
+            default -> currentFrame = idleAnimation.getKeyFrame(state, true);
+        }
 
-        Vector2 playerPos = body.getPosition();
+        if (!movingRight && !currentFrame.isFlipX()) {
+            currentFrame.flip(true, false);
+        } else if (movingRight && currentFrame.isFlipX()) {
+            currentFrame.flip(true, false);
+        }
 
-        System.out.println((playerPos.x - 0.5f) + " " + (playerPos.y - 0.5f));
         batch.draw(currentFrame,
             (float) Gdx.graphics.getWidth() / 2 - scale * currentFrame.getRegionWidth() / 2,
             (float) Gdx.graphics.getHeight() / 2 - scale * currentFrame.getRegionHeight() / 2,
