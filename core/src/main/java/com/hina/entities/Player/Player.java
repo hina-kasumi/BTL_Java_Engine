@@ -20,6 +20,7 @@ public class Player extends Entity {
 
         body = world.createBody(playerBodyDef);
         body.setGravityScale(5);
+        body.setUserData("player");
 
         PolygonShape playerShape = new PolygonShape();
         playerShape.setAsBox(1, 2);
@@ -27,6 +28,7 @@ public class Player extends Entity {
         FixtureDef playerFixtureDef = new FixtureDef();
         playerFixtureDef.shape = playerShape;
         playerFixtureDef.density = 1.5f;
+
         body.createFixture(playerFixtureDef);
 
         playerShape.dispose();
@@ -63,6 +65,5 @@ public class Player extends Entity {
 
     public void setOnGround(boolean onGround) {
         this.onGround = onGround;
-        System.out.println(onGround);
     }
 }

@@ -7,6 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.hina.entities.Player.Player;
+import com.hina.handleListener.MainListener;
+import com.hina.handleListener.PlayerJumpListener;
 
 
 /**
@@ -28,27 +30,7 @@ public class Main extends ApplicationAdapter {
         camera.update();
         player = new Player(world);
 
-        world.setContactListener(new ContactListener() {
-            @Override
-            public void beginContact(Contact contact) {
-                player.setOnGround(true);
-            }
-
-            @Override
-            public void endContact(Contact contact) {
-                player.setOnGround(false);
-            }
-
-            @Override
-            public void preSolve(Contact contact, Manifold manifold) {
-
-            }
-
-            @Override
-            public void postSolve(Contact contact, ContactImpulse contactImpulse) {
-
-            }
-        });
+        world.setContactListener(new MainListener(player));
 
         makeGround();
     }
@@ -58,6 +40,7 @@ public class Main extends ApplicationAdapter {
         groundDef.type = BodyDef.BodyType.StaticBody;
         groundDef.position.set(10, 0);
         Body ground = world.createBody(groundDef);
+        ground.setUserData("ground");
 
         PolygonShape groundShape = new PolygonShape();
         groundShape.setAsBox(10, 1);
