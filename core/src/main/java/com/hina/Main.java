@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hina.entities.Player.Player;
 import com.hina.handleListener.MainListener;
 import com.hina.screens.Background;
@@ -22,11 +23,13 @@ public class Main extends ApplicationAdapter {
     private Box2DDebugRenderer box2DDebugRenderer;
     private SpriteBatch batch;
     private Background background;
+    private FitViewport viewport;
 
     @Override
     public void create() {
         world = new World(new Vector2(0, -9.8f), true);
-        camera = new OrthographicCamera(32, 18);
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(32, 18, camera);
         batch = new SpriteBatch();
         box2DDebugRenderer = new Box2DDebugRenderer();
 
@@ -75,8 +78,12 @@ public class Main extends ApplicationAdapter {
 
     private void draw() {
         ScreenUtils.clear(0, 0, 0, 1); // Xóa màn hình đen
+
+        viewport.apply();
         camera.position.set(player.getPosition().x, player.getPosition().y, 0);
         camera.update();
+
+        batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
 
@@ -98,5 +105,6 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
+        viewport.update(width, height, true);
     }
 }

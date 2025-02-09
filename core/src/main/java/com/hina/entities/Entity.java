@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.*;
 
 public abstract class Entity {
-    protected final float scale = 2f;
+    protected final float scale = 5f;
     protected final Body body;
     protected final float entityWidth;
     protected final float entityHeight;

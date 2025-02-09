@@ -23,6 +23,7 @@ public class Player extends Entity {
     private boolean onGround = false;
     private boolean attacking;
     private boolean movingRight = true;
+    private final float PPM = 100f;
 
 
     public Player(World world) {
@@ -135,10 +136,10 @@ public class Player extends Entity {
         }
 
         batch.draw(currentFrame,
-            (float) Gdx.graphics.getWidth() / 2 - scale * currentFrame.getRegionWidth() / 2,
-            (float) Gdx.graphics.getHeight() / 2 - scale * currentFrame.getRegionHeight() / 2,
-            currentFrame.getRegionWidth() * scale,
-            currentFrame.getRegionHeight() * scale
+            body.getPosition().x - scale * currentFrame.getRegionWidth() / 2 / PPM,
+            body.getPosition().y - scale * currentFrame.getRegionHeight() / 2 / PPM,
+            currentFrame.getRegionWidth() * scale / PPM,
+            currentFrame.getRegionHeight() * scale / PPM
         );
     }
 
