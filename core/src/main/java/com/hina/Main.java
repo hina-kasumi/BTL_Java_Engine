@@ -87,7 +87,7 @@ public class Main extends ApplicationAdapter {
 
         batch.begin();
 
-        background.draw(batch);
+        background.draw(batch, camera, viewport);
         player.draw(batch);
 
         batch.end();

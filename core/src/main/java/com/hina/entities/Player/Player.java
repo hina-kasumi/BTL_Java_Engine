@@ -12,6 +12,8 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.hina.entities.Entity;
 
+import static com.hina.constant.GameConst.PPM;
+
 public class Player extends Entity {
     private Animation<TextureRegion> idleAnimation;
     private Animation<TextureRegion> movingAnimation;
@@ -23,7 +25,6 @@ public class Player extends Entity {
     private boolean onGround = false;
     private boolean attacking;
     private boolean movingRight = true;
-    private final float PPM = 100f;
 
 
     public Player(World world) {
