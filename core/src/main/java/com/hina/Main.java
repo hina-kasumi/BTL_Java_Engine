@@ -9,29 +9,30 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.hina.entities.Player.Player;
 import com.hina.handleListener.MainListener;
-import com.hina.handleListener.PlayerJumpListener;
+import com.hina.screens.Background;
 
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
  */
 public class Main extends ApplicationAdapter {
-
     private World world;
     private OrthographicCamera camera;
     private Player player;
     private Box2DDebugRenderer box2DDebugRenderer;
     private SpriteBatch batch;
+    private Background background;
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
         world = new World(new Vector2(0, -9.8f), true);
-        box2DDebugRenderer = new Box2DDebugRenderer();
         camera = new OrthographicCamera(32, 18);
-//        camera.position.set(16, 9, 0);
-        camera.update();
+        batch = new SpriteBatch();
+        box2DDebugRenderer = new Box2DDebugRenderer();
+
+
         player = new Player(world);
+        background = new Background();
 
         world.setContactListener(new MainListener(player));
 
@@ -68,7 +69,7 @@ public class Main extends ApplicationAdapter {
     }
 
     private void update() {
-        world.step(1/60f, 6, 2); // Cập nhật vật lý
+        world.step(1 / 60f, 6, 2); // Cập nhật vật lý
         player.update(Gdx.graphics.getDeltaTime());
     }
 
@@ -78,7 +79,10 @@ public class Main extends ApplicationAdapter {
         camera.update();
 
         batch.begin();
+
+        background.draw(batch);
         player.draw(batch);
+
         batch.end();
 
         box2DDebugRenderer.render(world, camera.combined);
@@ -89,6 +93,7 @@ public class Main extends ApplicationAdapter {
         world.dispose();
         batch.dispose();
         player.dispose();
+        background.dispose();
     }
 
     @Override

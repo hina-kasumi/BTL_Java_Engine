@@ -13,45 +13,25 @@ import com.badlogic.gdx.utils.Array;
 import com.hina.entities.Entity;
 
 public class Player extends Entity {
-    private final Body body;
     private Animation<TextureRegion> idleAnimation;
     private Animation<TextureRegion> movingAnimation;
     private Animation<TextureRegion> jumpAnimation;
     private Animation<TextureRegion> fallAnimation;
     private Animation<TextureRegion> attackAnimation;
+    private PlayerState playerState;
     private float state = 0;
-    private final float PPM = 100f;
-    private final float scale = 2f;
-    private final float playerWidth = 0.5f;
-    private final float playerHeight = 1f;
     private boolean onGround = false;
     private boolean attacking;
-    private PlayerState playerState;
     private boolean movingRight = true;
 
 
     public Player(World world) {
-        BodyDef playerBodyDef = new BodyDef();
-        playerBodyDef.type = BodyDef.BodyType.DynamicBody;
-        playerBodyDef.position.set(0, 10);
-        playerBodyDef.fixedRotation = true;
+        super(world, 0.5f, 1f, 1.5f);
 
-        body = world.createBody(playerBodyDef);
         body.setGravityScale(5);
         body.setUserData("player");
 
-        PolygonShape playerShape = new PolygonShape();
-        playerShape.setAsBox(playerWidth, playerHeight);
-
-        FixtureDef playerFixtureDef = new FixtureDef();
-        playerFixtureDef.shape = playerShape;
-        playerFixtureDef.density = Math.max(playerHeight, playerWidth) * 1.5f;
-        playerFixtureDef.friction = 0f;
-
         createAnimation();
-        body.createFixture(playerFixtureDef);
-
-        playerShape.dispose();
     }
 
     private void createAnimation() {
@@ -80,7 +60,7 @@ public class Player extends Entity {
     @Override
     public void update(float delta) {
         final float speed = 10f;
-        final float jumpStrength = Math.min(playerHeight, playerWidth) * 100;
+        final float jumpStrength = Math.min(entityHeight, entityWidth) * 100;
         float movingSpeed = 0;
 
         playerState = PlayerState.IDLE;
@@ -105,7 +85,7 @@ public class Player extends Entity {
             if (attackAnimation.isAnimationFinished(state)) {
                 attacking = false;
             }
-            if (onGround) {
+            if (body.getLinearVelocity().y == 0) {
                 movingSpeed = 0;
             }
         }
@@ -128,14 +108,14 @@ public class Player extends Entity {
         if (body.getLinearVelocity().x != 0) {
             playerState = PlayerState.RUNNING;
         }
-        if (body.getLinearVelocity().y > 0 && !onGround) {
+        if (body.getLinearVelocity().y >= 0.1) {
             playerState = PlayerState.JUMP;
-        } else if (body.getLinearVelocity().y < 0 && !onGround) {
+        } else if (body.getLinearVelocity().y <= -0.1) {
             playerState = PlayerState.FALL;
         }
     }
 
-
+    @Override
     public void draw(SpriteBatch batch) {
         state += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame;
