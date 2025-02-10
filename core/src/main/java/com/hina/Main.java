@@ -24,6 +24,7 @@ public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
     private Background background;
     private FitViewport viewport;
+    private Map map;
 
     @Override
     public void create() {
@@ -34,12 +35,13 @@ public class Main extends ApplicationAdapter {
         box2DDebugRenderer = new Box2DDebugRenderer();
 
 
+        map = new Map(camera, world);
         player = new Player(world);
         background = new Background();
 
         world.setContactListener(new MainListener(player));
 
-        makeGround();
+//        makeGround();
     }
 
     private void makeGround() {
@@ -83,12 +85,14 @@ public class Main extends ApplicationAdapter {
         camera.position.set(player.getPosition().x, player.getPosition().y, 0);
         camera.update();
 
+
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
 
         background.draw(batch, camera, viewport);
         player.draw(batch);
+        map.render();
 
         batch.end();
 
@@ -101,6 +105,7 @@ public class Main extends ApplicationAdapter {
         batch.dispose();
         player.dispose();
         background.dispose();
+        map.dispose();
     }
 
     @Override
