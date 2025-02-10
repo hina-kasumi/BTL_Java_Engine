@@ -16,11 +16,11 @@
             "scaleInEditor": 1
         },
         "map.tmx": {
-            "scale": 1,
-            "selectedLayer": 1,
+            "scale": 0.138671875,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 693.5,
-                "y": 1139.5
+                "x": 1067.2676056338028,
+                "y": -284.8450704225352
             }
         },
         "tileset/oak_woods_tileset.tsx": {
@@ -38,13 +38,12 @@
     "map.tileWidth": 24,
     "map.width": 3000,
     "openFiles": [
-        "map.tmx",
-        "tileset/oak_woods_tileset.tsx"
+        "map.tmx"
     ],
     "project": "BTL_Java.tiled-project",
     "recentFiles": [
-        "tileset/oak_woods_tileset.tsx",
         "map.tmx",
+        "tileset/oak_woods_tileset.tsx",
         "Layer_0000_9.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
