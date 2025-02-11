@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 
+import static com.hina.constant.GameConst.GROUND_TAG;
 import static com.hina.constant.GameConst.PPM;
 
 public class Map {
@@ -39,6 +40,7 @@ public class Map {
                     (rect.y + rect.height / 2) / PPM * scale);
 
                 Body body = world.createBody(bodyDef);
+                body.setUserData(GROUND_TAG);
 
                 PolygonShape shape = new PolygonShape();
                 shape.setAsBox((rect.width / 2) / PPM * scale, (rect.height / 2) / PPM * scale);

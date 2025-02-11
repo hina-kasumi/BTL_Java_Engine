@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.hina.entities.Entity;
 
-import static com.hina.constant.GameConst.PPM;
+import static com.hina.constant.GameConst.*;
 
 public class Player extends Entity {
     private Animation<TextureRegion> idleAnimation;
@@ -31,7 +31,7 @@ public class Player extends Entity {
         super(world, 0, 10,0.5f, 1f, 1.5f);
 
         body.setGravityScale(5);
-        body.setUserData("player");
+        body.setUserData(PLAYER_TAG);
 
         createAnimation();
     }
@@ -65,7 +65,6 @@ public class Player extends Entity {
         final float jumpStrength = Math.min(entityHeight, entityWidth) * 100;
         float movingSpeed = 0;
 
-        playerState = PlayerState.IDLE;
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             movingSpeed -= speed;
             movingRight = false;
@@ -103,6 +102,7 @@ public class Player extends Entity {
 
 
     private void updateAnimation() {
+        playerState = PlayerState.IDLE;
         if (attacking) {
             playerState = PlayerState.ATTACK;
             return;

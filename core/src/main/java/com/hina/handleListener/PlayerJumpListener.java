@@ -2,7 +2,11 @@ package com.hina.handleListener;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.hina.constant.GameConst;
 import com.hina.entities.Player.Player;
+
+import static com.hina.constant.GameConst.GROUND_TAG;
+import static com.hina.constant.GameConst.PLAYER_TAG;
 
 public class PlayerJumpListener implements ContactListener {
     private Player player;
@@ -33,10 +37,12 @@ public class PlayerJumpListener implements ContactListener {
 
         // Lấy normal
         Vector2 normal = contact.getWorldManifold().getNormal();
+        var userDataA = bodyA.getUserData();
+        var userDataB = bodyB.getUserData();
 
-        if ("player" == bodyA.getUserData() && Math.abs(normal.y) > 0.5)
-            return true;
-        return "player" == bodyB.getUserData() && Math.abs(normal.y) > 0.5;
+        return ((PLAYER_TAG == userDataA && GROUND_TAG == userDataB) ||
+            (PLAYER_TAG == userDataB && GROUND_TAG == userDataA)) &&
+            Math.abs(normal.y) > 0.5;
     }
 
     @Override
