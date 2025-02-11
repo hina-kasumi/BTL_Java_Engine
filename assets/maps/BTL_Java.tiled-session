@@ -5,8 +5,8 @@
     },
     "activeFile": "map.tmx",
     "expandedProjectPaths": [
-        "tileset",
-        "."
+        ".",
+        "tileset"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
@@ -16,11 +16,11 @@
             "scaleInEditor": 1
         },
         "map.tmx": {
-            "scale": 0.138671875,
+            "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1067.2676056338028,
-                "y": -284.8450704225352
+                "x": 1046.6666666666665,
+                "y": 852.6666666666667
             }
         },
         "tileset/oak_woods_tileset.tsx": {

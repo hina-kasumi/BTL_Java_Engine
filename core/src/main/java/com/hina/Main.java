@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hina.entities.Player.Player;
+import com.hina.entities.enemy.Goblin.Goblin;
 import com.hina.handleListener.MainListener;
 import com.hina.screens.Background;
 
@@ -20,6 +21,7 @@ public class Main extends ApplicationAdapter {
     private World world;
     private OrthographicCamera camera;
     private Player player;
+    private Goblin goblin;
     private Box2DDebugRenderer box2DDebugRenderer;
     private SpriteBatch batch;
     private Background background;
@@ -37,6 +39,7 @@ public class Main extends ApplicationAdapter {
 
         map = new Map(camera, world);
         player = new Player(world);
+        goblin = new Goblin(world);
         background = new Background();
 
         world.setContactListener(new MainListener(player));
@@ -75,7 +78,9 @@ public class Main extends ApplicationAdapter {
 
     private void update() {
         world.step(1 / 60f, 6, 2); // Cập nhật vật lý
-        player.update(Gdx.graphics.getDeltaTime());
+        float delta = Gdx.graphics.getDeltaTime();
+        player.update(delta);
+        goblin.update(delta);
     }
 
     private void draw() {
@@ -91,6 +96,7 @@ public class Main extends ApplicationAdapter {
         batch.begin();
 
         background.draw(batch, camera, viewport);
+        goblin.draw(batch);
         player.draw(batch);
         map.render();
 

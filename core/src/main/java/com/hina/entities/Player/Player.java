@@ -28,7 +28,7 @@ public class Player extends Entity {
 
 
     public Player(World world) {
-        super(world, 0.5f, 1f, 1.5f);
+        super(world, 0, 10,0.5f, 1f, 1.5f);
 
         body.setGravityScale(5);
         body.setUserData("player");

@@ -10,13 +10,13 @@ public abstract class Entity {
     protected final float entityWidth;
     protected final float entityHeight;
 
-    public Entity(World world, float entityWidth, float entityHeight, float density) {
+    public Entity(World world, float x, float y, float entityWidth, float entityHeight, float density) {
         this.entityWidth = entityWidth;
         this.entityHeight = entityHeight;
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(0, 10);
+        bodyDef.position.set(x, y);
         bodyDef.fixedRotation = true;
 
         PolygonShape shape = new PolygonShape();
