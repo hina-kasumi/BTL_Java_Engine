@@ -39,7 +39,7 @@ public class Main extends ApplicationAdapter {
 
         map = new Map(camera, world);
         player = new Player(world);
-        goblin = new Goblin(world);
+        goblin = new Goblin(world, player);
         background = new Background();
 
         world.setContactListener(new MainListener(player));

@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.hina.entities.Entity;
+import com.hina.entities.Player.Player;
 
 import static com.hina.constant.GameConst.PPM;
 
@@ -20,13 +21,15 @@ public class Goblin extends Entity {
     private boolean movingRight = true;
     private GoblinState goblinState;
     private boolean attacking = false;
-    private Vector2 bornPosition;
+    private final Vector2 bornPosition;
+    private Player player;
 
 
-    public Goblin(World world) {
+    public Goblin(World world, Player player) {
         super(world, 10, 10, 0.5f, 1f, 1.5f);
         this.scale = 4;
 
+        this.player = player;
         bornPosition = new Vector2(body.getPosition());
         body.setGravityScale(5);
         body.setUserData("enemy");
@@ -57,15 +60,18 @@ public class Goblin extends Entity {
 
     @Override
     public void update(float delta) {
-        float dst = bornPosition.x - body.getPosition().x;
         final float activeArea = 5f;
-        System.out.println(dst);
-        if ((dst < -activeArea && movingRight) || (dst > activeArea && !movingRight)){
+        final float speed = 3f;
+
+        float dst = body.getPosition().x - bornPosition.x;
+        float distantToPlayer = body.getPosition().x - player.getPosition().x;
+
+        if ((dst < -activeArea && !movingRight) || (dst > activeArea && movingRight)) {
             movingRight = !movingRight;
         }
-        final float speed = 3f * ((movingRight) ? 1 : -1);
 
-        body.setLinearVelocity(speed, body.getLinearVelocity().y);
+        float movingSpeed = speed * ((movingRight) ? 1 : -1);
+        body.setLinearVelocity(movingSpeed, body.getLinearVelocity().y);
         updateAnimation();
     }
 
