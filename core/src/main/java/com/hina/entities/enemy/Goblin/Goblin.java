@@ -22,7 +22,7 @@ public class Goblin extends Entity {
     private GoblinState goblinState;
     private boolean attacking = false;
     private final Vector2 bornPosition;
-    private Player player;
+    private final Player player;
 
 
     public Goblin(World world, Player player) {
@@ -64,13 +64,34 @@ public class Goblin extends Entity {
         final float speed = 3f;
 
         float dst = body.getPosition().x - bornPosition.x;
-        float distantToPlayer = body.getPosition().x - player.getPosition().x;
+        float distantToPlayer = player.getPosition().x - body.getPosition().x;
+        float bornToPlayer = player.getPosition().x - bornPosition.x;
 
+        if (Math.abs(bornToPlayer) <= 5) {
+            if ((distantToPlayer < 0 && movingRight) || (distantToPlayer >= 0 && !movingRight)) {
+                movingRight = !movingRight;
+            }
+        }
         if ((dst < -activeArea && !movingRight) || (dst > activeArea && movingRight)) {
             movingRight = !movingRight;
         }
 
         float movingSpeed = speed * ((movingRight) ? 1 : -1);
+
+        // attacking update
+        if (Math.abs(distantToPlayer) <= 2) {
+            attacking = true;
+
+            if (attackAnimation.isAnimationFinished(stateTime)) {
+                stateTime = 0;
+            }
+        }
+        if (attacking) {
+            if (attackAnimation.isAnimationFinished(stateTime)) {
+                attacking = false;
+            }
+            movingSpeed = 0;
+        }
         body.setLinearVelocity(movingSpeed, body.getLinearVelocity().y);
         updateAnimation();
     }
@@ -113,9 +134,5 @@ public class Goblin extends Entity {
     @Override
     public void dispose() {
 
-    }
-
-    public void setMovingRight(boolean movingRight) {
-        this.movingRight = movingRight;
     }
 }
