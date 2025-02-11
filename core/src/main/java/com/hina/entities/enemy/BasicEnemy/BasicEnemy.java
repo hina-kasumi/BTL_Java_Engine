@@ -1,0 +1,85 @@
+package com.hina.entities.enemy.BasicEnemy;
+
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
+import com.hina.entities.Entity;
+import com.hina.entities.Player.Player;
+
+public abstract class BasicEnemy extends Entity {
+    protected final Player player;
+    protected final Vector2 bornPosition;
+    protected boolean attacking;
+    protected Animation<TextureRegion> idleAnimation;
+    protected Animation<TextureRegion> attackAnimation;
+    protected Animation<TextureRegion> runAnimation;
+
+    public BasicEnemy(World world, Player player, float x, float y, float maxHeath) {
+        super(world, x, y, 0.5f, 1f, 100f, 1.5f);
+
+        this.player = player;
+        this.bornPosition = new Vector2(x, y);
+        this.attacking = false;
+
+        body.setGravityScale(5);
+        body.setUserData("enemy");
+    }
+
+    protected Animation<TextureRegion> importAnimation(String fileName) {
+        Texture texture = new Texture(fileName);
+
+        TextureRegion[][] textureRegions = TextureRegion
+            .split(texture, texture.getHeight(), texture.getHeight());
+
+        Array<TextureRegion> array = new Array<>();
+        for (int i = 0; i < textureRegions[0].length; i++) {
+            array.add(textureRegions[0][i]);
+        }
+
+        return new Animation<>(0.15f, array, Animation.PlayMode.LOOP);
+    }
+
+    @Override
+    public void update(float delta) {
+        final float activeArea = 5f;
+        final float speed = 3f;
+
+        float dst = body.getPosition().x - bornPosition.x;
+        float distantToPlayer = player.getPosition().x - body.getPosition().x;
+        float bornToPlayer = player.getPosition().x - bornPosition.x;
+        boolean dstPlayer = player.getPosition().dst(body.getPosition()) <= 5;
+
+        if (Math.abs(bornToPlayer) <= activeArea && dstPlayer) {
+            if ((distantToPlayer < 0 && movingRight) || (distantToPlayer >= 0 && !movingRight)) {
+                movingRight = !movingRight;
+            }
+        }
+        if ((dst < -activeArea && !movingRight) || (dst > activeArea && movingRight)) {
+            movingRight = !movingRight;
+        }
+
+        float movingSpeed = speed * ((movingRight) ? 1 : -1);
+
+        // attacking update
+        if (Math.abs(distantToPlayer) <= 2 && dstPlayer) {
+            attacking = true;
+
+            if (attackAnimation.isAnimationFinished(stateTime)) {
+                stateTime = 0;
+            }
+        }
+        if (attacking) {
+            if (attackAnimation.isAnimationFinished(stateTime)) {
+                attacking = false;
+            }
+            movingSpeed = 0;
+        }
+        body.setLinearVelocity(movingSpeed, body.getLinearVelocity().y);
+        updateAnimation();
+    }
+
+    protected abstract void updateAnimation();
+}

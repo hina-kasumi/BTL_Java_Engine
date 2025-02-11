@@ -1,4 +1,4 @@
-package com.hina.entities.enemy.Goblin;
+package com.hina.entities.enemy.BasicEnemy.Goblin;
 
 public enum GoblinState {
     IDLE("textures/monster/Monsters_Creatures_Fantasy/Goblin/Idle.png"),

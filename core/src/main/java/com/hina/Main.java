@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hina.entities.Player.Player;
-import com.hina.entities.enemy.Goblin.Goblin;
+import com.hina.entities.enemy.BasicEnemy.Goblin.Goblin;
 import com.hina.handleListener.MainListener;
 import com.hina.screens.Background;
 

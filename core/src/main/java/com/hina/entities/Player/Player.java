@@ -21,14 +21,12 @@ public class Player extends Entity {
     private Animation<TextureRegion> fallAnimation;
     private Animation<TextureRegion> attackAnimation;
     private PlayerState playerState;
-    private float state = 0;
     private boolean onGround = false;
     private boolean attacking;
-    private boolean movingRight = true;
 
 
     public Player(World world) {
-        super(world, 0, 10,0.5f, 1f, 1.5f);
+        super(world, 0, 10,0.5f, 1f, 100f,1.5f);
 
         body.setGravityScale(5);
         body.setUserData(PLAYER_TAG);
@@ -42,8 +40,6 @@ public class Player extends Entity {
         movingAnimation = importAnimation(PlayerState.RUNNING);
         jumpAnimation = importAnimation(PlayerState.JUMP);
         fallAnimation = importAnimation(PlayerState.FALL);
-
-        state = 0;
     }
 
     private Animation<TextureRegion> importAnimation(PlayerState playerState) {
@@ -77,13 +73,13 @@ public class Player extends Entity {
         if (Gdx.input.isKeyPressed(Input.Keys.J)) {
             attacking = true;
 
-            if (attackAnimation.isAnimationFinished(state)) {
-                state = 0;
+            if (attackAnimation.isAnimationFinished(stateTime)) {
+                stateTime = 0;
             }
         }
 
         if (attacking) {
-            if (attackAnimation.isAnimationFinished(state)) {
+            if (attackAnimation.isAnimationFinished(stateTime)) {
                 attacking = false;
             }
             if (body.getLinearVelocity().y == 0) {
@@ -119,22 +115,18 @@ public class Player extends Entity {
 
     @Override
     public void draw(SpriteBatch batch) {
-        state += Gdx.graphics.getDeltaTime();
+        stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame;
 
         switch (playerState) {
-            case RUNNING -> currentFrame = movingAnimation.getKeyFrame(state, true);
-            case ATTACK -> currentFrame = attackAnimation.getKeyFrame(state, false);
-            case JUMP -> currentFrame = jumpAnimation.getKeyFrame(state, true);
-            case FALL -> currentFrame = fallAnimation.getKeyFrame(state, true);
-            default -> currentFrame = idleAnimation.getKeyFrame(state, true);
+            case RUNNING -> currentFrame = movingAnimation.getKeyFrame(stateTime, true);
+            case ATTACK -> currentFrame = attackAnimation.getKeyFrame(stateTime, false);
+            case JUMP -> currentFrame = jumpAnimation.getKeyFrame(stateTime, true);
+            case FALL -> currentFrame = fallAnimation.getKeyFrame(stateTime, true);
+            default -> currentFrame = idleAnimation.getKeyFrame(stateTime, true);
         }
 
-        if (!movingRight && !currentFrame.isFlipX()) {
-            currentFrame.flip(true, false);
-        } else if (movingRight && currentFrame.isFlipX()) {
-            currentFrame.flip(true, false);
-        }
+        flip(currentFrame);
 
         batch.draw(currentFrame,
             body.getPosition().x - scale * currentFrame.getRegionWidth() / 2 / PPM,
