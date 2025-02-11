@@ -66,8 +66,9 @@ public class Goblin extends Entity {
         float dst = body.getPosition().x - bornPosition.x;
         float distantToPlayer = player.getPosition().x - body.getPosition().x;
         float bornToPlayer = player.getPosition().x - bornPosition.x;
+        boolean dstPlayer = player.getPosition().dst(body.getPosition()) <= 5;
 
-        if (Math.abs(bornToPlayer) <= 5) {
+        if (Math.abs(bornToPlayer) <= activeArea &&  dstPlayer) {
             if ((distantToPlayer < 0 && movingRight) || (distantToPlayer >= 0 && !movingRight)) {
                 movingRight = !movingRight;
             }
@@ -79,7 +80,7 @@ public class Goblin extends Entity {
         float movingSpeed = speed * ((movingRight) ? 1 : -1);
 
         // attacking update
-        if (Math.abs(distantToPlayer) <= 2) {
+        if (Math.abs(distantToPlayer) <= 2 && dstPlayer) {
             attacking = true;
 
             if (attackAnimation.isAnimationFinished(stateTime)) {
