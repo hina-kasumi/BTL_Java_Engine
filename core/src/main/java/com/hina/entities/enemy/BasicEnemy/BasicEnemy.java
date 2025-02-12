@@ -18,7 +18,7 @@ public abstract class BasicEnemy extends Entity {
     protected Animation<TextureRegion> runAnimation;
 
     public BasicEnemy(World world, Player player, float x, float y, float maxHeath) {
-        super(world, x, y, 0.5f, 1f, 100f, 1.5f);
+        super(world, x, y, 0.5f, 1f, maxHeath, 1.5f);
 
         this.player = player;
         this.bornPosition = new Vector2(x, y);
@@ -46,6 +46,7 @@ public abstract class BasicEnemy extends Entity {
     public void update(float delta) {
         final float activeArea = 5f;
         final float speed = 3f;
+        boolean prevMoveRight = movingRight;
 
         float dst = body.getPosition().x - bornPosition.x;
         float distantToPlayer = player.getPosition().x - body.getPosition().x;
@@ -74,6 +75,8 @@ public abstract class BasicEnemy extends Entity {
         if (attacking) {
             if (attackAnimation.isAnimationFinished(stateTime)) {
                 attacking = false;
+            } else if (prevMoveRight != movingRight){
+                movingRight = prevMoveRight;
             }
             movingSpeed = 0;
         }

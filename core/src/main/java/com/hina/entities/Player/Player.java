@@ -60,6 +60,7 @@ public class Player extends Entity {
         final float speed = 10f;
         final float jumpStrength = Math.min(entityHeight, entityWidth) * 100;
         float movingSpeed = 0;
+        boolean prevMoveRight = movingRight;
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             movingSpeed -= speed;
@@ -81,6 +82,8 @@ public class Player extends Entity {
         if (attacking) {
             if (attackAnimation.isAnimationFinished(stateTime)) {
                 attacking = false;
+            } else if (prevMoveRight != movingRight){
+                movingRight = prevMoveRight;
             }
             if (body.getLinearVelocity().y == 0) {
                 movingSpeed = 0;
