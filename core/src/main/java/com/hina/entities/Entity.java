@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.hina.utils.AttackBox;
 
 public abstract class Entity {
     protected float scale = 5f;
@@ -16,6 +17,7 @@ public abstract class Entity {
     protected float stateTime;
     protected float curHeath;
     protected World world;
+    protected final AttackBox attackBox;
 
     public Entity(World world, float x, float y, float entityWidth, float entityHeight, float maxHeath, float density) {
         this.world = world;
@@ -41,6 +43,8 @@ public abstract class Entity {
         fixtureDef.density = density;
         fixtureDef.friction = 0f;
         body.createFixture(fixtureDef);
+
+        this.attackBox = new AttackBox(this.body);
 
         shape.dispose();
     }
@@ -68,18 +72,20 @@ public abstract class Entity {
     }
 
     public void takeDamage(float damage) {
-        curHeath -= damage;
+        if (damage > 0)
+            curHeath -= damage;
         System.out.println(curHeath);
     }
 
     protected void death() {
-        if (body != null){
+        if (body != null) {
             world.destroyBody(body);
+            attackBox.destroyAttackSensor();
             body = null;
         }
     }
 
     public boolean isDead() {
-        return body == null;
+        return body == null || curHeath <= 0;
     }
 }

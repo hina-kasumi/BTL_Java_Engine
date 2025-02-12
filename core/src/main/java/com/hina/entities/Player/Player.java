@@ -11,7 +11,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.hina.entities.Entity;
-import com.hina.utils.AttackBox;
 
 import static com.hina.constant.GameConst.*;
 
@@ -24,7 +23,6 @@ public class Player extends Entity {
     private PlayerState playerState;
     private boolean onGround = false;
     private boolean attacking;
-    private final AttackBox attackBox;
 
 
     public Player(World world) {
@@ -32,8 +30,6 @@ public class Player extends Entity {
 
         body.setGravityScale(5);
         body.setUserData(this);
-
-        attackBox = new AttackBox(this.body);
 
         createAnimation();
     }
@@ -62,6 +58,8 @@ public class Player extends Entity {
 
     @Override
     public void update(float delta) {
+        if (isDead())
+            return;
         final float speed = 10f;
         final float jumpStrength = Math.min(entityHeight, entityWidth) * 100;
         float movingSpeed = 0;
@@ -124,6 +122,9 @@ public class Player extends Entity {
 
     @Override
     public void draw(SpriteBatch batch) {
+        if (isDead()) {
+            return;
+        }
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame;
         TextureRegion attackFrame = attackAnimation.getKeyFrame(stateTime, false);
