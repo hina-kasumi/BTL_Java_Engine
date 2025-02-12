@@ -3,6 +3,7 @@ package com.hina.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 public abstract class Entity {
@@ -14,7 +15,7 @@ public abstract class Entity {
     protected boolean movingRight;
     protected float stateTime;
 
-    public Entity(World world, float x, float y, float entityWidth, float entityHeight,float maxHeath, float density) {
+    public Entity(World world, float x, float y, float entityWidth, float entityHeight, float maxHeath, float density) {
         this.entityWidth = entityWidth;
         this.entityHeight = entityHeight;
         this.maxHeath = maxHeath;
@@ -53,4 +54,8 @@ public abstract class Entity {
     }
 
     public abstract void dispose();
+
+    public Vector2 getPosition() {
+        return body.getPosition();
+    }
 }

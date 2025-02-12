@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.hina.entities.Entity;
+import com.hina.utils.AttackBox;
 
 import static com.hina.constant.GameConst.*;
 
@@ -23,16 +24,20 @@ public class Player extends Entity {
     private PlayerState playerState;
     private boolean onGround = false;
     private boolean attacking;
+    private final AttackBox attackBox;
 
 
     public Player(World world) {
-        super(world, 0, 10,0.5f, 1f, 100f,1.5f);
+        super(world, 0, 10, 0.5f, 1f, 100f, 1.5f);
 
         body.setGravityScale(5);
-        body.setUserData(PLAYER_TAG);
+        body.setUserData(this);
+
+        attackBox = new AttackBox(this.body);
 
         createAnimation();
     }
+
 
     private void createAnimation() {
         idleAnimation = importAnimation(PlayerState.IDLE);
@@ -52,7 +57,7 @@ public class Player extends Entity {
             array.add(textureRegions[0][i]);
         }
 
-        return new Animation<>(0.1f, array, Animation.PlayMode.LOOP);
+        return new Animation<>(0.1f, array, Animation.PlayMode.NORMAL);
     }
 
     @Override
@@ -73,16 +78,17 @@ public class Player extends Entity {
 
         if (Gdx.input.isKeyPressed(Input.Keys.J)) {
             attacking = true;
-
-            if (attackAnimation.isAnimationFinished(stateTime)) {
-                stateTime = 0;
-            }
         }
 
         if (attacking) {
+            if (attackBox.isDestroyed()) {
+                attackBox.createHitBox(2, 2, 10f, movingRight);
+            }
             if (attackAnimation.isAnimationFinished(stateTime)) {
+                stateTime = 0;
                 attacking = false;
-            } else if (prevMoveRight != movingRight){
+                attackBox.destroyAttackSensor();
+            } else if (prevMoveRight != movingRight) {
                 movingRight = prevMoveRight;
             }
             if (body.getLinearVelocity().y == 0) {
@@ -101,11 +107,11 @@ public class Player extends Entity {
 
 
     private void updateAnimation() {
-        playerState = PlayerState.IDLE;
         if (attacking) {
             playerState = PlayerState.ATTACK;
             return;
         }
+        playerState = PlayerState.IDLE;
         if (body.getLinearVelocity().x != 0) {
             playerState = PlayerState.RUNNING;
         }
@@ -120,10 +126,11 @@ public class Player extends Entity {
     public void draw(SpriteBatch batch) {
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame;
+        TextureRegion attackFrame = attackAnimation.getKeyFrame(stateTime, false);
 
         switch (playerState) {
             case RUNNING -> currentFrame = movingAnimation.getKeyFrame(stateTime, true);
-            case ATTACK -> currentFrame = attackAnimation.getKeyFrame(stateTime, false);
+            case ATTACK -> currentFrame = attackFrame;
             case JUMP -> currentFrame = jumpAnimation.getKeyFrame(stateTime, true);
             case FALL -> currentFrame = fallAnimation.getKeyFrame(stateTime, true);
             default -> currentFrame = idleAnimation.getKeyFrame(stateTime, true);
@@ -145,9 +152,5 @@ public class Player extends Entity {
 
     public void setOnGround(boolean onGround) {
         this.onGround = onGround;
-    }
-
-    public Vector2 getPosition() {
-        return body.getPosition();
     }
 }

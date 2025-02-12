@@ -5,9 +5,9 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.hina.entities.Player.Player;
+import com.hina.entities.enemy.BasicEnemy.BasicEnemy;
 
-import static com.hina.constant.GameConst.ENEMY_TAG;
-import static com.hina.constant.GameConst.PLAYER_TAG;
 
 public class PlayerContactEnemyListener implements ContactListener {
     @Override
@@ -28,8 +28,8 @@ public class PlayerContactEnemyListener implements ContactListener {
         var userDataA = fixtureA.getBody().getUserData();
         var userDataB = fixtureB.getBody().getUserData();
 
-        if ((userDataA == PLAYER_TAG && userDataB == ENEMY_TAG) ||
-            (userDataB == PLAYER_TAG && userDataA == ENEMY_TAG)) {
+        if ((userDataA instanceof Player && userDataB instanceof BasicEnemy) ||
+            (userDataB instanceof Player && userDataA instanceof BasicEnemy)) {
             contact.setEnabled(false); // Tắt va chạm giữa player và enemy
         }
     }

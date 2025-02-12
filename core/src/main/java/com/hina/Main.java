@@ -42,7 +42,7 @@ public class Main extends ApplicationAdapter {
         goblin = new Goblin(world, player);
         background = new Background();
 
-        world.setContactListener(new MainListener(player));
+        world.setContactListener(new MainListener());
 
 //        makeGround();
     }

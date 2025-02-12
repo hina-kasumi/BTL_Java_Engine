@@ -25,7 +25,7 @@ public abstract class BasicEnemy extends Entity {
         this.attacking = false;
 
         body.setGravityScale(5);
-        body.setUserData("enemy");
+        body.setUserData(this);
     }
 
     protected Animation<TextureRegion> importAnimation(String fileName) {
@@ -67,13 +67,10 @@ public abstract class BasicEnemy extends Entity {
         // attacking update
         if (Math.abs(distantToPlayer) <= 2 && dstPlayer) {
             attacking = true;
-
-            if (attackAnimation.isAnimationFinished(stateTime)) {
-                stateTime = 0;
-            }
         }
         if (attacking) {
             if (attackAnimation.isAnimationFinished(stateTime)) {
+                stateTime = 0;
                 attacking = false;
             } else if (prevMoveRight != movingRight){
                 movingRight = prevMoveRight;
