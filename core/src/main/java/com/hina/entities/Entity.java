@@ -58,4 +58,8 @@ public abstract class Entity {
     public Vector2 getPosition() {
         return body.getPosition();
     }
+
+    public Body getBody() {
+        return body;
+    }
 }

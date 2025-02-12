@@ -9,11 +9,13 @@ public class MainListener implements ContactListener {
     private final PlayerJumpListener playerJumpListener;
     private final PlayerContactEnemyListener playerContactEnemyListener;
     private final EnemyCollisionListener enemyCollisionListener;
+    private final CombatListener combatListener;
 
     public MainListener() {
         playerJumpListener = new PlayerJumpListener();
         playerContactEnemyListener = new PlayerContactEnemyListener();
         enemyCollisionListener = new EnemyCollisionListener();
+        combatListener = new CombatListener();
     }
 
     @Override
@@ -21,6 +23,7 @@ public class MainListener implements ContactListener {
         playerJumpListener.beginContact(contact);
         playerContactEnemyListener.beginContact(contact);
         enemyCollisionListener.beginContact(contact);
+        combatListener.beginContact(contact);
     }
 
     @Override
@@ -28,6 +31,7 @@ public class MainListener implements ContactListener {
         playerJumpListener.endContact(contact);
         playerContactEnemyListener.endContact(contact);
         enemyCollisionListener.endContact(contact);
+        combatListener.endContact(contact);
     }
 
     @Override
@@ -35,6 +39,7 @@ public class MainListener implements ContactListener {
         playerJumpListener.preSolve(contact, manifold);
         playerContactEnemyListener.preSolve(contact, manifold);
         enemyCollisionListener.preSolve(contact, manifold);
+        combatListener.preSolve(contact, manifold);
     }
 
     @Override
@@ -42,5 +47,6 @@ public class MainListener implements ContactListener {
         playerJumpListener.postSolve(contact, contactImpulse);
         playerContactEnemyListener.postSolve(contact, contactImpulse);
         enemyCollisionListener.postSolve(contact, contactImpulse);
+        combatListener.postSolve(contact, contactImpulse);
     }
 }

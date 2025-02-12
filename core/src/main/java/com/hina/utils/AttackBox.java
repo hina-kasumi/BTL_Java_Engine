@@ -34,7 +34,7 @@ public class AttackBox {
         fixtureDef.shape = attackShape;
         fixtureDef.isSensor = true;
         hitBox.createFixture(fixtureDef);
-        hitBox.setUserData(this.entity);
+        hitBox.setUserData(this);
 
         attackShape.dispose();
     }
