@@ -45,7 +45,6 @@ public abstract class BasicEnemy extends Entity {
     @Override
     public void update(float delta) {
         if (isDead()) {
-            System.out.println("is dead");
             death();
             return;
         }

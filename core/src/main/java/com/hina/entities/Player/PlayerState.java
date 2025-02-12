@@ -1,23 +1,19 @@
 package com.hina.entities.Player;
 
 public enum PlayerState {
-    IDLE(8, "textures/Player/Idle.png"),
-    RUNNING(8, "textures/Player/Run.png"),
-    ATTACK(6, "textures/Player/Attack1.png"),
-    JUMP(2, "textures/Player/Jump.png"),
-    FALL(2, "textures/Player/Fall.png"),
+    IDLE("textures/Player/Idle.png"),
+    RUNNING("textures/Player/Run.png"),
+    ATTACK("textures/Player/Attack1.png"),
+    JUMP("textures/Player/Jump.png"),
+    FALL("textures/Player/Fall.png"),
+    TAKE_HIT("textures/Player/Take Hit.png"),
+    DEATH("textures/Player/Death.png"),
     ;
 
-    private final int frameNumber;
     private final String fileName;
 
-    PlayerState(int frameNumber, String fileName) {
-        this.frameNumber = frameNumber;
+    PlayerState(String fileName) {
         this.fileName = fileName;
-    }
-
-    public int getFrameNumber() {
-        return frameNumber;
     }
 
     public String getFileName() {

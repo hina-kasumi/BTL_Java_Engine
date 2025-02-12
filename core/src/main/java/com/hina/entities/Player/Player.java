@@ -46,7 +46,7 @@ public class Player extends Entity {
     private Animation<TextureRegion> importAnimation(PlayerState playerState) {
         Texture texture = new Texture(playerState.getFileName());
         TextureRegion[][] textureRegions = TextureRegion
-            .split(texture, texture.getWidth() / playerState.getFrameNumber(), texture.getHeight());
+            .split(texture, texture.getHeight(), texture.getHeight());
 
         Array<TextureRegion> array = new Array<>();
         for (int i = 0; i < textureRegions[0].length; i++) {
