@@ -8,17 +8,21 @@ import com.badlogic.gdx.physics.box2d.*;
 
 public abstract class Entity {
     protected float scale = 5f;
-    protected final Body body;
+    protected Body body;
     protected final float entityWidth;
     protected final float entityHeight;
     protected final float maxHeath;
     protected boolean movingRight;
     protected float stateTime;
+    protected float curHeath;
+    protected World world;
 
     public Entity(World world, float x, float y, float entityWidth, float entityHeight, float maxHeath, float density) {
+        this.world = world;
         this.entityWidth = entityWidth;
         this.entityHeight = entityHeight;
         this.maxHeath = maxHeath;
+        this.curHeath = maxHeath;
         this.movingRight = true;
         this.stateTime = 0;
 
@@ -61,5 +65,21 @@ public abstract class Entity {
 
     public Body getBody() {
         return body;
+    }
+
+    public void takeDamage(float damage) {
+        curHeath -= damage;
+        System.out.println(curHeath);
+    }
+
+    protected void death() {
+        if (body != null){
+            world.destroyBody(body);
+            body = null;
+        }
+    }
+
+    public boolean isDead() {
+        return body == null;
     }
 }

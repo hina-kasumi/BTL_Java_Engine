@@ -22,7 +22,7 @@ public class CombatListener implements ContactListener {
             Entity entity = (Entity) (userDataA instanceof Entity ? userDataA : userDataB);
 
             if (attackBox.getEntity() != entity.getBody()) {
-                System.out.println("attack");
+                entity.takeDamage(attackBox.getDamage());
             }
         }
     }

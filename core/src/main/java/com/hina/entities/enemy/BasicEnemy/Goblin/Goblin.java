@@ -12,8 +12,8 @@ import static com.hina.constant.GameConst.PPM;
 public class Goblin extends BasicEnemy {
     private GoblinState goblinState;
 
-    public Goblin(World world, Player player) {
-        super(world, player, 10, 10, 100f);
+    public Goblin(World world, Player player, float x, float y) {
+        super(world, player, x, y, 20f);
         this.scale = 4;
 
         createAnimation();
@@ -40,6 +40,8 @@ public class Goblin extends BasicEnemy {
 
     @Override
     public void draw(SpriteBatch batch) {
+        if (isDead())
+            return;
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame;
 

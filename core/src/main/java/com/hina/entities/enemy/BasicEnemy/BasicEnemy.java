@@ -44,6 +44,12 @@ public abstract class BasicEnemy extends Entity {
 
     @Override
     public void update(float delta) {
+        if (isDead())
+            return;
+        if (curHeath <= 0) {
+            death();
+            return;
+        }
         final float activeArea = 5f;
         final float speed = 3f;
         boolean prevMoveRight = movingRight;
@@ -72,7 +78,7 @@ public abstract class BasicEnemy extends Entity {
             if (attackAnimation.isAnimationFinished(stateTime)) {
                 stateTime = 0;
                 attacking = false;
-            } else if (prevMoveRight != movingRight){
+            } else if (prevMoveRight != movingRight) {
                 movingRight = prevMoveRight;
             }
             movingSpeed = 0;

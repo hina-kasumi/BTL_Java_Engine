@@ -53,4 +53,8 @@ public class AttackBox {
     public Body getEntity() {
         return entity;
     }
+
+    public float getDamage() {
+        return damage;
+    }
 }
