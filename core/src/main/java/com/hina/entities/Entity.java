@@ -12,20 +12,20 @@ import com.hina.utils.AnimationPriority;
 import com.hina.utils.AttackBox;
 
 public abstract class Entity {
-    protected float scale = 5f;
+    protected World world;
     protected Body body;
+    protected final AttackBox attackBox;
+    protected float scale = 5f;
     protected final float entityWidth;
     protected final float entityHeight;
     protected final float maxHeath;
     protected boolean movingRight;
-    protected float stateTime;
-    protected float curHeath;
-    protected World world;
-    protected final AttackBox attackBox;
-    protected AnimationPriority animationPriority;
     protected boolean attacking;
     protected boolean takingHit;
     protected boolean isDeath;
+    protected AnimationPriority animationPriority;
+    protected float stateTime;
+    protected float curHeath;
 
     public Entity(World world, float x, float y, float entityWidth, float entityHeight, float maxHeath, float density) {
         this.world = world;
@@ -79,10 +79,6 @@ public abstract class Entity {
         return importAnimation(fileName, 0.1f);
     }
 
-    public abstract void update(float delta);
-
-    public abstract void draw(SpriteBatch batch);
-
     protected void flip(TextureRegion currentFrame) {
         if (!movingRight && !currentFrame.isFlipX()) {
             currentFrame.flip(true, false);
@@ -90,8 +86,6 @@ public abstract class Entity {
             currentFrame.flip(true, false);
         }
     }
-
-    public abstract void dispose();
 
     public Vector2 getPosition() {
         return body.getPosition();
@@ -126,7 +120,13 @@ public abstract class Entity {
         }
     }
 
-    public boolean isDead() {
+    public boolean isBodyNull() {
         return body == null;
     }
+
+    public abstract void update(float delta);
+
+    public abstract void draw(SpriteBatch batch);
+
+    public abstract void dispose();
 }

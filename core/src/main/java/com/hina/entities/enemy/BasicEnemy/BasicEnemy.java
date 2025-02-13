@@ -106,7 +106,7 @@ public abstract class BasicEnemy extends Entity {
 
     protected void deathUpdate() {
         if (isDeath) {
-            if (!isDead())
+            if (!isBodyNull())
                 setMovement(0);
             if (deathAnimation.isAnimationFinished(stateTime)) {
                 death();
@@ -121,7 +121,7 @@ public abstract class BasicEnemy extends Entity {
 
     @Override
     public void draw(SpriteBatch batch) {
-        if (isDead())
+        if (isBodyNull())
             return;
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame;

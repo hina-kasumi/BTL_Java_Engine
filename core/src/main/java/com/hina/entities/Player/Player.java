@@ -42,14 +42,17 @@ public class Player extends Entity {
         jumpAnimation = importAnimation(PlayerState.JUMP.getFileName());
         fallAnimation = importAnimation(PlayerState.FALL.getFileName());
         takeHitAnimation = importAnimation(PlayerState.TAKE_HIT.getFileName());
-        deathAnimation = importAnimation(PlayerState.DEATH.getFileName());
+        deathAnimation = importAnimation(PlayerState.DEATH.getFileName(), 0.15f);
     }
 
 
     @Override
     public void update(float delta) {
-        if (isDead())
+        deathUpdate();
+        if (isDeath) {
             return;
+        }
+
         final float speed = 10f;
         final float jumpStrength = Math.min(entityHeight, entityWidth) * 100;
         float movingSpeed = 0;
@@ -65,7 +68,7 @@ public class Player extends Entity {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.J)) {
-            if (!attacking){
+            if (!attacking) {
                 stateTime = 0;
             }
             attacking = true;
@@ -106,6 +109,16 @@ public class Player extends Entity {
         }
     }
 
+    void deathUpdate() {
+        if (isDeath){
+            body.setLinearVelocity(0, body.getLinearVelocity().y);
+            if (deathAnimation.isAnimationFinished(stateTime)){
+                System.out.println("game over");
+            }
+            animationPriority.add(AnimationState.DEATH);
+        }
+    }
+
 
     private void updateAnimation() {
         animationPriority.add(AnimationState.IDLE);
@@ -125,9 +138,6 @@ public class Player extends Entity {
 
     @Override
     public void draw(SpriteBatch batch) {
-        if (isDead()) {
-            return;
-        }
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame;
 
