@@ -1,10 +1,14 @@
 package com.hina.entities;
 
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
+import com.hina.utils.AnimationPriority;
 import com.hina.utils.AttackBox;
 
 public abstract class Entity {
@@ -18,6 +22,9 @@ public abstract class Entity {
     protected float curHeath;
     protected World world;
     protected final AttackBox attackBox;
+    protected AnimationPriority animationPriority;
+    protected boolean attacking;
+    protected boolean takingHit;
 
     public Entity(World world, float x, float y, float entityWidth, float entityHeight, float maxHeath, float density) {
         this.world = world;
@@ -27,6 +34,9 @@ public abstract class Entity {
         this.curHeath = maxHeath;
         this.movingRight = true;
         this.stateTime = 0;
+        this.animationPriority = new AnimationPriority();
+        this.attacking = false;
+        this.takingHit = false;
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -47,6 +57,24 @@ public abstract class Entity {
         this.attackBox = new AttackBox(this.body);
 
         shape.dispose();
+    }
+
+    protected Animation<TextureRegion> importAnimation(String fileName, float frameDuration) {
+        Texture texture = new Texture(fileName);
+
+        TextureRegion[][] textureRegions = TextureRegion
+            .split(texture, texture.getHeight(), texture.getHeight());
+
+        Array<TextureRegion> array = new Array<>();
+        for (int i = 0; i < textureRegions[0].length; i++) {
+            array.add(textureRegions[0][i]);
+        }
+
+        return new Animation<>(frameDuration, array, Animation.PlayMode.NORMAL);
+    }
+
+    protected Animation<TextureRegion> importAnimation(String fileName) {
+        return importAnimation(fileName, 0.1f);
     }
 
     public abstract void update(float delta);
@@ -72,8 +100,11 @@ public abstract class Entity {
     }
 
     public void takeDamage(float damage) {
-        if (damage > 0)
+        if (curHeath > 0) {
             curHeath -= damage;
+            stateTime = 0;
+            takingHit = true;
+        }
         System.out.println(curHeath);
     }
 

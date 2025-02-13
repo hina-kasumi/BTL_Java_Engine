@@ -3,13 +3,12 @@ package com.hina.entities.Player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.Array;
+import com.hina.entities.AnimationState;
 import com.hina.entities.Entity;
 
 import static com.hina.constant.GameConst.*;
@@ -22,7 +21,6 @@ public class Player extends Entity {
     private Animation<TextureRegion> attackAnimation;
     protected Animation<TextureRegion> takeHitAnimation;
     protected Animation<TextureRegion> deathAnimation;
-    private PlayerState playerState;
     private boolean onGround = false;
     private boolean attacking;
 
@@ -38,27 +36,15 @@ public class Player extends Entity {
 
 
     private void createAnimation() {
-        idleAnimation = importAnimation(PlayerState.IDLE);
-        attackAnimation = importAnimation(PlayerState.ATTACK);
-        movingAnimation = importAnimation(PlayerState.RUNNING);
-        jumpAnimation = importAnimation(PlayerState.JUMP);
-        fallAnimation = importAnimation(PlayerState.FALL);
-        takeHitAnimation = importAnimation(PlayerState.TAKE_HIT);
-        deathAnimation = importAnimation(PlayerState.DEATH);
+        idleAnimation = importAnimation(PlayerState.IDLE.getFileName());
+        attackAnimation = importAnimation(PlayerState.ATTACK.getFileName(), 0.05f);
+        movingAnimation = importAnimation(PlayerState.RUNNING.getFileName());
+        jumpAnimation = importAnimation(PlayerState.JUMP.getFileName());
+        fallAnimation = importAnimation(PlayerState.FALL.getFileName());
+        takeHitAnimation = importAnimation(PlayerState.TAKE_HIT.getFileName());
+        deathAnimation = importAnimation(PlayerState.DEATH.getFileName());
     }
 
-    private Animation<TextureRegion> importAnimation(PlayerState playerState) {
-        Texture texture = new Texture(playerState.getFileName());
-        TextureRegion[][] textureRegions = TextureRegion
-            .split(texture, texture.getHeight(), texture.getHeight());
-
-        Array<TextureRegion> array = new Array<>();
-        for (int i = 0; i < textureRegions[0].length; i++) {
-            array.add(textureRegions[0][i]);
-        }
-
-        return new Animation<>(0.1f, array, Animation.PlayMode.NORMAL);
-    }
 
     @Override
     public void update(float delta) {
@@ -79,15 +65,17 @@ public class Player extends Entity {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.J)) {
+            if (!attacking){
+                stateTime = 0;
+            }
             attacking = true;
         }
 
-        if (attacking) {
+        if (attacking && !takingHit) {
             if (attackBox.isDestroyed()) {
                 attackBox.createHitBox(2, 2, 10f, movingRight);
             }
             if (attackAnimation.isAnimationFinished(stateTime)) {
-                stateTime = 0;
                 attacking = false;
                 attackBox.destroyAttackSensor();
             } else if (prevMoveRight != movingRight) {
@@ -96,6 +84,17 @@ public class Player extends Entity {
             if (body.getLinearVelocity().y == 0) {
                 movingSpeed = 0;
             }
+        }
+
+        if (takingHit) {
+            if (takeHitAnimation.isAnimationFinished(stateTime)) {
+                stateTime = 0;
+                takingHit = false;
+            }
+            attacking = false;
+            attackBox.destroyAttackSensor();
+            animationPriority.add(AnimationState.TAKE_HIT);
+            movingSpeed = 0;
         }
 
         body.setLinearVelocity(movingSpeed, body.getLinearVelocity().y);
@@ -109,18 +108,18 @@ public class Player extends Entity {
 
 
     private void updateAnimation() {
+        animationPriority.add(AnimationState.IDLE);
         if (attacking) {
-            playerState = PlayerState.ATTACK;
+            animationPriority.add(AnimationState.ATTACK);
             return;
         }
-        playerState = PlayerState.IDLE;
         if (body.getLinearVelocity().x != 0) {
-            playerState = PlayerState.RUNNING;
+            animationPriority.add(AnimationState.RUN);
         }
         if (body.getLinearVelocity().y >= 0.1) {
-            playerState = PlayerState.JUMP;
+            animationPriority.add(AnimationState.JUMP);
         } else if (body.getLinearVelocity().y <= -0.1) {
-            playerState = PlayerState.FALL;
+            animationPriority.add(AnimationState.FALL);
         }
     }
 
@@ -132,8 +131,8 @@ public class Player extends Entity {
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame;
 
-        switch (playerState) {
-            case RUNNING -> currentFrame = movingAnimation.getKeyFrame(stateTime, true);
+        switch (animationPriority.get()) {
+            case RUN -> currentFrame = movingAnimation.getKeyFrame(stateTime, true);
             case ATTACK -> currentFrame = attackAnimation.getKeyFrame(stateTime, false);
             case JUMP -> currentFrame = jumpAnimation.getKeyFrame(stateTime, true);
             case FALL -> currentFrame = fallAnimation.getKeyFrame(stateTime, true);

@@ -1,19 +1,22 @@
 package com.hina.entities.enemy.BasicEnemy;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.hina.entities.AnimationState;
 import com.hina.entities.Entity;
 import com.hina.entities.Player.Player;
+
+import static com.hina.constant.GameConst.PPM;
 
 public abstract class BasicEnemy extends Entity {
     protected final Player player;
     protected final Vector2 bornPosition;
-    protected boolean attacking;
-    protected boolean takingHit;
     protected Animation<TextureRegion> idleAnimation;
     protected Animation<TextureRegion> attackAnimation;
     protected Animation<TextureRegion> runAnimation;
@@ -31,37 +34,30 @@ public abstract class BasicEnemy extends Entity {
         body.setUserData(this);
     }
 
-    protected Animation<TextureRegion> importAnimation(String fileName) {
-        Texture texture = new Texture(fileName);
-
-        TextureRegion[][] textureRegions = TextureRegion
-            .split(texture, texture.getHeight(), texture.getHeight());
-
-        Array<TextureRegion> array = new Array<>();
-        for (int i = 0; i < textureRegions[0].length; i++) {
-            array.add(textureRegions[0][i]);
-        }
-
-        return new Animation<>(0.15f, array, Animation.PlayMode.LOOP);
-    }
-
     @Override
     public void update(float delta) {
         if (isDead()) {
             death();
             return;
         }
-
-        final float activeArea = 5f;
-        final float speed = 3f;
-        boolean prevMoveRight = movingRight;
-
-        float dst = body.getPosition().x - bornPosition.x;
         float distantToPlayer = player.getPosition().x - body.getPosition().x;
         float bornToPlayer = player.getPosition().x - bornPosition.x;
-        boolean dstPlayer = player.getPosition().dst(body.getPosition()) <= 5;
+        boolean ableAttackPlayer = player.getPosition().dst(body.getPosition()) <= 5;
+        boolean prevMoveRight = movingRight;
 
-        if (Math.abs(bornToPlayer) <= activeArea && dstPlayer) {
+        runUpdate(bornToPlayer, distantToPlayer, ableAttackPlayer);
+        attackUpdate(prevMoveRight, distantToPlayer, ableAttackPlayer);
+        takeHitUpdate();
+        deathUpdate();
+    }
+
+    protected void runUpdate(float bornToPlayer, float distantToPlayer, boolean ableAttackPlayer) {
+        final float activeArea = 5f;
+        final float speed = 3f;
+
+        float dst = body.getPosition().x - bornPosition.x;
+
+        if (Math.abs(bornToPlayer) <= activeArea && ableAttackPlayer) {
             if ((distantToPlayer < 0 && movingRight) || (distantToPlayer >= 0 && !movingRight)) {
                 movingRight = !movingRight;
             }
@@ -70,49 +66,73 @@ public abstract class BasicEnemy extends Entity {
             movingRight = !movingRight;
         }
 
-        float movingSpeed = speed * ((movingRight) ? 1 : -1);
+        animationPriority.add(AnimationState.RUN);
+        setMovement(speed * ((movingRight) ? 1 : -1));
+    }
 
-        // attacking update
-        if (Math.abs(distantToPlayer) <= 2 && dstPlayer) {
+    protected void attackUpdate(boolean prevMoveRight, float distantToPlayer, boolean ableAttackPlayer) {
+        if (Math.abs(distantToPlayer) <= 2 && ableAttackPlayer && !takingHit) {
+            if (!attacking)
+                stateTime = 0;
             attacking = true;
         }
-        if (attacking && !takingHit) {
+        if (attacking) {
             if (attackBox.isDestroyed()) {
                 attackBox.createHitBox(1, 1, 10f, movingRight);
             }
             if (attackAnimation.isAnimationFinished(stateTime)) {
-                stateTime = 0;
                 attacking = false;
                 attackBox.destroyAttackSensor();
             } else if (prevMoveRight != movingRight) {
                 movingRight = prevMoveRight;
             }
-            movingSpeed = 0;
+            setMovement(0);
+            animationPriority.add(AnimationState.ATTACK);
         }
+    }
 
-        //take hit update
+    protected void takeHitUpdate() {
         if (takingHit) {
-            attackBox.destroyAttackSensor();
             if (takeHitAnimation.isAnimationFinished(stateTime)) {
                 stateTime = 0;
                 takingHit = false;
-            } else if (prevMoveRight != movingRight) {
-                movingRight = prevMoveRight;
             }
-            movingSpeed = 0;
+            attacking = false;
+            attackBox.destroyAttackSensor();
+            animationPriority.add(AnimationState.TAKE_HIT);
+            setMovement(0);
         }
+    }
 
+    protected void deathUpdate() {
+    }
+
+    private void setMovement(float movingSpeed) {
         body.setLinearVelocity(movingSpeed, body.getLinearVelocity().y);
-        updateAnimation();
     }
 
     @Override
-    public void takeDamage(float damage) {
-        if (damage > 0) {
-            curHeath -= damage;
-            takingHit = true;
-        }
-    }
+    public void draw(SpriteBatch batch) {
+        if (isDead())
+            return;
+        stateTime += Gdx.graphics.getDeltaTime();
+        TextureRegion currentFrame;
 
-    protected abstract void updateAnimation();
+        switch (animationPriority.get()) {
+            case RUN -> currentFrame = runAnimation.getKeyFrame(stateTime, true);
+            case ATTACK -> currentFrame = attackAnimation.getKeyFrame(stateTime, false);
+            case TAKE_HIT -> currentFrame = takeHitAnimation.getKeyFrame(stateTime, false);
+            case DEATH -> currentFrame = deathAnimation.getKeyFrame(stateTime, false);
+            default -> currentFrame = idleAnimation.getKeyFrame(stateTime, true);
+        }
+
+        flip(currentFrame);
+
+        batch.draw(currentFrame,
+            body.getPosition().x - scale * currentFrame.getRegionWidth() / 2 / PPM,
+            body.getPosition().y - scale * currentFrame.getRegionHeight() / 2 / PPM,
+            currentFrame.getRegionWidth() * scale / PPM,
+            currentFrame.getRegionHeight() * scale / PPM
+        );
+    }
 }
