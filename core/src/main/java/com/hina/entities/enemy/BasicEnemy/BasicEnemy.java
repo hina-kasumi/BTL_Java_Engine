@@ -44,14 +44,14 @@ public abstract class BasicEnemy extends Entity {
         boolean ableAttackPlayer = player.getPosition().dst(body.getPosition()) <= 5;
         boolean prevMoveRight = movingRight;
 
-        runUpdate(bornToPlayer, distantToPlayer, ableAttackPlayer);
+        runUpdate(bornToPlayer, distantToPlayer, ableAttackPlayer, delta);
         attackUpdate(prevMoveRight, distantToPlayer, ableAttackPlayer);
         takeHitUpdate(prevMoveRight);
     }
 
-    protected void runUpdate(float bornToPlayer, float distantToPlayer, boolean ableAttackPlayer) {
+    protected void runUpdate(float bornToPlayer, float distantToPlayer, boolean ableAttackPlayer, float delta) {
         final float activeArea = 5f;
-        final float speed = 3f;
+        final float speed = 250f * delta;
 
         float dst = body.getPosition().x - bornPosition.x;
 
@@ -84,7 +84,7 @@ public abstract class BasicEnemy extends Entity {
             } else if (prevMoveRight != movingRight) {
                 movingRight = prevMoveRight;
             }
-            setMovement(0);
+            blockMoving();
             animationPriority.add(AnimationState.ATTACK);
         }
     }
@@ -100,14 +100,14 @@ public abstract class BasicEnemy extends Entity {
             attacking = false;
             attackBox.destroyAttackSensor();
             animationPriority.add(AnimationState.TAKE_HIT);
-            setMovement(0);
+            blockMoving();
         }
     }
 
     protected void deathUpdate() {
         if (isDeath) {
             if (!isBodyNull())
-                setMovement(0);
+                blockMoving();
             if (deathAnimation.isAnimationFinished(stateTime)) {
                 death();
             }

@@ -53,7 +53,7 @@ public class Player extends Entity {
             return;
         }
 
-        final float speed = 10f;
+        final float speed = 700f * delta;
         final float jumpStrength = Math.min(entityHeight, entityWidth) * 100;
         float movingSpeed = 0;
         boolean prevMoveRight = movingRight;
@@ -69,7 +69,7 @@ public class Player extends Entity {
 
         if (Gdx.input.isKeyPressed(Input.Keys.J)) {
             if (!attacking) {
-                stateTime = 0;
+                resetStateTime();
             }
             attacking = true;
         }
@@ -85,7 +85,7 @@ public class Player extends Entity {
                 movingRight = prevMoveRight;
             }
             if (body.getLinearVelocity().y == 0) {
-                movingSpeed = 0;
+                blockMoving();
             }
         }
 
@@ -97,7 +97,7 @@ public class Player extends Entity {
             attacking = false;
             attackBox.destroyAttackSensor();
             animationPriority.add(AnimationState.TAKE_HIT);
-            movingSpeed = 0;
+            blockMoving();
         }
 
         body.setLinearVelocity(movingSpeed, body.getLinearVelocity().y);
@@ -110,9 +110,9 @@ public class Player extends Entity {
     }
 
     void deathUpdate() {
-        if (isDeath){
-            body.setLinearVelocity(0, body.getLinearVelocity().y);
-            if (deathAnimation.isAnimationFinished(stateTime)){
+        if (isDeath) {
+            blockMoving();
+            if (deathAnimation.isAnimationFinished(stateTime)) {
                 System.out.println("game over");
             }
             animationPriority.add(AnimationState.DEATH);

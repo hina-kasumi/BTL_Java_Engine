@@ -106,7 +106,7 @@ public abstract class Entity {
                 isDeath = true;
                 takingHit = false;
             }
-            stateTime = 0;
+            resetStateTime();
         }
         attacking = false;
         System.out.println(curHeath);
@@ -122,6 +122,14 @@ public abstract class Entity {
 
     public boolean isBodyNull() {
         return body == null;
+    }
+
+    protected void resetStateTime() {
+        stateTime = 0;
+    }
+
+    protected void blockMoving() {
+        body.setLinearVelocity(0, body.getLinearVelocity().y);
     }
 
     public abstract void update(float delta);
