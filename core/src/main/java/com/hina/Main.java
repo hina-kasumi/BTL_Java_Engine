@@ -13,6 +13,8 @@ import com.hina.entities.enemy.BasicEnemy.Goblin.Goblin;
 import com.hina.handleListener.MainListener;
 import com.hina.screens.Background;
 
+import static com.hina.utils.Bin.*;
+
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
@@ -78,6 +80,8 @@ public class Main extends ApplicationAdapter {
 
     private void update() {
         world.step(Gdx.graphics.getDeltaTime(), 6, 2); // Cập nhật vật lý
+        clearBin(world);
+
         float delta = Gdx.graphics.getDeltaTime();
         player.update(delta);
         goblin.update(delta);

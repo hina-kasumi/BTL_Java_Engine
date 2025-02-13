@@ -1,6 +1,7 @@
 package com.hina.utils;
 
 import com.badlogic.gdx.physics.box2d.*;
+import static com.hina.utils.Bin.*;
 
 public class AttackBox {
     private Body hitBox;
@@ -41,7 +42,7 @@ public class AttackBox {
 
     public void destroyAttackSensor() {
         if (hitBox != null) {
-            world.destroyBody(hitBox);
+            bodiesToDestroy.add(hitBox);
             hitBox = null;
         }
     }

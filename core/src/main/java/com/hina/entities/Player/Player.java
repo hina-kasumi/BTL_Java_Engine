@@ -19,10 +19,12 @@ public class Player extends Entity {
     private Animation<TextureRegion> jumpAnimation;
     private Animation<TextureRegion> fallAnimation;
     private Animation<TextureRegion> attackAnimation;
-    protected Animation<TextureRegion> takeHitAnimation;
-    protected Animation<TextureRegion> deathAnimation;
+    private Animation<TextureRegion> takeHitAnimation;
+    private Animation<TextureRegion> deathAnimation;
     private boolean onGround = false;
     private boolean attacking;
+    private int startAttackAt;
+    private int endAttackAt;
 
 
     public Player(World world) {
@@ -30,6 +32,9 @@ public class Player extends Entity {
 
         body.setGravityScale(5);
         body.setUserData(this);
+
+        this.startAttackAt = 4;
+        this.endAttackAt = 5;
 
         createAnimation();
     }
@@ -75,17 +80,24 @@ public class Player extends Entity {
         }
 
         if (attacking && !takingHit) {
-            if (attackBox.isDestroyed()) {
+            if (prevMoveRight != movingRight) {
+                movingRight = prevMoveRight;
+            }
+            if (Math.abs(body.getLinearVelocity().y) < 0.1) {
+                movingSpeed = 0;
+            }
+
+            int keyFrameIndex = attackAnimation.getKeyFrameIndex(stateTime);
+            if (attackBox.isDestroyed() && keyFrameIndex == startAttackAt) {
                 attackBox.createHitBox(2, 2, 10f, movingRight);
             }
+            if (endAttackAt != 0 && keyFrameIndex == endAttackAt) {
+                attackBox.destroyAttackSensor();
+            }
+
             if (attackAnimation.isAnimationFinished(stateTime)) {
                 attacking = false;
                 attackBox.destroyAttackSensor();
-            } else if (prevMoveRight != movingRight) {
-                movingRight = prevMoveRight;
-            }
-            if (body.getLinearVelocity().y == 0) {
-                blockMoving();
             }
         }
 

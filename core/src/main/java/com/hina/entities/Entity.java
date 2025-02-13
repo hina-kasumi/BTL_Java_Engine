@@ -11,6 +11,8 @@ import com.badlogic.gdx.utils.Array;
 import com.hina.utils.AnimationPriority;
 import com.hina.utils.AttackBox;
 
+import static com.hina.utils.Bin.bodiesToDestroy;
+
 public abstract class Entity {
     protected World world;
     protected Body body;
@@ -108,13 +110,14 @@ public abstract class Entity {
             }
             resetStateTime();
         }
+        attackBox.destroyAttackSensor();
         attacking = false;
         System.out.println(curHeath);
     }
 
     protected void death() {
         if (body != null) {
-            world.destroyBody(body);
+            bodiesToDestroy.add(body);
             attackBox.destroyAttackSensor();
             body = null;
         }

@@ -18,6 +18,8 @@ public class Goblin extends BasicEnemy {
         runAnimation = importAnimation(GoblinState.RUNNING.getFileName());
         takeHitAnimation = importAnimation(GoblinState.TAKE_HIT.getFileName());
         deathAnimation = importAnimation(GoblinState.DEATH.getFileName());
+
+        setAttackTime(6);
     }
 
     @Override

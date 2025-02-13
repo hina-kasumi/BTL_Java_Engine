@@ -20,6 +20,8 @@ public abstract class BasicEnemy extends Entity {
     protected Animation<TextureRegion> runAnimation;
     protected Animation<TextureRegion> takeHitAnimation;
     protected Animation<TextureRegion> deathAnimation;
+    protected int startAttackAt;
+    protected int endAttackAt;
 
     public BasicEnemy(World world, Player player, float x, float y, float maxHeath) {
         super(world, x, y, 0.5f, 1f, maxHeath, 1.5f);
@@ -27,6 +29,8 @@ public abstract class BasicEnemy extends Entity {
         this.player = player;
         this.bornPosition = new Vector2(x, y);
         this.attacking = false;
+        this.startAttackAt = 0;
+        this.endAttackAt = 0;
 
         body.setGravityScale(5);
         body.setUserData(this);
@@ -75,14 +79,21 @@ public abstract class BasicEnemy extends Entity {
             attacking = true;
         }
         if (attacking) {
-            if (attackBox.isDestroyed()) {
+            if (prevMoveRight != movingRight) {
+                movingRight = prevMoveRight;
+            }
+
+            int keyFrameIndex = attackAnimation.getKeyFrameIndex(stateTime);
+            if (endAttackAt != 0 && keyFrameIndex == endAttackAt) {
+                attackBox.destroyAttackSensor();
+            }
+            if (attackBox.isDestroyed() && keyFrameIndex == startAttackAt) {
                 attackBox.createHitBox(1, 1, 10f, movingRight);
             }
+
             if (attackAnimation.isAnimationFinished(stateTime)) {
                 attacking = false;
                 attackBox.destroyAttackSensor();
-            } else if (prevMoveRight != movingRight) {
-                movingRight = prevMoveRight;
             }
             blockMoving();
             animationPriority.add(AnimationState.ATTACK);
@@ -142,5 +153,18 @@ public abstract class BasicEnemy extends Entity {
             currentFrame.getRegionWidth() * scale / PPM,
             currentFrame.getRegionHeight() * scale / PPM
         );
+    }
+
+
+    // những cái này nên sử dụng sau khi tạo animation
+    protected void setAttackTime(int startAttackAt, int endAttackAt) {
+        if (startAttackAt > endAttackAt)
+            return;
+        this.startAttackAt = startAttackAt;
+        this.endAttackAt = endAttackAt;
+    }
+
+    protected void setAttackTime(int startAttackAt) {
+        this.startAttackAt = startAttackAt;
     }
 }
