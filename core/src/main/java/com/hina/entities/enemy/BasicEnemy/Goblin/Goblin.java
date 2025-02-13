@@ -6,7 +6,7 @@ import com.hina.entities.enemy.BasicEnemy.BasicEnemy;
 
 public class Goblin extends BasicEnemy {
     public Goblin(World world, Player player, float x, float y) {
-        super(world, player, x, y, 50f);
+        super(world, player, x, y, 20f);
         this.scale = 4;
 
         createAnimation();

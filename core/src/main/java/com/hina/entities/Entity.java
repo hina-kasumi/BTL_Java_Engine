@@ -25,6 +25,7 @@ public abstract class Entity {
     protected AnimationPriority animationPriority;
     protected boolean attacking;
     protected boolean takingHit;
+    protected boolean isDeath;
 
     public Entity(World world, float x, float y, float entityWidth, float entityHeight, float maxHeath, float density) {
         this.world = world;
@@ -37,6 +38,7 @@ public abstract class Entity {
         this.animationPriority = new AnimationPriority();
         this.attacking = false;
         this.takingHit = false;
+        this.isDeath = false;
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -100,11 +102,19 @@ public abstract class Entity {
     }
 
     public void takeDamage(float damage) {
+        if (isDeath)
+            return;
         if (curHeath > 0) {
             curHeath -= damage;
-            stateTime = 0;
             takingHit = true;
+
+            if (curHeath == 0) {
+                isDeath = true;
+                takingHit = false;
+            }
+            stateTime = 0;
         }
+        attacking = false;
         System.out.println(curHeath);
     }
 
@@ -117,6 +127,6 @@ public abstract class Entity {
     }
 
     public boolean isDead() {
-        return body == null || curHeath <= 0;
+        return body == null;
     }
 }

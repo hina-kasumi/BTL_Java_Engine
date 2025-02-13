@@ -1,13 +1,11 @@
 package com.hina.entities.enemy.BasicEnemy;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 import com.hina.entities.AnimationState;
 import com.hina.entities.Entity;
 import com.hina.entities.Player.Player;
@@ -36,10 +34,11 @@ public abstract class BasicEnemy extends Entity {
 
     @Override
     public void update(float delta) {
-        if (isDead()) {
-            death();
+        deathUpdate();
+        if (isDeath) {
             return;
         }
+
         float distantToPlayer = player.getPosition().x - body.getPosition().x;
         float bornToPlayer = player.getPosition().x - bornPosition.x;
         boolean ableAttackPlayer = player.getPosition().dst(body.getPosition()) <= 5;
@@ -47,8 +46,7 @@ public abstract class BasicEnemy extends Entity {
 
         runUpdate(bornToPlayer, distantToPlayer, ableAttackPlayer);
         attackUpdate(prevMoveRight, distantToPlayer, ableAttackPlayer);
-        takeHitUpdate();
-        deathUpdate();
+        takeHitUpdate(prevMoveRight);
     }
 
     protected void runUpdate(float bornToPlayer, float distantToPlayer, boolean ableAttackPlayer) {
@@ -91,11 +89,13 @@ public abstract class BasicEnemy extends Entity {
         }
     }
 
-    protected void takeHitUpdate() {
+    protected void takeHitUpdate(boolean prevMoveRight) {
         if (takingHit) {
             if (takeHitAnimation.isAnimationFinished(stateTime)) {
                 stateTime = 0;
                 takingHit = false;
+            } else if (prevMoveRight != movingRight) {
+                movingRight = prevMoveRight;
             }
             attacking = false;
             attackBox.destroyAttackSensor();
@@ -105,6 +105,14 @@ public abstract class BasicEnemy extends Entity {
     }
 
     protected void deathUpdate() {
+        if (isDeath) {
+            if (!isDead())
+                setMovement(0);
+            if (deathAnimation.isAnimationFinished(stateTime)) {
+                death();
+            }
+            animationPriority.add(AnimationState.DEATH);
+        }
     }
 
     private void setMovement(float movingSpeed) {
