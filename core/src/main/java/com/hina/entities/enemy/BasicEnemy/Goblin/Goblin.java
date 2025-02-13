@@ -23,16 +23,22 @@ public class Goblin extends BasicEnemy {
         idleAnimation = importAnimation(GoblinState.IDLE.getFileName());
         attackAnimation = importAnimation(GoblinState.ATTACK.getFileName());
         runAnimation = importAnimation(GoblinState.RUNNING.getFileName());
+        takeHitAnimation = importAnimation(GoblinState.TAKE_HIT.getFileName());
+        deathAnimation = importAnimation(GoblinState.DEATH.getFileName());
     }
 
 
     @Override
     protected void updateAnimation() {
-        goblinState = GoblinState.IDLE;
+        if (takingHit){
+            goblinState = GoblinState.TAKE_HIT;
+            return;
+        }
         if (attacking) {
             goblinState = GoblinState.ATTACK;
             return;
         }
+        goblinState = GoblinState.IDLE;
         if (body.getLinearVelocity().x != 0) {
             goblinState = GoblinState.RUNNING;
         }
@@ -48,6 +54,8 @@ public class Goblin extends BasicEnemy {
         switch (goblinState) {
             case ATTACK -> currentFrame = attackAnimation.getKeyFrame(stateTime, false);
             case RUNNING -> currentFrame = runAnimation.getKeyFrame(stateTime, true);
+            case DEATH -> currentFrame = deathAnimation.getKeyFrame(stateTime, false);
+            case TAKE_HIT -> currentFrame = takeHitAnimation.getKeyFrame(stateTime, false);
             default -> currentFrame = idleAnimation.getKeyFrame(stateTime, true);
         }
 

@@ -20,6 +20,8 @@ public class Player extends Entity {
     private Animation<TextureRegion> jumpAnimation;
     private Animation<TextureRegion> fallAnimation;
     private Animation<TextureRegion> attackAnimation;
+    protected Animation<TextureRegion> takeHitAnimation;
+    protected Animation<TextureRegion> deathAnimation;
     private PlayerState playerState;
     private boolean onGround = false;
     private boolean attacking;
@@ -41,6 +43,8 @@ public class Player extends Entity {
         movingAnimation = importAnimation(PlayerState.RUNNING);
         jumpAnimation = importAnimation(PlayerState.JUMP);
         fallAnimation = importAnimation(PlayerState.FALL);
+        takeHitAnimation = importAnimation(PlayerState.TAKE_HIT);
+        deathAnimation = importAnimation(PlayerState.DEATH);
     }
 
     private Animation<TextureRegion> importAnimation(PlayerState playerState) {
@@ -127,13 +131,14 @@ public class Player extends Entity {
         }
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame;
-        TextureRegion attackFrame = attackAnimation.getKeyFrame(stateTime, false);
 
         switch (playerState) {
             case RUNNING -> currentFrame = movingAnimation.getKeyFrame(stateTime, true);
-            case ATTACK -> currentFrame = attackFrame;
+            case ATTACK -> currentFrame = attackAnimation.getKeyFrame(stateTime, false);
             case JUMP -> currentFrame = jumpAnimation.getKeyFrame(stateTime, true);
             case FALL -> currentFrame = fallAnimation.getKeyFrame(stateTime, true);
+            case DEATH -> currentFrame = deathAnimation.getKeyFrame(stateTime, false);
+            case TAKE_HIT -> currentFrame = takeHitAnimation.getKeyFrame(stateTime, false);
             default -> currentFrame = idleAnimation.getKeyFrame(stateTime, true);
         }
 

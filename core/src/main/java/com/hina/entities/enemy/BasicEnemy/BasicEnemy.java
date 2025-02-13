@@ -13,9 +13,12 @@ public abstract class BasicEnemy extends Entity {
     protected final Player player;
     protected final Vector2 bornPosition;
     protected boolean attacking;
+    protected boolean takingHit;
     protected Animation<TextureRegion> idleAnimation;
     protected Animation<TextureRegion> attackAnimation;
     protected Animation<TextureRegion> runAnimation;
+    protected Animation<TextureRegion> takeHitAnimation;
+    protected Animation<TextureRegion> deathAnimation;
 
     public BasicEnemy(World world, Player player, float x, float y, float maxHeath) {
         super(world, x, y, 0.5f, 1f, maxHeath, 1.5f);
@@ -73,7 +76,7 @@ public abstract class BasicEnemy extends Entity {
         if (Math.abs(distantToPlayer) <= 2 && dstPlayer) {
             attacking = true;
         }
-        if (attacking) {
+        if (attacking && !takingHit) {
             if (attackBox.isDestroyed()) {
                 attackBox.createHitBox(1, 1, 10f, movingRight);
             }
@@ -86,8 +89,29 @@ public abstract class BasicEnemy extends Entity {
             }
             movingSpeed = 0;
         }
+
+        //take hit update
+        if (takingHit) {
+            attackBox.destroyAttackSensor();
+            if (takeHitAnimation.isAnimationFinished(stateTime)) {
+                stateTime = 0;
+                takingHit = false;
+            } else if (prevMoveRight != movingRight) {
+                movingRight = prevMoveRight;
+            }
+            movingSpeed = 0;
+        }
+
         body.setLinearVelocity(movingSpeed, body.getLinearVelocity().y);
         updateAnimation();
+    }
+
+    @Override
+    public void takeDamage(float damage) {
+        if (damage > 0) {
+            curHeath -= damage;
+            takingHit = true;
+        }
     }
 
     protected abstract void updateAnimation();
