@@ -77,7 +77,7 @@ public class Main extends ApplicationAdapter {
     }
 
     private void update() {
-        world.step(1 / 60f, 6, 2); // Cập nhật vật lý
+        world.step(Gdx.graphics.getDeltaTime(), 6, 2); // Cập nhật vật lý
         float delta = Gdx.graphics.getDeltaTime();
         player.update(delta);
         goblin.update(delta);

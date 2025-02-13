@@ -53,7 +53,7 @@ public class Player extends Entity {
             return;
         }
 
-        final float speed = 700f * delta;
+        final float speed = 10f;
         final float jumpStrength = Math.min(entityHeight, entityWidth) * 100;
         float movingSpeed = 0;
         boolean prevMoveRight = movingRight;
