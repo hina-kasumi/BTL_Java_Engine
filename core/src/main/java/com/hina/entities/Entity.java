@@ -27,14 +27,14 @@ public abstract class Entity {
     protected boolean isDeath;
     protected AnimationPriority animationPriority;
     protected float stateTime;
-    protected float curHeath;
+    protected float curHealth;
 
     public Entity(World world, float x, float y, float entityWidth, float entityHeight, float maxHeath, float density) {
         this.world = world;
         this.entityWidth = entityWidth;
         this.entityHeight = entityHeight;
         this.maxHeath = maxHeath;
-        this.curHeath = maxHeath;
+        this.curHealth = maxHeath;
         this.movingRight = true;
         this.stateTime = 0;
         this.animationPriority = new AnimationPriority();
@@ -100,11 +100,11 @@ public abstract class Entity {
     public void takeDamage(float damage) {
         if (isDeath)
             return;
-        if (curHeath > 0) {
-            curHeath -= damage;
+        if (curHealth > 0) {
+            curHealth -= damage;
             takingHit = true;
 
-            if (curHeath == 0) {
+            if (curHealth == 0) {
                 isDeath = true;
                 takingHit = false;
             }
@@ -112,7 +112,7 @@ public abstract class Entity {
         }
         attackBox.destroyAttackSensor();
         attacking = false;
-        System.out.println(curHeath);
+        System.out.println(curHealth);
     }
 
     protected void death() {
@@ -121,6 +121,22 @@ public abstract class Entity {
             attackBox.destroyAttackSensor();
             body = null;
         }
+    }
+
+    public float getCurHealth() {
+        return curHealth;
+    }
+
+    public float getMaxHeath() {
+        return maxHeath;
+    }
+
+    public float getEntityWidth(){
+        return entityWidth;
+    }
+
+    public float getEntityHeight() {
+        return entityHeight;
     }
 
     public boolean isBodyNull() {

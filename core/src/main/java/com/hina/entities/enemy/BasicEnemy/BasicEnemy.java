@@ -1,6 +1,7 @@
 package com.hina.entities.enemy.BasicEnemy;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.hina.entities.AnimationState;
 import com.hina.entities.Entity;
 import com.hina.entities.Player.Player;
+import com.hina.utils.HealthBar;
 
 import static com.hina.constant.GameConst.PPM;
 
@@ -22,6 +24,7 @@ public abstract class BasicEnemy extends Entity {
     protected Animation<TextureRegion> deathAnimation;
     protected int startAttackAt;
     protected int endAttackAt;
+    protected HealthBar healthBar;
 
     public BasicEnemy(World world, Player player, float x, float y, float maxHeath) {
         super(world, x, y, 0.5f, 1f, maxHeath, 1.5f);
@@ -31,6 +34,7 @@ public abstract class BasicEnemy extends Entity {
         this.attacking = false;
         this.startAttackAt = 0;
         this.endAttackAt = 0;
+        this.healthBar = new HealthBar(this);
 
         body.setGravityScale(5);
         body.setUserData(this);
@@ -43,6 +47,7 @@ public abstract class BasicEnemy extends Entity {
             return;
         }
 
+        healthBar.update();
         float distantToPlayer = player.getPosition().x - body.getPosition().x;
         float bornToPlayer = player.getPosition().x - bornPosition.x;
         boolean ableAttackPlayer = player.getPosition().dst(body.getPosition()) <= 5;
@@ -156,6 +161,11 @@ public abstract class BasicEnemy extends Entity {
             currentFrame.getRegionWidth() * scale / PPM,
             currentFrame.getRegionHeight() * scale / PPM
         );
+    }
+
+    public void renderHealthBar(OrthographicCamera camera) {
+        if (!isDeath)
+            healthBar.render(camera);
     }
 
 

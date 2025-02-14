@@ -40,6 +40,11 @@ public class GameManager {
         map.render();
     }
 
+    public void renderHealthBat(SpriteBatch batch, OrthographicCamera camera){
+        goblin.renderHealthBar(camera);
+
+    }
+
     public void dispose() {
         player.dispose();
         background.dispose();
