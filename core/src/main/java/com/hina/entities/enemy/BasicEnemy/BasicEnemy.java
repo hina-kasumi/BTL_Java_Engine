@@ -138,6 +138,9 @@ public abstract class BasicEnemy extends Entity {
         TextureRegion currentFrame;
 
         switch (animationPriority.get()) {
+            case null -> {
+                return;
+            }
             case RUN -> currentFrame = runAnimation.getKeyFrame(stateTime, true);
             case ATTACK -> currentFrame = attackAnimation.getKeyFrame(stateTime, false);
             case TAKE_HIT -> currentFrame = takeHitAnimation.getKeyFrame(stateTime, false);

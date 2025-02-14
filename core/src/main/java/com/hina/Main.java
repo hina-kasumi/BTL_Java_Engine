@@ -29,6 +29,7 @@ public class Main extends ApplicationAdapter {
     private Background background;
     private FitViewport viewport;
     private Map map;
+    public static boolean isGameStop;
 
     @Override
     public void create() {
@@ -45,35 +46,12 @@ public class Main extends ApplicationAdapter {
         background = new Background();
 
         world.setContactListener(new MainListener());
-
-//        makeGround();
-    }
-
-    private void makeGround() {
-        BodyDef groundDef = new BodyDef();
-        groundDef.type = BodyDef.BodyType.StaticBody;
-        groundDef.position.set(10, 0);
-        Body ground = world.createBody(groundDef);
-        ground.setUserData("ground");
-
-        PolygonShape groundShape = new PolygonShape();
-        groundShape.setAsBox(10, 1);
-        ground.createFixture(groundShape, 0);
-        groundShape.dispose();
-
-        BodyDef blockDef = new BodyDef();
-        blockDef.type = BodyDef.BodyType.StaticBody;
-        blockDef.position.set(10, 1);
-        Body block = world.createBody(blockDef);
-        block.setUserData("block");
-        PolygonShape blockShape = new PolygonShape();
-        blockShape.setAsBox(2, 2);
-        block.createFixture(blockShape, 0);
-        blockShape.dispose();
     }
 
     @Override
     public void render() {
+        if (isGameStop)
+            return;
         update();
         draw();
     }

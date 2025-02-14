@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.hina.entities.AnimationState;
 import com.hina.entities.Entity;
 
+import static com.hina.Main.isGameStop;
 import static com.hina.constant.GameConst.*;
 
 public class Player extends Entity {
@@ -28,7 +29,7 @@ public class Player extends Entity {
 
 
     public Player(World world) {
-        super(world, 0, 10, 0.5f, 1f, 100f, 1.5f);
+        super(world, 0, 10, 0.5f, 1f, PLAYER_MAX_HEALTH, 1.5f);
 
         body.setGravityScale(5);
         body.setUserData(this);
@@ -103,7 +104,7 @@ public class Player extends Entity {
 
         if (takingHit) {
             if (takeHitAnimation.isAnimationFinished(stateTime)) {
-                stateTime = 0;
+                resetStateTime();
                 takingHit = false;
             }
             attacking = false;
@@ -126,6 +127,7 @@ public class Player extends Entity {
             blockMoving();
             if (deathAnimation.isAnimationFinished(stateTime)) {
                 System.out.println("game over");
+                isGameStop = true;
             }
             animationPriority.add(AnimationState.DEATH);
         }
@@ -154,6 +156,9 @@ public class Player extends Entity {
         TextureRegion currentFrame;
 
         switch (animationPriority.get()) {
+            case null -> {
+                return;
+            }
             case RUN -> currentFrame = movingAnimation.getKeyFrame(stateTime, true);
             case ATTACK -> currentFrame = attackAnimation.getKeyFrame(stateTime, false);
             case JUMP -> currentFrame = jumpAnimation.getKeyFrame(stateTime, true);
