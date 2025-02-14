@@ -1,10 +1,10 @@
 package com.hina.entities.enemy.BasicEnemy;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.hina.entities.AnimationState;
@@ -163,9 +163,9 @@ public abstract class BasicEnemy extends Entity {
         );
     }
 
-    public void renderHealthBar(OrthographicCamera camera) {
+    public void renderHealthBar(ShapeRenderer shapeRenderer) {
         if (!isDeath)
-            healthBar.render(camera);
+            healthBar.render(shapeRenderer);
     }
 
 

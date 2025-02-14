@@ -1,52 +1,45 @@
 package com.hina.handleListener;
 
+
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
-public class MainListener implements ContactListener {
-    private final PlayerJumpListener playerJumpListener;
-    private final PlayerContactEnemyListener playerContactEnemyListener;
-    private final EnemyCollisionListener enemyCollisionListener;
-    private final CombatListener combatListener;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainListener implements com.badlogic.gdx.physics.box2d.ContactListener {
+    private final List<ContactListener> contactListeners;
 
     public MainListener() {
-        playerJumpListener = new PlayerJumpListener();
-        playerContactEnemyListener = new PlayerContactEnemyListener();
-        enemyCollisionListener = new EnemyCollisionListener();
-        combatListener = new CombatListener();
+        contactListeners = new ArrayList<>();
+        contactListeners.add(new PlayerJumpListener());
+        contactListeners.add(new PlayerContactEnemyListener());
+        contactListeners.add(new CombatListener());
+        contactListeners.add(new EnemyCollisionListener());
     }
 
     @Override
     public void beginContact(Contact contact) {
-        playerJumpListener.beginContact(contact);
-        playerContactEnemyListener.beginContact(contact);
-        enemyCollisionListener.beginContact(contact);
-        combatListener.beginContact(contact);
+        contactListeners.forEach((contactListener ->
+            contactListener.beginContact(contact)));
     }
 
     @Override
     public void endContact(Contact contact) {
-        playerJumpListener.endContact(contact);
-        playerContactEnemyListener.endContact(contact);
-        enemyCollisionListener.endContact(contact);
-        combatListener.endContact(contact);
+        contactListeners.forEach((contactListener ->
+            contactListener.endContact(contact)));
     }
 
     @Override
     public void preSolve(Contact contact, Manifold manifold) {
-        playerJumpListener.preSolve(contact, manifold);
-        playerContactEnemyListener.preSolve(contact, manifold);
-        enemyCollisionListener.preSolve(contact, manifold);
-        combatListener.preSolve(contact, manifold);
+        contactListeners.forEach((contactListener ->
+            contactListener.preSolve(contact, manifold)));
     }
 
     @Override
     public void postSolve(Contact contact, ContactImpulse contactImpulse) {
-        playerJumpListener.postSolve(contact, contactImpulse);
-        playerContactEnemyListener.postSolve(contact, contactImpulse);
-        enemyCollisionListener.postSolve(contact, contactImpulse);
-        combatListener.postSolve(contact, contactImpulse);
+        contactListeners.forEach((contactListener ->
+            contactListener.postSolve(contact, contactImpulse)));
     }
 }

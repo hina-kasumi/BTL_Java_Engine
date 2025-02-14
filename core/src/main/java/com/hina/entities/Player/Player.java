@@ -3,11 +3,13 @@ package com.hina.entities.Player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hina.entities.AnimationState;
 import com.hina.entities.Entity;
 
@@ -22,6 +24,7 @@ public class Player extends Entity {
     private Animation<TextureRegion> attackAnimation;
     private Animation<TextureRegion> takeHitAnimation;
     private Animation<TextureRegion> deathAnimation;
+    private PlayerHealthBar playerHealthBar;
     private boolean onGround = false;
     private boolean attacking;
     private int startAttackAt;
@@ -36,6 +39,7 @@ public class Player extends Entity {
 
         this.startAttackAt = 4;
         this.endAttackAt = 5;
+        this.playerHealthBar = new PlayerHealthBar(this);
 
         createAnimation();
     }
@@ -55,6 +59,7 @@ public class Player extends Entity {
     @Override
     public void update(float delta) {
         deathUpdate();
+        playerHealthBar.update();
         if (isDeath) {
             return;
         }
@@ -126,7 +131,6 @@ public class Player extends Entity {
         if (isDeath) {
             blockMoving();
             if (deathAnimation.isAnimationFinished(stateTime)) {
-                System.out.println("game over");
                 isGameStop = true;
             }
             animationPriority.add(AnimationState.DEATH);
@@ -178,8 +182,13 @@ public class Player extends Entity {
         );
     }
 
+    public void renderPlayerHealthBar(SpriteBatch batch, Camera camera, FitViewport viewport) {
+        playerHealthBar.render(batch, camera, viewport);
+    }
+
     @Override
     public void dispose() {
+        playerHealthBar.dispose();
     }
 
     public void setOnGround(boolean onGround) {

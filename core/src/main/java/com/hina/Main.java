@@ -63,7 +63,7 @@ public class Main extends ApplicationAdapter {
 
         batch.end();
 
-        gameManager.renderHealthBat(batch, camera);
+        gameManager.renderHealthBat(camera);
 
         box2DDebugRenderer.render(world, camera.combined);
     }
