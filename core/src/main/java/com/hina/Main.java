@@ -9,9 +9,6 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hina.entities.Player.Player;
-import com.hina.entities.enemy.BasicEnemy.Goblin.Goblin;
-import com.hina.handleListener.MainListener;
-import com.hina.screens.Background;
 
 import static com.hina.utils.Bin.*;
 
@@ -23,13 +20,10 @@ public class Main extends ApplicationAdapter {
     private World world;
     private OrthographicCamera camera;
     private Player player;
-    private Goblin goblin;
     private Box2DDebugRenderer box2DDebugRenderer;
     private SpriteBatch batch;
-    private Background background;
     private FitViewport viewport;
-    private Map map;
-    public static boolean isGameStop;
+    private GameManager gameManager;
 
     @Override
     public void create() {
@@ -39,19 +33,12 @@ public class Main extends ApplicationAdapter {
         batch = new SpriteBatch();
         box2DDebugRenderer = new Box2DDebugRenderer();
 
-
-        map = new Map(camera, world);
         player = new Player(world);
-        goblin = new Goblin(world, player, 10, 10);
-        background = new Background();
-
-        world.setContactListener(new MainListener());
+        gameManager = new GameManager(world, camera, player);
     }
 
     @Override
     public void render() {
-        if (isGameStop)
-            return;
         update();
         draw();
     }
@@ -60,9 +47,7 @@ public class Main extends ApplicationAdapter {
         world.step(Gdx.graphics.getDeltaTime(), 6, 2); // Cập nhật vật lý
         clearBin(world);
 
-        float delta = Gdx.graphics.getDeltaTime();
-        player.update(delta);
-        goblin.update(delta);
+        gameManager.update();
     }
 
     private void draw() {
@@ -71,19 +56,12 @@ public class Main extends ApplicationAdapter {
         viewport.apply();
         camera.position.set(player.getPosition().x, player.getPosition().y, 0);
         camera.update();
-
-
         batch.setProjectionMatrix(camera.combined);
-
         batch.begin();
 
-        background.draw(batch, camera, viewport);
-        goblin.draw(batch);
-        player.draw(batch);
-        map.render();
+        gameManager.draw(batch, camera, viewport);
 
         batch.end();
-
         box2DDebugRenderer.render(world, camera.combined);
     }
 
@@ -91,9 +69,7 @@ public class Main extends ApplicationAdapter {
     public void dispose() {
         world.dispose();
         batch.dispose();
-        player.dispose();
-        background.dispose();
-        map.dispose();
+        gameManager.dispose();
     }
 
     @Override

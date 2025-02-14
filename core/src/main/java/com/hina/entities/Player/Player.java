@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.hina.entities.AnimationState;
 import com.hina.entities.Entity;
 
-import static com.hina.Main.isGameStop;
+import static com.hina.GameManager.isGameStop;
 import static com.hina.constant.GameConst.*;
 
 public class Player extends Entity {
