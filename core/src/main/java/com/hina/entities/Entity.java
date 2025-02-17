@@ -112,7 +112,6 @@ public abstract class Entity {
         }
         attackBox.destroyAttackSensor();
         attacking = false;
-        System.out.println(curHealth);
     }
 
     protected void death() {

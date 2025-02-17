@@ -1,0 +1,44 @@
+package com.hina.entities.enemy.BasicEnemy;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.physics.box2d.World;
+import com.hina.entities.Entity;
+import com.hina.entities.Player.Player;
+import com.hina.entities.enemy.BasicEnemy.Goblin.Goblin;
+import com.hina.entities.enemy.BasicEnemy.Mushroom.Mushroom;
+import com.hina.entities.enemy.BasicEnemy.Skeletion.Skeleton;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class BasicEnemyManager {
+    private final List<BasicEnemy> basicEnemies;
+
+    public BasicEnemyManager(World world, Player player) {
+        basicEnemies = new ArrayList<>();
+        basicEnemies.add(new Mushroom(world, player, 10, 10));
+        basicEnemies.add(new Skeleton(world, player, 15, 10));
+        basicEnemies.add(new Goblin(world, player, 20, 10));
+    }
+
+    public void update(float delta) {
+        basicEnemies.forEach(basicEnemy -> basicEnemy.update(delta));
+    }
+
+    public void draw(SpriteBatch batch) {
+        basicEnemies.forEach(basicEnemy -> basicEnemy.draw(batch));
+    }
+
+    public void clear() {
+        basicEnemies.clear();
+    }
+
+    public void renderHealthBar(ShapeRenderer shapeRenderer) {
+        basicEnemies.forEach(basicEnemy -> basicEnemy.renderHealthBar(shapeRenderer));
+    }
+
+    public void dispose() {
+        basicEnemies.forEach(Entity::dispose);
+    }
+}

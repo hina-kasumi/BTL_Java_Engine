@@ -84,7 +84,7 @@ public abstract class BasicEnemy extends Entity {
             attacking = true;
         }
         if (attacking) {
-            if (prevMoveRight != movingRight) {
+            if (prevMoveRight != movingRight && !attackAnimation.isAnimationFinished(stateTime)) {
                 movingRight = prevMoveRight;
             }
 
@@ -95,7 +95,6 @@ public abstract class BasicEnemy extends Entity {
             if (attackBox.isDestroyed() && keyFrameIndex == startAttackAt) {
                 attackBox.createHitBox(1, 1, 10f, movingRight);
             }
-
             if (attackAnimation.isAnimationFinished(stateTime)) {
                 attacking = false;
                 attackBox.destroyAttackSensor();
