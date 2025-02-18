@@ -1,5 +1,7 @@
 package com.hina.entities.Player;
 
+import static com.hina.constant.PlayerConst.PLAYER_TEXTURE_SRC;
+
 public enum PlayerState {
     IDLE("Idle.png"),
     RUNNING("Run.png"),
@@ -13,7 +15,7 @@ public enum PlayerState {
     private final String fileName;
 
     PlayerState(String fileName) {
-        this.fileName = "textures/Player/" + fileName;
+        this.fileName = PLAYER_TEXTURE_SRC + fileName;
     }
 
     public String getFileName() {

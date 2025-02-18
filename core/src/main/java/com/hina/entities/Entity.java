@@ -17,7 +17,7 @@ public abstract class Entity {
     protected World world;
     protected Body body;
     protected final AttackBox attackBox;
-    protected float scale = 5f;
+    protected float scale;
     protected final float entityWidth;
     protected final float entityHeight;
     protected final float maxHeath;
@@ -41,6 +41,7 @@ public abstract class Entity {
         this.attacking = false;
         this.takingHit = false;
         this.isDeath = false;
+        this.scale = 5f;
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;

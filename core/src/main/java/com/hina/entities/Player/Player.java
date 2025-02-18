@@ -38,6 +38,8 @@ public class Player extends Entity {
         body.setGravityScale(5);
         body.setUserData(this);
 
+        this.scale = PLAYER_SCALE;
+
         this.startAttackAt = 4;
         this.endAttackAt = 5;
         this.playerHealthBar = new PlayerHealthBar(this);
