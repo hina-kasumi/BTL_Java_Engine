@@ -24,7 +24,7 @@ public class PlayerHealthBar {
         this.maxHealth = player.getMaxHeath();
         this.curHealth = player.getMaxHeath();
 
-        String path = "textures/health_bar/Heart and health bars/healthbar/standard/horizontal/";
+        String path = "textures/Player health bar/";
         this.noHeartFull = new Texture(path + "standard-1.png");
         this.heartEmpty = new Texture(path + "standard-empty-1.png");
 

@@ -16,6 +16,7 @@ import com.hina.entities.Entity;
 import static com.hina.constant.PlayerConst.*;
 import static com.hina.constant.GameConst.*;
 import static com.hina.GameManager.isGameStop;
+import static com.hina.utils.ImportTextureUtil.newImportAnimation;
 
 public class Player extends Entity {
     private Animation<TextureRegion> idleAnimation;
@@ -49,13 +50,13 @@ public class Player extends Entity {
 
 
     private void createAnimation() {
-        idleAnimation = importAnimation(PlayerState.IDLE.getFileName());
-        attackAnimation = importAnimation(PlayerState.ATTACK.getFileName(), 0.05f);
-        movingAnimation = importAnimation(PlayerState.RUNNING.getFileName());
-        jumpAnimation = importAnimation(PlayerState.JUMP.getFileName());
-        fallAnimation = importAnimation(PlayerState.FALL.getFileName());
-        takeHitAnimation = importAnimation(PlayerState.TAKE_HIT.getFileName());
-        deathAnimation = importAnimation(PlayerState.DEATH.getFileName(), 0.15f);
+        idleAnimation = newImportAnimation(PlayerState.IDLE.getFileName());
+        attackAnimation = newImportAnimation(PlayerState.ATTACK.getFileName(), 0.05f);
+        movingAnimation = newImportAnimation(PlayerState.RUNNING.getFileName());
+        jumpAnimation = newImportAnimation(PlayerState.JUMP.getFileName());
+        fallAnimation = newImportAnimation(PlayerState.FALL.getFileName());
+        takeHitAnimation = newImportAnimation(PlayerState.TAKE_HIT.getFileName());
+        deathAnimation = newImportAnimation(PlayerState.DEATH.getFileName(), 0.15f);
     }
 
 
@@ -98,7 +99,7 @@ public class Player extends Entity {
 
             int keyFrameIndex = attackAnimation.getKeyFrameIndex(stateTime);
             if (attackBox.isDestroyed() && keyFrameIndex == startAttackAt) {
-                attackBox.createHitBox(2, 2, 10f, movingRight);
+                attackBox.createHitBox(ATTACK_BOX_WIGHT, ATTACK_BOX_HEIGHT, ATTACK_DAMAGE, movingRight);
             }
             if (endAttackAt != 0 && keyFrameIndex == endAttackAt) {
                 attackBox.destroyAttackSensor();
@@ -179,7 +180,7 @@ public class Player extends Entity {
 
         batch.draw(currentFrame,
             body.getPosition().x - scale * currentFrame.getRegionWidth() / 2 / PPM,
-            body.getPosition().y - scale * currentFrame.getRegionHeight() / 2 / PPM,
+            body.getPosition().y - entityHeight - 0.001f,
             currentFrame.getRegionWidth() * scale / PPM,
             currentFrame.getRegionHeight() * scale / PPM
         );

@@ -3,13 +3,13 @@ package com.hina.entities.Player;
 import static com.hina.constant.PlayerConst.PLAYER_TEXTURE_SRC;
 
 public enum PlayerState {
-    IDLE("Idle.png"),
-    RUNNING("Run.png"),
-    ATTACK("Attack1.png"),
-    JUMP("Jump.png"),
-    FALL("Fall.png"),
-    TAKE_HIT("Take Hit.png"),
-    DEATH("Death.png"),
+    IDLE("idle/"),
+    RUNNING("run/"),
+    ATTACK("1_atk/"),
+    JUMP("j_up/"),
+    FALL("j_down/"),
+    TAKE_HIT("take_hit/"),
+    DEATH("death/"),
     ;
 
     private final String fileName;
