@@ -5,9 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.hina.entities.Entity;
 import com.hina.entities.Player.Player;
-import com.hina.entities.enemy.BasicEnemy.Goblin.Goblin;
 import com.hina.entities.enemy.BasicEnemy.Mushroom.Mushroom;
-import com.hina.entities.enemy.BasicEnemy.Skeletion.Skeleton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +16,7 @@ public class BasicEnemyManager {
     public BasicEnemyManager(World world, Player player) {
         basicEnemies = new ArrayList<>();
 
-        add(new Mushroom(world, player, 10, 10));
-        add(new Skeleton(world, player, 15, 10));
-        add(new Goblin(world, player, 20, 10));
+//        add(new Mushroom(world, player, 10, 10));
     }
 
     public void add(BasicEnemy basicEnemy) {

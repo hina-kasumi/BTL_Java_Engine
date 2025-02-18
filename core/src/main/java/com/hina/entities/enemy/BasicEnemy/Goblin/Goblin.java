@@ -4,7 +4,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.hina.entities.Player.Player;
 import com.hina.entities.enemy.BasicEnemy.BasicEnemy;
 
-import static com.hina.constant.MonsterConst.GoblinConst.*;
+import static com.hina.constant.BasicMonsterConst.GoblinConst.*;
 
 public class Goblin extends BasicEnemy {
     public Goblin(World world, Player player, float x, float y) {

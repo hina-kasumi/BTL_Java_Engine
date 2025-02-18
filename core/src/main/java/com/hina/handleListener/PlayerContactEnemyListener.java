@@ -5,8 +5,7 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.hina.entities.Player.Player;
-import com.hina.entities.enemy.BasicEnemy.BasicEnemy;
+import com.hina.entities.Entity;
 
 
 public class PlayerContactEnemyListener implements ContactListener {
@@ -28,9 +27,7 @@ public class PlayerContactEnemyListener implements ContactListener {
         var userDataA = fixtureA.getBody().getUserData();
         var userDataB = fixtureB.getBody().getUserData();
 
-        if ((userDataA instanceof Player && userDataB instanceof BasicEnemy) ||
-            (userDataB instanceof Player && userDataA instanceof BasicEnemy) ||
-            (userDataB instanceof BasicEnemy && userDataA instanceof BasicEnemy)
+        if ((userDataA instanceof Entity && userDataB instanceof Entity)
         ) {
             contact.setEnabled(false); // Tắt va chạm giữa player và enemy
         }

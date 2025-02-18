@@ -1,6 +1,6 @@
 package com.hina.entities.enemy.BasicEnemy.Skeletion;
 
-import static com.hina.constant.MonsterConst.SOURCE_BASIC_MONSTER_TEXTURE;
+import static com.hina.constant.BasicMonsterConst.SOURCE_BASIC_MONSTER_TEXTURE;
 
 public enum SkeletonState {
     IDLE("Idle.png"),

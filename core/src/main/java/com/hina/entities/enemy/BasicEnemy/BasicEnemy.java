@@ -12,6 +12,7 @@ import com.hina.entities.Entity;
 import com.hina.entities.Player.Player;
 import com.hina.utils.HealthBar;
 
+import static com.hina.constant.BasicMonsterConst.*;
 import static com.hina.constant.GameConst.PPM;
 
 public abstract class BasicEnemy extends Entity {
@@ -27,11 +28,10 @@ public abstract class BasicEnemy extends Entity {
     protected HealthBar healthBar;
 
     public BasicEnemy(World world, Player player, float x, float y, float maxHeath) {
-        super(world, x, y, 0.5f, 1f, maxHeath, 1.5f);
+        super(world, x, y, BASIC_ENEMY_WIDTH, BASIC_ENEMY_HEIGHT, maxHeath, BASIC_ENEMY_DENSITY);
 
         this.player = player;
         this.bornPosition = new Vector2(x, y);
-        this.attacking = false;
         this.startAttackAt = 0;
         this.endAttackAt = 0;
         this.healthBar = new HealthBar(this);

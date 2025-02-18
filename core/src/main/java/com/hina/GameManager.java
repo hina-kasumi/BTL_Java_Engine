@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hina.entities.Player.Player;
 import com.hina.entities.enemy.BasicEnemy.BasicEnemyManager;
+import com.hina.entities.enemy.BossEnemy.BossManager;
 import com.hina.handleListener.MainListener;
 import com.hina.screens.Background;
 
@@ -18,6 +19,7 @@ public class GameManager {
     private Map map;
     private ShapeRenderer shapeRenderer;
     private BasicEnemyManager basicEnemyManager;
+    private BossManager bossManager;
     public static boolean isGameStop;
 
     public GameManager(World world, OrthographicCamera camera, Player player) {
@@ -26,6 +28,7 @@ public class GameManager {
         this.background = new Background();
         this.shapeRenderer = new ShapeRenderer();
         this.basicEnemyManager = new BasicEnemyManager(world, player);
+        this.bossManager = new BossManager(world, player);
 
         world.setContactListener(new MainListener());
     }
@@ -34,11 +37,13 @@ public class GameManager {
         float delta = Gdx.graphics.getDeltaTime();
         player.update(delta);
         basicEnemyManager.update(delta);
+        bossManager.update(delta);
     }
 
     public void draw(SpriteBatch batch, OrthographicCamera camera, FitViewport viewport) {
         background.draw(batch, camera, viewport);
         basicEnemyManager.draw(batch);
+        bossManager.draw(batch);
         player.renderPlayerHealthBar(batch, camera, viewport);
         player.draw(batch);
         map.render();
@@ -48,7 +53,9 @@ public class GameManager {
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
+        // viết ở đây
         basicEnemyManager.renderHealthBar(shapeRenderer);
+        bossManager.renderHealthBar(shapeRenderer);
 
         shapeRenderer.end();
     }
@@ -58,5 +65,6 @@ public class GameManager {
         background.dispose();
         map.dispose();
         basicEnemyManager.dispose();
+        bossManager.dispose();
     }
 }
