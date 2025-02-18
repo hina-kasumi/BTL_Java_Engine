@@ -13,8 +13,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hina.entities.AnimationState;
 import com.hina.entities.Entity;
 
-import static com.hina.GameManager.isGameStop;
+import static com.hina.constant.PlayerConst.*;
 import static com.hina.constant.GameConst.*;
+import static com.hina.GameManager.isGameStop;
 
 public class Player extends Entity {
     private Animation<TextureRegion> idleAnimation;

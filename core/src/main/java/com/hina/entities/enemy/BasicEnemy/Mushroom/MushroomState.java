@@ -1,17 +1,19 @@
 package com.hina.entities.enemy.BasicEnemy.Mushroom;
 
+import static com.hina.constant.MonsterConst.SOURCE_BASIC_MONSTER_TEXTURE;
+
 public enum MushroomState {
-    IDLE("textures/monster/Monsters_Creatures_Fantasy/Mushroom/Idle.png"),
-    ATTACK("textures/monster/Monsters_Creatures_Fantasy/Mushroom/Attack.png"),
-    RUNNING("textures/monster/Monsters_Creatures_Fantasy/Mushroom/Run.png"),
-    TAKE_HIT("textures/monster/Monsters_Creatures_Fantasy/Mushroom/Take Hit.png"),
-    DEATH("textures/monster/Monsters_Creatures_Fantasy/Mushroom/Death.png");
+    IDLE("Idle.png"),
+    ATTACK("Attack.png"),
+    RUNNING("Run.png"),
+    TAKE_HIT("Take Hit.png"),
+    DEATH("Death.png");
     ;
 
     private final String fileName;
 
     MushroomState(String fileName) {
-        this.fileName = fileName;
+        this.fileName = SOURCE_BASIC_MONSTER_TEXTURE + "Mushroom/" + fileName;
     }
 
 

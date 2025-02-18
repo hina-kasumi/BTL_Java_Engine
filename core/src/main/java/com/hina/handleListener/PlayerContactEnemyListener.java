@@ -29,7 +29,9 @@ public class PlayerContactEnemyListener implements ContactListener {
         var userDataB = fixtureB.getBody().getUserData();
 
         if ((userDataA instanceof Player && userDataB instanceof BasicEnemy) ||
-            (userDataB instanceof Player && userDataA instanceof BasicEnemy)) {
+            (userDataB instanceof Player && userDataA instanceof BasicEnemy) ||
+            (userDataB instanceof BasicEnemy && userDataA instanceof BasicEnemy)
+        ) {
             contact.setEnabled(false); // Tắt va chạm giữa player và enemy
         }
     }

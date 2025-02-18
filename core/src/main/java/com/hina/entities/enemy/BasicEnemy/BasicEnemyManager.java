@@ -17,9 +17,14 @@ public class BasicEnemyManager {
 
     public BasicEnemyManager(World world, Player player) {
         basicEnemies = new ArrayList<>();
-        basicEnemies.add(new Mushroom(world, player, 10, 10));
-        basicEnemies.add(new Skeleton(world, player, 15, 10));
-        basicEnemies.add(new Goblin(world, player, 20, 10));
+
+        add(new Mushroom(world, player, 10, 10));
+        add(new Skeleton(world, player, 15, 10));
+        add(new Goblin(world, player, 20, 10));
+    }
+
+    public void add(BasicEnemy basicEnemy) {
+        basicEnemies.add(basicEnemy);
     }
 
     public void update(float delta) {
@@ -40,5 +45,6 @@ public class BasicEnemyManager {
 
     public void dispose() {
         basicEnemies.forEach(Entity::dispose);
+        clear();
     }
 }

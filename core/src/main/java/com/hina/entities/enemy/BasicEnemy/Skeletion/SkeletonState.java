@@ -1,17 +1,19 @@
 package com.hina.entities.enemy.BasicEnemy.Skeletion;
 
+import static com.hina.constant.MonsterConst.SOURCE_BASIC_MONSTER_TEXTURE;
+
 public enum SkeletonState {
-    IDLE("textures/monster/Monsters_Creatures_Fantasy/Skeleton/Idle.png"),
-    ATTACK("textures/monster/Monsters_Creatures_Fantasy/Skeleton/Attack.png"),
-    RUNNING("textures/monster/Monsters_Creatures_Fantasy/Skeleton/Walk.png"),
-    TAKE_HIT("textures/monster/Monsters_Creatures_Fantasy/Skeleton/Take Hit.png"),
-    DEATH("textures/monster/Monsters_Creatures_Fantasy/Skeleton/Death.png");
+    IDLE("Idle.png"),
+    ATTACK("Attack.png"),
+    RUNNING("Walk.png"),
+    TAKE_HIT("Take Hit.png"),
+    DEATH("Death.png"),
     ;
 
     private final String fileName;
 
     SkeletonState(String fileName) {
-        this.fileName = fileName;
+        this.fileName = SOURCE_BASIC_MONSTER_TEXTURE + "Skeleton/" + fileName;
     }
 
 

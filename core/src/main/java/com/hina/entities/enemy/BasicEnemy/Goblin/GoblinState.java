@@ -1,17 +1,19 @@
 package com.hina.entities.enemy.BasicEnemy.Goblin;
 
+import static com.hina.constant.MonsterConst.SOURCE_BASIC_MONSTER_TEXTURE;
+
 public enum GoblinState {
-    IDLE("textures/monster/Monsters_Creatures_Fantasy/Goblin/Idle.png"),
-    ATTACK("textures/monster/Monsters_Creatures_Fantasy/Goblin/Attack.png"),
-    RUNNING("textures/monster/Monsters_Creatures_Fantasy/Goblin/Run.png"),
-    TAKE_HIT("textures/monster/Monsters_Creatures_Fantasy/Goblin/Take Hit.png"),
-    DEATH("textures/monster/Monsters_Creatures_Fantasy/Goblin/Death.png");
+    IDLE("Idle.png"),
+    ATTACK("Attack.png"),
+    RUNNING("Run.png"),
+    TAKE_HIT("Take Hit.png"),
+    DEATH("Death.png")
     ;
 
     private final String fileName;
 
     GoblinState(String fileName) {
-        this.fileName = fileName;
+        this.fileName = SOURCE_BASIC_MONSTER_TEXTURE + "Goblin/" + fileName;
     }
 
 

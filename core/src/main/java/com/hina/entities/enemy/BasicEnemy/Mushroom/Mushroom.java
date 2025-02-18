@@ -4,11 +4,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.hina.entities.Player.Player;
 import com.hina.entities.enemy.BasicEnemy.BasicEnemy;
 
-import static com.hina.constant.GameConst.MUSHROOM_MAX_HEALTH;
+import static com.hina.constant.MonsterConst.MushroomConst.*;
 
 public class Mushroom extends BasicEnemy {
     public Mushroom(World world, Player player, float x, float y) {
         super(world, player, x, y, MUSHROOM_MAX_HEALTH);
+        this.scale = MUSHROOM_SCALE;
 
         createAnimation();
     }
