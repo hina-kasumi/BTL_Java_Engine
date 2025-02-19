@@ -38,9 +38,10 @@ public abstract class Hero extends Entity {
     private int startAttackAt;
     private int endAttackAt;
     private float movingSpeed;
+    private final float offsetY;
 
 
-    public Hero(World world, Vector2 bornPosition, float maxHealth, String heroSrc) {
+    public Hero(World world, Vector2 bornPosition, float maxHealth, String heroSrc, float offsetY) {
         super(world, bornPosition.x, bornPosition.y, 0.5f, 1f, maxHealth, 1.5f);
 
         body.setGravityScale(5);
@@ -48,6 +49,7 @@ public abstract class Hero extends Entity {
 
         this.scale = PLAYER_SCALE;
         this.playerHealthBar = new PlayerHealthBar(this);
+        this.offsetY = offsetY;
 
         createAnimation(heroSrc);
     }
@@ -211,7 +213,7 @@ public abstract class Hero extends Entity {
 
         batch.draw(currentFrame,
             body.getPosition().x - scale * currentFrame.getRegionWidth() / 2 / PPM,
-            body.getPosition().y - entityHeight - 0.001f,
+            body.getPosition().y - entityHeight - offsetY / PPM * scale,
             currentFrame.getRegionWidth() * scale / PPM,
             currentFrame.getRegionHeight() * scale / PPM
         );

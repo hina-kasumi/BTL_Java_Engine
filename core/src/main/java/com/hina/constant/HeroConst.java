@@ -9,6 +9,7 @@ public class HeroConst {
         public static float ATTACK_BOX_WIDTH = 1f;
         public static float ATTACK_BOX_HEIGHT = 1f;
         public static float HERO_MAX_HEALTH = 100f;
+        public static float OFFSET_Y = 1;
     }
 
     public static class Fire extends HeroConst {
@@ -16,6 +17,7 @@ public class HeroConst {
         public static float ATTACK_BOX_WIDTH = 1f;
         public static float ATTACK_BOX_HEIGHT = 1f;
         public static float HERO_MAX_HEALTH = 100f;
+        public static float OFFSET_Y = 1;
     }
 
     public static class Ground extends HeroConst {
@@ -23,6 +25,7 @@ public class HeroConst {
         public static float ATTACK_BOX_WIDTH = 1f;
         public static float ATTACK_BOX_HEIGHT = 1f;
         public static float HERO_MAX_HEALTH = 100f;
+        public static float OFFSET_Y = 7;
     }
 
     public static class Leaf extends HeroConst {
@@ -30,6 +33,7 @@ public class HeroConst {
         public static float ATTACK_BOX_WIDTH = 1f;
         public static float ATTACK_BOX_HEIGHT = 1f;
         public static float HERO_MAX_HEALTH = 100f;
+        public static float OFFSET_Y = 1;
     }
 
     public static class Metal extends HeroConst {
@@ -37,6 +41,7 @@ public class HeroConst {
         public static float ATTACK_BOX_WIDTH = 1f;
         public static float ATTACK_BOX_HEIGHT = 1f;
         public static float HERO_MAX_HEALTH = 100f;
+        public static float OFFSET_Y = 1;
     }
 
     public static class Water extends HeroConst {
@@ -44,6 +49,7 @@ public class HeroConst {
         public static float ATTACK_BOX_WIDTH = 1f;
         public static float ATTACK_BOX_HEIGHT = 1f;
         public static float HERO_MAX_HEALTH = 100f;
+        public static float OFFSET_Y = 1;
     }
 
     public static class Wind extends HeroConst {
@@ -51,6 +57,7 @@ public class HeroConst {
         public static float ATTACK_BOX_WIDTH = 1f;
         public static float ATTACK_BOX_HEIGHT = 1f;
         public static float HERO_MAX_HEALTH = 100f;
+        public static float OFFSET_Y = 1;
     }
 
     public static String getSrc(String string) {

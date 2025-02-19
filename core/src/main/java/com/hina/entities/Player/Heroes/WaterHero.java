@@ -8,7 +8,7 @@ import static com.hina.constant.HeroConst.Water.*;
 
 public class WaterHero extends Hero {
     public WaterHero(World world, Vector2 bornPosition) {
-        super(world, bornPosition, HERO_MAX_HEALTH, SRC);
+        super(world, bornPosition, HERO_MAX_HEALTH, SRC, OFFSET_Y);
 
         setAttackAt(4, 5);
         setAttackBoxSize(ATTACK_BOX_WIDTH,ATTACK_BOX_HEIGHT);
