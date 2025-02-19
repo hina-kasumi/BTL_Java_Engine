@@ -16,7 +16,6 @@ import com.hina.entities.Entity;
 import static com.hina.constant.PlayerConst.*;
 import static com.hina.constant.GameConst.*;
 import static com.hina.GameManager.isGameStop;
-import static com.hina.utils.Bin.bodiesToDestroy;
 import static com.hina.utils.ImportTextureUtil.newImportAnimation;
 
 public abstract class Hero extends Entity {
@@ -65,35 +64,6 @@ public abstract class Hero extends Entity {
         defendAnimation = newImportAnimation(heroSrc + HeroState.DEFEND.getFileName());
         airAttackAnimation = newImportAnimation(heroSrc + HeroState.AIR_ATTACK.getFileName());
         deathAnimation = newImportAnimation(heroSrc + HeroState.DEATH.getFileName(), 0.15f);
-    }
-
-    public void createBody(Vector2 position, float density) {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(position);
-        bodyDef.fixedRotation = true;
-
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(entityWidth, entityHeight);
-
-        body = world.createBody(bodyDef);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = density;
-        fixtureDef.friction = 0f;
-        body.createFixture(fixtureDef);
-
-        shape.dispose();
-        body.setGravityScale(5);
-        body.setUserData(this);
-    }
-
-    public void destroyBody() {
-        if (body != null) {
-            bodiesToDestroy.add(body);
-            body = null;
-        }
     }
 
 
@@ -187,6 +157,8 @@ public abstract class Hero extends Entity {
         animationPriority.add(AnimationState.IDLE);
         if (attacking) {
             animationPriority.add(AnimationState.ATTACK);
+            if (!onGround)
+                animationPriority.add(AnimationState.AIR_ATTACK);
             return;
         }
         if (body.getLinearVelocity().x != 0) {

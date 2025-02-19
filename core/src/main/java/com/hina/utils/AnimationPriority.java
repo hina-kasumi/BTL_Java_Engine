@@ -22,6 +22,10 @@ public class AnimationPriority {
         map.put(AnimationState.TAKE_HIT.getPriority(), AnimationState.TAKE_HIT);
         map.put(AnimationState.DEATH.getPriority(), AnimationState.DEATH);
         map.put(AnimationState.RUN.getPriority(), AnimationState.RUN);
+        map.put(AnimationState.AIR_ATTACK.getPriority(), AnimationState.AIR_ATTACK);
+        map.put(AnimationState.SPECIAL_ATTACK.getPriority(), AnimationState.SPECIAL_ATTACK);
+        map.put(AnimationState.ROLL.getPriority(), AnimationState.ROLL);
+        map.put(AnimationState.DEFEND.getPriority(), AnimationState.DEFEND);
     }
 
     public AnimationState get() {
