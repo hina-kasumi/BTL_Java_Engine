@@ -30,13 +30,14 @@ public abstract class Hero extends Entity {
     private Animation<TextureRegion> rollAnimation;
     private Animation<TextureRegion> defendAnimation;
     private Animation<TextureRegion> airAttackAnimation;
-    private PlayerHealthBar playerHealthBar;
+    private final PlayerHealthBar playerHealthBar;
     private boolean onGround;
     private boolean attacking;
     private float attackBoxWidth;
     private float attackBoxHeight;
     private int startAttackAt;
     private int endAttackAt;
+    private float movingSpeed;
 
 
     public Hero(World world, Vector2 bornPosition, float maxHealth, String heroSrc) {
@@ -75,10 +76,20 @@ public abstract class Hero extends Entity {
             return;
         }
 
-        final float speed = 10f;
-        final float jumpStrength = Math.min(entityHeight, entityWidth) * 100;
-        float movingSpeed = 0;
         boolean prevMoveRight = movingRight;
+        movingSpeed = 0;
+        runUpdate();
+        jumpUpdate();
+        takeHitUpdate();
+        attackUpdate(prevMoveRight);
+
+        body.setLinearVelocity(movingSpeed, body.getLinearVelocity().y);
+        updateAnimation();
+    }
+
+    private void runUpdate() {
+        final float speed = 10f;
+        movingSpeed = 0;
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             movingSpeed -= speed;
@@ -88,14 +99,23 @@ public abstract class Hero extends Entity {
             movingSpeed += speed;
             movingRight = true;
         }
+    }
 
+    private void jumpUpdate() {
+        final float jumpStrength = Math.min(entityHeight, entityWidth) * 100;
+        if (Gdx.input.isKeyPressed(Input.Keys.K) && onGround) {
+            body.applyLinearImpulse(new Vector2(0, jumpStrength), body.getWorldCenter(), true);
+            onGround = false;
+        }
+    }
+
+    private void attackUpdate(boolean prevMoveRight) {
         if (Gdx.input.isKeyPressed(Input.Keys.J)) {
-            if (!attacking) {
+            if (!attacking && !takingHit) {
                 resetStateTime();
             }
             attacking = true;
         }
-
         if (attacking && !takingHit) {
             if (prevMoveRight != movingRight) {
                 movingRight = prevMoveRight;
@@ -117,7 +137,9 @@ public abstract class Hero extends Entity {
                 attackBox.destroyAttackSensor();
             }
         }
+    }
 
+    private void takeHitUpdate() {
         if (takingHit) {
             if (takeHitAnimation.isAnimationFinished(stateTime)) {
                 resetStateTime();
@@ -128,17 +150,9 @@ public abstract class Hero extends Entity {
             animationPriority.add(AnimationState.TAKE_HIT);
             blockMoving();
         }
-
-        body.setLinearVelocity(movingSpeed, body.getLinearVelocity().y);
-        updateAnimation();
-
-        if (Gdx.input.isKeyPressed(Input.Keys.K) && onGround) {
-            body.applyLinearImpulse(new Vector2(0, jumpStrength), body.getWorldCenter(), true);
-            onGround = false;
-        }
     }
 
-    void deathUpdate() {
+    private void deathUpdate() {
         if (isDeath) {
             blockMoving();
             if (deathAnimation.isAnimationFinished(stateTime)) {

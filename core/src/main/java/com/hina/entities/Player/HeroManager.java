@@ -14,13 +14,13 @@ import java.util.List;
 
 public class HeroManager {
     private final List<Hero> heroes;
-    private int currentHero;
+    private int currentHeroIndex;
     private Vector2 position;
     private boolean movingRight;
 
     public HeroManager(World world) {
         heroes = new ArrayList<>();
-        currentHero = 0;
+        currentHeroIndex = 0;
         movingRight = true;
 
         position = new Vector2(0, 10);
@@ -42,19 +42,19 @@ public class HeroManager {
     }
 
     public void update(float delta) {
-        int prevCurrentHero = currentHero;
+        int prevCurrentHero = currentHeroIndex;
         position = getCurrentHero().getPosition();
-        this.movingRight = heroes.get(currentHero).isMovingRight();
+        this.movingRight = heroes.get(currentHeroIndex).isMovingRight();
 
         for (int i = Input.Keys.NUM_1; i < Input.Keys.NUM_1 + heroes.size(); i++) {
             if (Gdx.input.isKeyPressed(i)) {
-                currentHero = i - Input.Keys.NUM_1;
+                currentHeroIndex = i - Input.Keys.NUM_1;
             }
         }
 
         heroes.forEach(hero -> {
             if (!heroes.get(prevCurrentHero).isIdle()) {
-                currentHero = prevCurrentHero;
+                currentHeroIndex = prevCurrentHero;
             }
             if (hero == getCurrentHero()) {
                 hero.getBody().setActive(true);
@@ -86,21 +86,18 @@ public class HeroManager {
     }
 
     public Hero getCurrentHero() {
-        return heroes.get(currentHero);
+        return heroes.get(currentHeroIndex);
     }
 
-    public void setCurrentHero(int currentHero) {
-        if (currentHero < 0 || currentHero >= heroes.size())
+    public void setCurrentHeroIndex(int currentHeroIndex) {
+        if (currentHeroIndex < 0 || currentHeroIndex >= heroes.size())
             throw new IllegalArgumentException("truy cập ngoài mảng heroes!");
-        this.currentHero = currentHero;
+        this.currentHeroIndex = currentHeroIndex;
     }
 
-    public void setPosition(Vector2 position) {
-        this.position = position;
-    }
 
     public void dispose() {
         heroes.forEach(Hero::dispose);
-        heroes.clear();
+        clear();
     }
 }
