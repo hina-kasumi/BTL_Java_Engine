@@ -227,6 +227,14 @@ public abstract class Hero extends Entity {
         body.setTransform(position, body.getAngle());
     }
 
+    public boolean isMovingRight() {
+        return movingRight;
+    }
+
+    public void setMovingRight(boolean movingRight) {
+        this.movingRight = movingRight;
+    }
+
     @Override
     public void dispose() {
         playerHealthBar.dispose();

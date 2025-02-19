@@ -16,10 +16,12 @@ public class HeroManager {
     private final List<Hero> heroes;
     private int currentHero;
     private Vector2 position;
+    private boolean movingRight;
 
     public HeroManager(World world) {
         heroes = new ArrayList<>();
         currentHero = 0;
+        movingRight = true;
 
         position = new Vector2(0, 10);
 
@@ -31,8 +33,6 @@ public class HeroManager {
         add(new WaterHero(world, position));
         add(new WindHero(world, position));
 
-//        getCurrentHero().destroyBody();
-//        getCurrentHero().createBody(position, 0.15f);
         heroes.forEach(hero -> hero.getBody().setActive(false));
 
     }
@@ -44,6 +44,7 @@ public class HeroManager {
     public void update(float delta) {
         int prevCurrentHero = currentHero;
         position = getCurrentHero().getPosition();
+        this.movingRight = heroes.get(currentHero).isMovingRight();
 
         for (int i = Input.Keys.NUM_1; i < Input.Keys.NUM_1 + heroes.size(); i++) {
             if (Gdx.input.isKeyPressed(i)) {
@@ -58,6 +59,7 @@ public class HeroManager {
             if (hero == getCurrentHero()) {
                 hero.getBody().setActive(true);
                 hero.setPosition(position);
+                hero.setMovingRight(movingRight);
             } else {
                 hero.getBody().setActive(false);
             }
