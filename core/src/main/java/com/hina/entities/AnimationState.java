@@ -6,8 +6,12 @@ public enum AnimationState implements Comparable<AnimationState> {
     JUMP(2),
     FALL(3),
     ATTACK(4),
-    TAKE_HIT(5),
-    DEATH(6)
+    AIR_ATTACK(5),
+    SPECIAL_ATTACK(6),
+    ROLL(7),
+    DEFEND(8),
+    TAKE_HIT(9),
+    DEATH(10)
     ;
 
     private final int priority;

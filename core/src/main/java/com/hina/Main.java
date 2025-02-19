@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.hina.entities.Player.Player;
+import com.hina.entities.Player.Hero;
 
 import static com.hina.utils.Bin.*;
 
@@ -19,7 +19,6 @@ import static com.hina.utils.Bin.*;
 public class Main extends ApplicationAdapter {
     private World world;
     private OrthographicCamera camera;
-    private Player player;
     private Box2DDebugRenderer box2DDebugRenderer;
     private SpriteBatch batch;
     private FitViewport viewport;
@@ -33,8 +32,7 @@ public class Main extends ApplicationAdapter {
         batch = new SpriteBatch();
         box2DDebugRenderer = new Box2DDebugRenderer();
 
-        player = new Player(world);
-        gameManager = new GameManager(world, camera, player);
+        gameManager = new GameManager(world, camera);
     }
 
     @Override
@@ -54,7 +52,7 @@ public class Main extends ApplicationAdapter {
         ScreenUtils.clear(0, 0, 0, 1); // Xóa màn hình đen
 
         viewport.apply();
-        camera.position.set(player.getPosition().x, player.getPosition().y, 0);
+        camera.position.set(gameManager.getHero().getPosition().x, gameManager.getHero().getPosition().y, 0);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();

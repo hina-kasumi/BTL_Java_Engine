@@ -9,14 +9,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.hina.entities.AnimationState;
 import com.hina.entities.Entity;
-import com.hina.entities.Player.Player;
+import com.hina.entities.Player.HeroManager;
 import com.hina.utils.HealthBar;
 
 import static com.hina.constant.BasicMonsterConst.*;
 import static com.hina.constant.GameConst.PPM;
 
 public abstract class BasicEnemy extends Entity {
-    protected final Player player;
+    protected final HeroManager heroManager;
     protected final Vector2 bornPosition;
     protected Animation<TextureRegion> idleAnimation;
     protected Animation<TextureRegion> attackAnimation;
@@ -27,10 +27,10 @@ public abstract class BasicEnemy extends Entity {
     protected int endAttackAt;
     protected HealthBar healthBar;
 
-    public BasicEnemy(World world, Player player, float x, float y, float maxHeath) {
+    public BasicEnemy(World world, HeroManager heroManager, float x, float y, float maxHeath) {
         super(world, x, y, BASIC_ENEMY_WIDTH, BASIC_ENEMY_HEIGHT, maxHeath, BASIC_ENEMY_DENSITY);
 
-        this.player = player;
+        this.heroManager = heroManager;
         this.bornPosition = new Vector2(x, y);
         this.startAttackAt = 0;
         this.endAttackAt = 0;
@@ -48,9 +48,9 @@ public abstract class BasicEnemy extends Entity {
         }
 
         healthBar.update();
-        float distantToPlayer = player.getPosition().x - body.getPosition().x;
-        float bornToPlayer = player.getPosition().x - bornPosition.x;
-        boolean ableAttackPlayer = player.getPosition().dst(body.getPosition()) <= 5;
+        float distantToPlayer = heroManager.getPosition().x - body.getPosition().x;
+        float bornToPlayer = heroManager.getPosition().x - bornPosition.x;
+        boolean ableAttackPlayer = heroManager.getPosition().dst(body.getPosition()) <= 5;
         boolean prevMoveRight = movingRight;
 
         runUpdate(bornToPlayer, distantToPlayer, ableAttackPlayer);
@@ -93,7 +93,7 @@ public abstract class BasicEnemy extends Entity {
                 attackBox.destroyAttackSensor();
             }
             if (attackBox.isDestroyed() && keyFrameIndex == startAttackAt) {
-                attackBox.createHitBox(1, 1, 10f, movingRight);
+                attackBox.createHitBox(body,1, 1, 10f, movingRight);
             }
             if (attackAnimation.isAnimationFinished(stateTime)) {
                 attacking = false;

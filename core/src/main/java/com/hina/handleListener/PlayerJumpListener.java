@@ -2,7 +2,7 @@ package com.hina.handleListener;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.hina.entities.Player.Player;
+import com.hina.entities.Player.Hero;
 
 import static com.hina.constant.GameConst.GROUND_TAG;
 
@@ -21,12 +21,12 @@ public class PlayerJumpListener implements ContactListener {
         var userDataA = bodyA.getUserData();
         var userDataB = bodyB.getUserData();
 
-        if (((userDataA instanceof Player && GROUND_TAG == userDataB) ||
-            (userDataB instanceof Player && GROUND_TAG == userDataA)) &&
+        if (((userDataA instanceof Hero && GROUND_TAG == userDataB) ||
+            (userDataB instanceof Hero && GROUND_TAG == userDataA)) &&
             Math.abs(normal.y) > 0.5) {
 
-            Player player = (Player) (userDataA instanceof Player ? userDataA : userDataB);
-            player.setOnGround(true);
+            Hero hero = (Hero) (userDataA instanceof Hero ? userDataA : userDataB);
+            hero.setOnGround(true);
         }
     }
 

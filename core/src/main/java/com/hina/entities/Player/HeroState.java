@@ -1,21 +1,23 @@
 package com.hina.entities.Player;
 
-import static com.hina.constant.PlayerConst.PLAYER_TEXTURE_SRC;
-
-public enum PlayerState {
+public enum HeroState {
     IDLE("idle/"),
     RUNNING("run/"),
     ATTACK("1_atk/"),
+    AIR_ATTACK("air_atk/"),
+    SPECIAL_ATTACK("sp_atk/"),
+    ROLL("roll/"),
     JUMP("j_up/"),
     FALL("j_down/"),
     TAKE_HIT("take_hit/"),
     DEATH("death/"),
+    DEFEND("defend/"),
     ;
 
     private final String fileName;
 
-    PlayerState(String fileName) {
-        this.fileName = PLAYER_TEXTURE_SRC + fileName;
+    HeroState(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getFileName() {

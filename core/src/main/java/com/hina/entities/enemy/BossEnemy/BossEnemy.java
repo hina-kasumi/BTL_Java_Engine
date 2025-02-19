@@ -7,13 +7,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
 import com.hina.entities.AnimationState;
 import com.hina.entities.Entity;
-import com.hina.entities.Player.Player;
+import com.hina.entities.Player.HeroManager;
 
 import static com.hina.constant.BossMonsterConst.*;
 import static com.hina.constant.GameConst.PPM;
 
 public abstract class BossEnemy extends Entity {
-    protected final Player player;
+    protected final HeroManager heroManager;
     protected Animation<TextureRegion> idleAnimation;
     protected Animation<TextureRegion> attackAnimation;
     protected Animation<TextureRegion> runAnimation;
@@ -22,10 +22,10 @@ public abstract class BossEnemy extends Entity {
     protected int startAttackAt;
     protected int endAttackAt;
 
-    public BossEnemy(World world, Player player, float x, float y, float maxHealth) {
+    public BossEnemy(World world, HeroManager heroManager, float x, float y, float maxHealth) {
         super(world, x, y, BOSS_WIDTH, BOSS_HEIGHT, maxHealth, BOSS_DENSITY);
 
-        this.player = player;
+        this.heroManager = heroManager;
 
         body.setGravityScale(5);
         body.setUserData(this);

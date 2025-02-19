@@ -1,14 +1,14 @@
 package com.hina.entities.enemy.BasicEnemy.Goblin;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.hina.entities.Player.Player;
+import com.hina.entities.Player.HeroManager;
 import com.hina.entities.enemy.BasicEnemy.BasicEnemy;
 
 import static com.hina.constant.BasicMonsterConst.GoblinConst.*;
 
 public class Goblin extends BasicEnemy {
-    public Goblin(World world, Player player, float x, float y) {
-        super(world, player, x, y, GOBLIN_MAX_HEALTH);
+    public Goblin(World world, HeroManager heroManager, float x, float y) {
+        super(world, heroManager, x, y, GOBLIN_MAX_HEALTH);
         this.scale = GOBLIN_SCALE;
 
         createAnimation();

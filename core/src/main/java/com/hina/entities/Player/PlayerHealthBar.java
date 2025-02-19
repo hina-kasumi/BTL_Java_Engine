@@ -6,11 +6,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import static com.hina.GameManager.isGameStop;
 import static com.hina.constant.GameConst.PPM;
 
 public class PlayerHealthBar {
-    private final Player player;
+    private final Hero hero;
     private final float healthBarWidth;
     private final float healthBarHeight;
     private final float maxHealth;
@@ -18,11 +17,11 @@ public class PlayerHealthBar {
     private Texture noHeartFull;
     private Texture heartEmpty;
 
-    public PlayerHealthBar(Player player) {
-        this.player = player;
+    public PlayerHealthBar(Hero hero) {
+        this.hero = hero;
 
-        this.maxHealth = player.getMaxHeath();
-        this.curHealth = player.getMaxHeath();
+        this.maxHealth = hero.getMaxHeath();
+        this.curHealth = hero.getMaxHeath();
 
         String path = "textures/Player health bar/";
         this.noHeartFull = new Texture(path + "standard-1.png");
@@ -33,7 +32,7 @@ public class PlayerHealthBar {
     }
 
     public void update() {
-        curHealth = player.getCurHealth();
+        curHealth = hero.getCurHealth();
     }
 
     public void render(SpriteBatch batch, Camera camera, FitViewport viewport) {

@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.hina.entities.Entity;
+import com.hina.entities.Player.Hero;
 import com.hina.utils.AttackBox;
 
 public class CombatListener implements ContactListener {
@@ -21,7 +22,8 @@ public class CombatListener implements ContactListener {
             AttackBox attackBox = (AttackBox) (userDataA instanceof AttackBox ? userDataA : userDataB);
             Entity entity = (Entity) (userDataA instanceof Entity ? userDataA : userDataB);
 
-            if (attackBox.getEntity() != entity.getBody()) {
+            if (attackBox.getEntity() != entity.getBody() &&
+                !(attackBox.getEntity().getUserData() instanceof Hero && entity instanceof Hero)) {
                 entity.takeDamage(attackBox.getDamage());
             }
         }

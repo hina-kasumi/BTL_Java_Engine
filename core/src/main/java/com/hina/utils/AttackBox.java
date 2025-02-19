@@ -5,16 +5,16 @@ import static com.hina.utils.Bin.*;
 
 public class AttackBox {
     private Body hitBox;
-    private final Body entity;
+    private Body entity;
     private final World world;
     private float damage;
 
     public AttackBox(Body entity) {
-        this.entity = entity;
         this.world = entity.getWorld();
     }
 
-    public void createHitBox(float width, float height, float damage, boolean moveRight) {
+    public void createHitBox(Body entity, float width, float height, float damage, boolean moveRight) {
+        this.entity = entity;
         this.damage = damage;
 
         float offsetX = width * (moveRight ? 1 : -1);

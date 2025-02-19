@@ -27,8 +27,7 @@ public class PlayerContactEnemyListener implements ContactListener {
         var userDataA = fixtureA.getBody().getUserData();
         var userDataB = fixtureB.getBody().getUserData();
 
-        if ((userDataA instanceof Entity && userDataB instanceof Entity)
-        ) {
+        if ((userDataA instanceof Entity && userDataB instanceof Entity)) {
             contact.setEnabled(false); // Tắt va chạm giữa player và enemy
         }
     }

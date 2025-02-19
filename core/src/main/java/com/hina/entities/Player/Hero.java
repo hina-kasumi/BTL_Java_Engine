@@ -16,9 +16,10 @@ import com.hina.entities.Entity;
 import static com.hina.constant.PlayerConst.*;
 import static com.hina.constant.GameConst.*;
 import static com.hina.GameManager.isGameStop;
+import static com.hina.utils.Bin.bodiesToDestroy;
 import static com.hina.utils.ImportTextureUtil.newImportAnimation;
 
-public class Player extends Entity {
+public abstract class Hero extends Entity {
     private Animation<TextureRegion> idleAnimation;
     private Animation<TextureRegion> movingAnimation;
     private Animation<TextureRegion> jumpAnimation;
@@ -26,37 +27,73 @@ public class Player extends Entity {
     private Animation<TextureRegion> attackAnimation;
     private Animation<TextureRegion> takeHitAnimation;
     private Animation<TextureRegion> deathAnimation;
+    private Animation<TextureRegion> specialAnimation;
+    private Animation<TextureRegion> rollAnimation;
+    private Animation<TextureRegion> defendAnimation;
+    private Animation<TextureRegion> airAttackAnimation;
     private PlayerHealthBar playerHealthBar;
-    private boolean onGround = false;
+    private boolean onGround;
     private boolean attacking;
+    private float attackBoxWidth;
+    private float attackBoxHeight;
     private int startAttackAt;
     private int endAttackAt;
 
 
-    public Player(World world) {
-        super(world, 0, 10, 0.5f, 1f, PLAYER_MAX_HEALTH, 1.5f);
+    public Hero(World world, Vector2 bornPosition, float maxHealth, String heroSrc) {
+        super(world, bornPosition.x, bornPosition.y, 0.5f, 1f, maxHealth, 1.5f);
 
         body.setGravityScale(5);
         body.setUserData(this);
 
         this.scale = PLAYER_SCALE;
-
-        this.startAttackAt = 4;
-        this.endAttackAt = 5;
         this.playerHealthBar = new PlayerHealthBar(this);
 
-        createAnimation();
+        createAnimation(heroSrc);
     }
 
 
-    private void createAnimation() {
-        idleAnimation = newImportAnimation(PlayerState.IDLE.getFileName());
-        attackAnimation = newImportAnimation(PlayerState.ATTACK.getFileName(), 0.05f);
-        movingAnimation = newImportAnimation(PlayerState.RUNNING.getFileName());
-        jumpAnimation = newImportAnimation(PlayerState.JUMP.getFileName());
-        fallAnimation = newImportAnimation(PlayerState.FALL.getFileName());
-        takeHitAnimation = newImportAnimation(PlayerState.TAKE_HIT.getFileName());
-        deathAnimation = newImportAnimation(PlayerState.DEATH.getFileName(), 0.15f);
+    private void createAnimation(String heroSrc) {
+        idleAnimation = newImportAnimation(heroSrc + HeroState.IDLE.getFileName());
+        attackAnimation = newImportAnimation(heroSrc + HeroState.ATTACK.getFileName(), 0.05f);
+        movingAnimation = newImportAnimation(heroSrc + HeroState.RUNNING.getFileName());
+        jumpAnimation = newImportAnimation(heroSrc + HeroState.JUMP.getFileName());
+        fallAnimation = newImportAnimation(heroSrc + HeroState.FALL.getFileName());
+        takeHitAnimation = newImportAnimation(heroSrc + HeroState.TAKE_HIT.getFileName());
+        specialAnimation = newImportAnimation(heroSrc + HeroState.SPECIAL_ATTACK.getFileName());
+        rollAnimation = newImportAnimation(heroSrc + HeroState.ROLL.getFileName());
+        defendAnimation = newImportAnimation(heroSrc + HeroState.DEFEND.getFileName());
+        airAttackAnimation = newImportAnimation(heroSrc + HeroState.AIR_ATTACK.getFileName());
+        deathAnimation = newImportAnimation(heroSrc + HeroState.DEATH.getFileName(), 0.15f);
+    }
+
+    public void createBody(Vector2 position, float density) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(position);
+        bodyDef.fixedRotation = true;
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(entityWidth, entityHeight);
+
+        body = world.createBody(bodyDef);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = density;
+        fixtureDef.friction = 0f;
+        body.createFixture(fixtureDef);
+
+        shape.dispose();
+        body.setGravityScale(5);
+        body.setUserData(this);
+    }
+
+    public void destroyBody() {
+        if (body != null) {
+            bodiesToDestroy.add(body);
+            body = null;
+        }
     }
 
 
@@ -99,7 +136,7 @@ public class Player extends Entity {
 
             int keyFrameIndex = attackAnimation.getKeyFrameIndex(stateTime);
             if (attackBox.isDestroyed() && keyFrameIndex == startAttackAt) {
-                attackBox.createHitBox(ATTACK_BOX_WIGHT, ATTACK_BOX_HEIGHT, ATTACK_DAMAGE, movingRight);
+                attackBox.createHitBox(body, attackBoxWidth, attackBoxHeight, ATTACK_DAMAGE, movingRight);
             }
             if (endAttackAt != 0 && keyFrameIndex == endAttackAt) {
                 attackBox.destroyAttackSensor();
@@ -141,6 +178,10 @@ public class Player extends Entity {
         }
     }
 
+    public boolean isIdle() {
+        return !isDeath && !attacking && onGround && !takingHit;
+    }
+
 
     private void updateAnimation() {
         animationPriority.add(AnimationState.IDLE);
@@ -173,6 +214,10 @@ public class Player extends Entity {
             case FALL -> currentFrame = fallAnimation.getKeyFrame(stateTime, true);
             case DEATH -> currentFrame = deathAnimation.getKeyFrame(stateTime, false);
             case TAKE_HIT -> currentFrame = takeHitAnimation.getKeyFrame(stateTime, false);
+            case AIR_ATTACK -> currentFrame = airAttackAnimation.getKeyFrame(stateTime, false);
+            case SPECIAL_ATTACK -> currentFrame = specialAnimation.getKeyFrame(stateTime, false);
+            case ROLL -> currentFrame = rollAnimation.getKeyFrame(stateTime, false);
+            case DEFEND -> currentFrame = defendAnimation.getKeyFrame(stateTime, false);
             default -> currentFrame = idleAnimation.getKeyFrame(stateTime, true);
         }
 
@@ -188,6 +233,26 @@ public class Player extends Entity {
 
     public void renderPlayerHealthBar(SpriteBatch batch, Camera camera, FitViewport viewport) {
         playerHealthBar.render(batch, camera, viewport);
+    }
+
+    protected void setAttackAt(int start, int end) {
+        if (start > end)
+            return;
+        this.startAttackAt = start;
+        this.endAttackAt = end;
+    }
+
+    public void setAttackBoxSize(float width, float height) {
+        this.attackBoxWidth = width;
+        this.attackBoxHeight = height;
+    }
+
+    protected void setAttackAt(int start) {
+        this.startAttackAt = start;
+    }
+
+    public void setPosition(Vector2 position) {
+        body.setTransform(position, body.getAngle());
     }
 
     @Override

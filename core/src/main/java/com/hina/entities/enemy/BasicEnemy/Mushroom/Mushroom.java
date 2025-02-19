@@ -1,14 +1,14 @@
 package com.hina.entities.enemy.BasicEnemy.Mushroom;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.hina.entities.Player.Player;
+import com.hina.entities.Player.HeroManager;
 import com.hina.entities.enemy.BasicEnemy.BasicEnemy;
 
 import static com.hina.constant.BasicMonsterConst.MushroomConst.*;
 
 public class Mushroom extends BasicEnemy {
-    public Mushroom(World world, Player player, float x, float y) {
-        super(world, player, x, y, MUSHROOM_MAX_HEALTH);
+    public Mushroom(World world, HeroManager heroManager, float x, float y) {
+        super(world, heroManager, x, y, MUSHROOM_MAX_HEALTH);
         this.scale = MUSHROOM_SCALE;
 
         createAnimation();
