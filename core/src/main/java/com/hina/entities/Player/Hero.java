@@ -226,8 +226,8 @@ public abstract class Hero extends Entity {
     protected void setBasicSpecialAttack(float width, float height, int startFrame, int endFrame, float damage) {
         this.specialAttackWidth = width;
         this.specialAttackHeight = height;
-        this.specialAttackStartFrame = startFrame;
-        this.specialAttackEndFrame = endFrame;
+        this.specialAttackStartFrame = startFrame - 1;
+        this.specialAttackEndFrame = endFrame - 1;
         this.specialAttackDamage = damage;
     }
 
@@ -363,8 +363,8 @@ public abstract class Hero extends Entity {
     protected void setBasicAttackAt(int start, int end) {
         if (start > end)
             return;
-        this.startBasicAttackAt = start;
-        this.endBasicAttackAt = end;
+        this.startBasicAttackAt = start - 1;
+        this.endBasicAttackAt = end - 1;
     }
 
     public void setAttackBoxSize(float width, float height) {

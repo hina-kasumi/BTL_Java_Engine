@@ -45,6 +45,6 @@ public class MultiHitAttack extends AttackAbstract {
     }
 
     public void setTurn(int[] turn) {
-        this.turn = Arrays.stream(turn).boxed().collect(Collectors.toList());
+        this.turn = Arrays.stream(turn).map(i -> i - 1).boxed().collect(Collectors.toList());
     }
 }

@@ -7,6 +7,8 @@ public class HeroConst {
 
     public static class Crystal extends HeroConst {
         public static final String SRC = getSrc(Crystal.class.getSimpleName());
+        public static final int BASIC_ATTACK_START_AT = 4;
+        public static final int BASIC_ATTACK_END_AT = 7;
         public static final float ATTACK_BOX_BASE_ATTACK_WIDTH = 1f;
         public static final float ATTACK_BOX_BASE_ATTACK_HEIGHT = 1f;
         public static final float HERO_MAX_HEALTH = 100f;
@@ -22,6 +24,8 @@ public class HeroConst {
 
     public static class Fire extends HeroConst {
         public static final String SRC = getSrc(Fire.class.getSimpleName());
+        public static final int BASIC_ATTACK_START_AT = 5;
+        public static final int BASIC_ATTACK_END_AT = 8;
         public static final float ATTACK_BOX_BASE_ATTACK_WIDTH = 2f;
         public static final float ATTACK_BOX_BASE_ATTACK_HEIGHT = 2f;
         public static final float HERO_MAX_HEALTH = 100f;
@@ -37,6 +41,8 @@ public class HeroConst {
 
     public static class Ground extends HeroConst {
         public static final String SRC = getSrc(Ground.class.getSimpleName());
+        public static final int BASIC_ATTACK_START_AT = 2;
+        public static final int BASIC_ATTACK_END_AT = 4;
         public static final float ATTACK_BOX_BASE_ATTACK_WIDTH = 1f;
         public static final float ATTACK_BOX_BASE_ATTACK_HEIGHT = 1f;
         public static final float HERO_MAX_HEALTH = 100f;
@@ -51,7 +57,9 @@ public class HeroConst {
 
     public static class Leaf extends HeroConst {
         public static final String SRC = getSrc(Leaf.class.getSimpleName());
-        public static final float ATTACK_BOX_BASE_ATTACK_WIDTH = 1f;
+        public static final int BASIC_ATTACK_START_AT = 5;
+        public static final int BASIC_ATTACK_END_AT = 7;
+        public static final float ATTACK_BOX_BASE_ATTACK_WIDTH = 2f;
         public static final float ATTACK_BOX_BASE_ATTACK_HEIGHT = 1f;
         public static final float HERO_MAX_HEALTH = 100f;
         public static final float OFFSET_Y = 1;
@@ -66,7 +74,9 @@ public class HeroConst {
 
     public static class Metal extends HeroConst {
         public static final String SRC = getSrc(Metal.class.getSimpleName());
-        public static final float ATTACK_BOX_BASE_ATTACK_WIDTH = 1f;
+        public static final int BASIC_ATTACK_START_AT = 2;
+        public static final int BASIC_ATTACK_END_AT = 3;
+        public static final float ATTACK_BOX_BASE_ATTACK_WIDTH = 1.2f;
         public static final float ATTACK_BOX_BASE_ATTACK_HEIGHT = 1f;
         public static final float HERO_MAX_HEALTH = 100f;
         public static final float OFFSET_Y = 1;
@@ -81,7 +91,9 @@ public class HeroConst {
 
     public static class Water extends HeroConst {
         public static final String SRC = getSrc(Water.class.getSimpleName());
-        public static final float ATTACK_BOX_BASE_ATTACK_WIDTH = 1f;
+        public static final int BASIC_ATTACK_START_AT = 3;
+        public static final int BASIC_ATTACK_END_AT = 4;
+        public static final float ATTACK_BOX_BASE_ATTACK_WIDTH = 1.5f;
         public static final float ATTACK_BOX_BASE_ATTACK_HEIGHT = 1f;
         public static final float HERO_MAX_HEALTH = 100f;
         public static final float OFFSET_Y = 1;
@@ -95,6 +107,8 @@ public class HeroConst {
 
     public static class Wind extends HeroConst {
         public static final String SRC = getSrc(Wind.class.getSimpleName());
+        public static final int BASIC_ATTACK_START_AT = 3;
+        public static final int BASIC_ATTACK_END_AT = 4;
         public static final float ATTACK_BOX_BASE_ATTACK_WIDTH = 1f;
         public static final float ATTACK_BOX_BASE_ATTACK_HEIGHT = 1f;
         public static final float HERO_MAX_HEALTH = 100f;
