@@ -35,8 +35,8 @@ public abstract class Hero extends Entity {
     private boolean attacking;
     private float attackBoxWidth;
     private float attackBoxHeight;
-    private int startAttackAt;
-    private int endAttackAt;
+    private int startBasicAttackAt;
+    private int endBasicAttackAt;
     private float movingSpeed;
     private final float offsetY;
 
@@ -127,12 +127,12 @@ public abstract class Hero extends Entity {
             }
 
             int keyFrameIndex = attackAnimation.getKeyFrameIndex(stateTime);
-            if (basicAttackBox.isDestroyed() && keyFrameIndex == startAttackAt) {
+            if (basicAttackBox.isDestroyed() && keyFrameIndex == startBasicAttackAt) {
                 basicAttackBox.createHitBox(body,
                     getPosition().x + attackBoxWidth * (movingRight ? 1 : -1), getPosition().y,
                     attackBoxWidth, attackBoxHeight, ATTACK_DAMAGE);
             }
-            if (endAttackAt != 0 && keyFrameIndex == endAttackAt) {
+            if (endBasicAttackAt != 0 && keyFrameIndex == endBasicAttackAt) {
                 basicAttackBox.destroyAttackSensor();
             }
 
@@ -225,11 +225,11 @@ public abstract class Hero extends Entity {
         playerHealthBar.render(batch, camera, viewport);
     }
 
-    protected void setAttackAt(int start, int end) {
+    protected void setBasicAttackAt(int start, int end) {
         if (start > end)
             return;
-        this.startAttackAt = start;
-        this.endAttackAt = end;
+        this.startBasicAttackAt = start;
+        this.endBasicAttackAt = end;
     }
 
     public void setAttackBoxSize(float width, float height) {
@@ -237,8 +237,8 @@ public abstract class Hero extends Entity {
         this.attackBoxHeight = height;
     }
 
-    protected void setAttackAt(int start) {
-        this.startAttackAt = start;
+    protected void setBasicAttackAt(int start) {
+        this.startBasicAttackAt = start;
     }
 
     public void setPosition(Vector2 position) {

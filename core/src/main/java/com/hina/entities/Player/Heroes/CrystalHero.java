@@ -10,7 +10,7 @@ public class CrystalHero extends Hero {
     public CrystalHero(World world, Vector2 bornPosition) {
         super(world, bornPosition, HERO_MAX_HEALTH, SRC, OFFSET_Y);
 
-        setAttackAt(4, 5);
+        setBasicAttackAt(4, 5);
         setAttackBoxSize(ATTACK_BOX_BASE_ATTACK_WIDTH, ATTACK_BOX_BASE_ATTACK_HEIGHT);
     }
 }
