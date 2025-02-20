@@ -17,6 +17,7 @@ public class HeroConst {
         public static final int SPECIAL_ATTACK_END_FRAME = 12;
         public static final float SPECIAL_ATTACK_DAMAGE = 30f;
         public static final float SPECIAL_ATTACK_OFFSET_X = SPECIAL_ATTACK_WIDTH;
+        public static final int DEFEND_AT = 2;
     }
 
     public static class Fire extends HeroConst {
@@ -31,6 +32,7 @@ public class HeroConst {
         public static final int SPECIAL_ATTACK_END_FRAME = 15;
         public static final float SPECIAL_ATTACK_DAMAGE = 30f;
         public static final float SPECIAL_ATTACK_OFFSET_X = SPECIAL_ATTACK_WIDTH;
+        public static final int DEFEND_AT = 3;
     }
 
     public static class Ground extends HeroConst {
@@ -42,8 +44,9 @@ public class HeroConst {
         public static final float SPECIAL_ATTACK_WIDTH = 2;
         public static final float SPECIAL_ATTACK_HEIGHT = 2;
         public static final float SPECIAL_ATTACK_DAMAGE = 20f;
-        public static final int[] SPECIAL_ATTACK_TURNS = new int[]{6, 9,11, 19};
+        public static final int[] SPECIAL_ATTACK_TURNS = new int[]{6, 9, 11, 19};
         public static final float SPECIAL_ATTACK_OFFSET_X = SPECIAL_ATTACK_WIDTH;
+        public static final int DEFEND_AT = 4;
     }
 
     public static class Leaf extends HeroConst {
@@ -58,6 +61,7 @@ public class HeroConst {
         public static final int SPECIAL_ATTACK_END_FRAME = 12;
         public static final float SPECIAL_ATTACK_DAMAGE = 30f;
         public static final float SPECIAL_ATTACK_OFFSET_X = SPECIAL_ATTACK_WIDTH;
+        public static final int DEFEND_AT = 8;
     }
 
     public static class Metal extends HeroConst {
@@ -72,6 +76,7 @@ public class HeroConst {
         public static final int SPECIAL_ATTACK_END_FRAME = 8;
         public static final float SPECIAL_ATTACK_DAMAGE = 30f;
         public static final float SPECIAL_ATTACK_OFFSET_X = 0.5f;
+        public static final int DEFEND_AT = 4;
     }
 
     public static class Water extends HeroConst {
@@ -85,6 +90,7 @@ public class HeroConst {
         public static final float SPECIAL_ATTACK_DAMAGE = 20f;
         public static final int[] SPECIAL_ATTACK_TURNS = new int[]{13, 15};
         public static final float SPECIAL_ATTACK_OFFSET_X = SPECIAL_ATTACK_WIDTH;
+        public static final int DEFEND_AT = 3;
     }
 
     public static class Wind extends HeroConst {
@@ -98,6 +104,7 @@ public class HeroConst {
         public static final float SPECIAL_ATTACK_DAMAGE = 30f;
         public static final int[] SPECIAL_ATTACK_TURNS = new int[]{12, 18, 20};
         public static final float SPECIAL_ATTACK_OFFSET_X = 0f;
+        public static final int DEFEND_AT = 2;
     }
 
     public static String getSrc(String string) {

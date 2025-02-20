@@ -50,6 +50,9 @@ public abstract class Hero extends Entity {
     private float specialAttackDamage;
     private float specialAttackBoxOffsetX;
     private boolean rolling;
+    private boolean defending;
+    private boolean pauseAnimation;
+    private int defendAt;
 
 
     public Hero(World world, Vector2 bornPosition, float maxHealth, String heroSrc, float offsetY) {
@@ -81,6 +84,16 @@ public abstract class Hero extends Entity {
         deathAnimation = newImportAnimation(heroSrc + HeroState.DEATH.getFileName(), 0.15f);
     }
 
+    private void blockFlip(boolean prevMoveRight) {
+        if (prevMoveRight != movingRight) {
+            movingRight = prevMoveRight;
+        }
+    }
+
+    protected void setDefendAnimationAt(int defendAt) {
+        this.defendAt = defendAt;
+    }
+
 
     @Override
     public void update(float delta) {
@@ -98,9 +111,29 @@ public abstract class Hero extends Entity {
         specialAttackUpdate(prevMoveRight);
         jumpUpdate();
         rollUpdate(prevMoveRight);
+        defendUpdate();
 
         body.setLinearVelocity(movingSpeed, body.getLinearVelocity().y);
         updateAnimation();
+    }
+
+    private void defendUpdate() {
+        if (Gdx.input.isKeyPressed(Input.Keys.S) && isIdle()) {
+            resetStateTime();
+            defending = true;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S) && defending) {
+            if (defendAt == defendAnimation.getKeyFrameIndex(stateTime)) {
+                immortal = true;
+                pauseAnimation = true;
+            }
+        } else {
+            pauseAnimation = false;
+            immortal = false;
+            defending = false;
+        }
+        if (defending) {
+            movingSpeed = 0;
+        }
     }
 
     private void rollUpdate(boolean prevMoveRight) {
@@ -110,9 +143,7 @@ public abstract class Hero extends Entity {
         }
 
         if (rolling) {
-            if (prevMoveRight != movingRight) {
-                movingRight = prevMoveRight;
-            }
+            blockFlip(prevMoveRight);
             if (rollAnimation.isAnimationFinished(stateTime)) {
                 rolling = false;
             }
@@ -142,14 +173,12 @@ public abstract class Hero extends Entity {
     }
 
     private void attackUpdate(boolean prevMoveRight) {
-        if (Gdx.input.isKeyPressed(Input.Keys.J) && !attacking && !takingHit && !specialAttacking && !rolling) {
+        if (Gdx.input.isKeyPressed(Input.Keys.J) && isNotCombat()) {
             resetStateTime();
             attacking = true;
         }
         if (attacking && !takingHit) {
-            if (prevMoveRight != movingRight) {
-                movingRight = prevMoveRight;
-            }
+            blockFlip(prevMoveRight);
             if (Math.abs(body.getLinearVelocity().y) < 0.1) {
                 movingSpeed = 0;
             }
@@ -179,6 +208,7 @@ public abstract class Hero extends Entity {
             }
             attacking = false;
             specialAttacking = false;
+            defending = false;
             basicAttackBox.destroyAttackSensor();
             animationPriority.add(AnimationState.TAKE_HIT);
             blockMoving();
@@ -206,14 +236,12 @@ public abstract class Hero extends Entity {
     }
 
     private void specialAttackUpdate(boolean prevMoveRight) {
-        if (Gdx.input.isKeyPressed(Input.Keys.I) && !attacking && !takingHit && !specialAttacking && !rolling) {
+        if (Gdx.input.isKeyPressed(Input.Keys.I) && isNotCombat()) {
             resetStateTime();
             specialAttacking = true;
         }
         if (specialAttacking) {
-            if (prevMoveRight != movingRight) {
-                movingRight = prevMoveRight;
-            }
+            blockFlip(prevMoveRight);
             float x = body.getPosition().x + specialAttackBoxOffsetX * (movingRight ? 1 : -1);
             float y = body.getPosition().y + Math.abs(entityHeight - specialAttackHeight);
 
@@ -257,7 +285,11 @@ public abstract class Hero extends Entity {
     }
 
     public boolean isIdle() {
-        return !isDeath && !attacking && onGround && !takingHit && !specialAttacking && !rolling;
+        return !isDeath && !attacking && onGround && !takingHit && !specialAttacking && !rolling && !defending;
+    }
+
+    public boolean isNotCombat() {
+        return !attacking && !takingHit && !specialAttacking && !rolling && !defending;
     }
 
 
@@ -271,6 +303,10 @@ public abstract class Hero extends Entity {
             if (!onGround)
                 animationPriority.add(AnimationState.AIR_ATTACK);
             return;
+        }
+
+        if (defending) {
+            animationPriority.add(AnimationState.DEFEND);
         }
 
         if (rolling) {
@@ -288,7 +324,9 @@ public abstract class Hero extends Entity {
 
     @Override
     public void draw(SpriteBatch batch) {
-        stateTime += Gdx.graphics.getDeltaTime();
+        if (!pauseAnimation) {
+            stateTime += Gdx.graphics.getDeltaTime();
+        }
         TextureRegion currentFrame;
 
         switch (animationPriority.get()) {

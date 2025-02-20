@@ -28,6 +28,7 @@ public abstract class Entity {
     protected AnimationPriority animationPriority;
     protected float stateTime;
     protected float curHealth;
+    protected boolean immortal;
 
     public Entity(World world, float x, float y, float entityWidth, float entityHeight, float maxHeath, float density) {
         this.world = world;
@@ -101,6 +102,8 @@ public abstract class Entity {
     public void takeDamage(float damage) {
         if (isDeath)
             return;
+        if (immortal)
+            return;
         if (curHealth > 0) {
             curHealth -= damage;
             takingHit = true;
@@ -111,8 +114,6 @@ public abstract class Entity {
             }
             resetStateTime();
         }
-        basicAttackBox.destroyAttackSensor();
-        attacking = false;
     }
 
     protected void death() {
