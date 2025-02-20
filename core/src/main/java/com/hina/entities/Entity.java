@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.hina.utils.AnimationPriority;
-import com.hina.utils.BasicAttackBox;
+import com.hina.utils.attackUtils.BasicAttackBox;
 
 import static com.hina.utils.Bin.bodiesToDestroy;
 
@@ -105,7 +105,7 @@ public abstract class Entity {
             curHealth -= damage;
             takingHit = true;
 
-            if (curHealth == 0) {
+            if (curHealth <= 0) {
                 isDeath = true;
                 takingHit = false;
             }

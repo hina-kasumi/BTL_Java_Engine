@@ -16,11 +16,15 @@ public class ImportTextureUtil {
         FileHandle fileHandle = Gdx.files.internal(url);
 
         List<FileHandle> list = null;
-        if (fileHandle.exists() && fileHandle.isDirectory()){
-            list = Arrays.stream(fileHandle.list()).sorted(Comparator.comparing(FileHandle::name)).toList();
+        if (fileHandle.exists() && fileHandle.isDirectory()) {
+            list = Arrays.stream(fileHandle.list()).sorted((f1, f2) -> {
+                String a = f1.name().replaceAll("[^0-9]", "");
+                String b = f2.name().replaceAll("[^0-9]", "");
+                return Integer.parseInt(a) - Integer.parseInt(b);
+            }).toList();
         }
 
-        if (list == null || list.isEmpty()){
+        if (list == null || list.isEmpty()) {
             throw new RuntimeException("Không tìm thấy file trong thư mục: " + url);
         }
 
@@ -34,6 +38,6 @@ public class ImportTextureUtil {
     }
 
     public static Animation<TextureRegion> newImportAnimation(String url) {
-        return  newImportAnimation(url, 0.1f);
+        return newImportAnimation(url, 0.1f);
     }
 }

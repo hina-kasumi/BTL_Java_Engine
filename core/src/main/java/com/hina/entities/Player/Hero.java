@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hina.entities.AnimationState;
 import com.hina.entities.Entity;
+import com.hina.utils.attackUtils.MultiHitAttack;
 
 import static com.hina.constant.PlayerConst.*;
 import static com.hina.constant.GameConst.*;
@@ -19,26 +20,35 @@ import static com.hina.GameManager.isGameStop;
 import static com.hina.utils.ImportTextureUtil.newImportAnimation;
 
 public abstract class Hero extends Entity {
-    private Animation<TextureRegion> idleAnimation;
-    private Animation<TextureRegion> movingAnimation;
-    private Animation<TextureRegion> jumpAnimation;
-    private Animation<TextureRegion> fallAnimation;
-    private Animation<TextureRegion> attackAnimation;
-    private Animation<TextureRegion> takeHitAnimation;
-    private Animation<TextureRegion> deathAnimation;
-    private Animation<TextureRegion> specialAnimation;
-    private Animation<TextureRegion> rollAnimation;
-    private Animation<TextureRegion> defendAnimation;
-    private Animation<TextureRegion> airAttackAnimation;
-    private final PlayerHealthBar playerHealthBar;
-    private boolean onGround;
-    private boolean attacking;
-    private float attackBoxWidth;
-    private float attackBoxHeight;
-    private int startBasicAttackAt;
-    private int endBasicAttackAt;
-    private float movingSpeed;
-    private final float offsetY;
+    protected Animation<TextureRegion> idleAnimation;
+    protected Animation<TextureRegion> movingAnimation;
+    protected Animation<TextureRegion> jumpAnimation;
+    protected Animation<TextureRegion> fallAnimation;
+    protected Animation<TextureRegion> attackAnimation;
+    protected Animation<TextureRegion> takeHitAnimation;
+    protected Animation<TextureRegion> deathAnimation;
+    protected Animation<TextureRegion> specialAnimation;
+    protected Animation<TextureRegion> rollAnimation;
+    protected Animation<TextureRegion> defendAnimation;
+    protected Animation<TextureRegion> airAttackAnimation;
+    protected final PlayerHealthBar playerHealthBar;
+    protected boolean onGround;
+    protected boolean specialAttacking;
+    protected boolean attacking;
+    protected float attackBoxWidth;
+    protected float attackBoxHeight;
+    protected int startBasicAttackAt;
+    protected int endBasicAttackAt;
+    protected float movingSpeed;
+    protected final float offsetY;
+    protected boolean multiHitInSpecialAttack;
+    private final MultiHitAttack multiHitAttack;
+    protected float specialAttackWidth;
+    protected float specialAttackHeight;
+    private int specialAttackStartFrame;
+    private int specialAttackEndFrame;
+    private float specialAttackDamage;
+    private float specialAttackBoxOffsetX;
 
 
     public Hero(World world, Vector2 bornPosition, float maxHealth, String heroSrc, float offsetY) {
@@ -50,6 +60,7 @@ public abstract class Hero extends Entity {
         this.scale = PLAYER_SCALE;
         this.playerHealthBar = new PlayerHealthBar(this);
         this.offsetY = offsetY;
+        this.multiHitAttack = new MultiHitAttack(body);
 
         createAnimation(heroSrc);
     }
@@ -62,7 +73,7 @@ public abstract class Hero extends Entity {
         jumpAnimation = newImportAnimation(heroSrc + HeroState.JUMP.getFileName());
         fallAnimation = newImportAnimation(heroSrc + HeroState.FALL.getFileName());
         takeHitAnimation = newImportAnimation(heroSrc + HeroState.TAKE_HIT.getFileName());
-        specialAnimation = newImportAnimation(heroSrc + HeroState.SPECIAL_ATTACK.getFileName());
+        specialAnimation = newImportAnimation(heroSrc + HeroState.SPECIAL_ATTACK.getFileName(), 0.1f);
         rollAnimation = newImportAnimation(heroSrc + HeroState.ROLL.getFileName());
         defendAnimation = newImportAnimation(heroSrc + HeroState.DEFEND.getFileName());
         airAttackAnimation = newImportAnimation(heroSrc + HeroState.AIR_ATTACK.getFileName());
@@ -81,13 +92,15 @@ public abstract class Hero extends Entity {
         boolean prevMoveRight = movingRight;
         movingSpeed = 0;
         runUpdate();
-        jumpUpdate();
         takeHitUpdate();
         attackUpdate(prevMoveRight);
+        specialAttackUpdate(prevMoveRight);
+        jumpUpdate();
 
         body.setLinearVelocity(movingSpeed, body.getLinearVelocity().y);
         updateAnimation();
     }
+
 
     private void runUpdate() {
         final float speed = 10f;
@@ -105,7 +118,7 @@ public abstract class Hero extends Entity {
 
     private void jumpUpdate() {
         final float jumpStrength = Math.min(entityHeight, entityWidth) * 100;
-        if (Gdx.input.isKeyPressed(Input.Keys.K) && onGround) {
+        if (Gdx.input.isKeyPressed(Input.Keys.K) && onGround && !specialAttacking) {
             body.applyLinearImpulse(new Vector2(0, jumpStrength), body.getWorldCenter(), true);
             onGround = false;
         }
@@ -113,7 +126,7 @@ public abstract class Hero extends Entity {
 
     private void attackUpdate(boolean prevMoveRight) {
         if (Gdx.input.isKeyPressed(Input.Keys.J)) {
-            if (!attacking && !takingHit) {
+            if (!attacking && !takingHit && !specialAttacking) {
                 resetStateTime();
             }
             attacking = true;
@@ -150,9 +163,73 @@ public abstract class Hero extends Entity {
                 takingHit = false;
             }
             attacking = false;
+            specialAttacking = false;
             basicAttackBox.destroyAttackSensor();
             animationPriority.add(AnimationState.TAKE_HIT);
             blockMoving();
+        }
+    }
+
+    protected void setMultiHitInSpecialAttack(int[] specialAttackTurns,float width, float height, float damage) {
+        this.multiHitInSpecialAttack = true;
+        this.multiHitAttack.setTurn(specialAttackTurns);
+        this.specialAttackWidth = width;
+        this.specialAttackHeight = height;
+        this.specialAttackDamage = damage;
+    }
+
+    protected void setBasicSpecialAttack(float width, float height, int startFrame, int endFrame, float damage) {
+        this.specialAttackWidth = width;
+        this.specialAttackHeight = height;
+        this.specialAttackStartFrame = startFrame;
+        this.specialAttackEndFrame = endFrame;
+        this.specialAttackDamage = damage;
+    }
+
+    protected void setSpecialAttackBoxOffsetX(float specialAttackBoxOffsetX) {
+        this.specialAttackBoxOffsetX = specialAttackBoxOffsetX;
+    }
+
+    private void specialAttackUpdate(boolean prevMoveRight) {
+        if (Gdx.input.isKeyPressed(Input.Keys.I)) {
+            if (!attacking && !takingHit && !specialAttacking) {
+                resetStateTime();
+            }
+            specialAttacking = true;
+        }
+        if (specialAttacking) {
+            if (prevMoveRight != movingRight) {
+                movingRight = prevMoveRight;
+            }
+            float x = body.getPosition().x + specialAttackBoxOffsetX * (movingRight ? 1 : -1);
+            float y = body.getPosition().y + Math.abs(entityHeight - specialAttackHeight);
+
+            if (multiHitInSpecialAttack) {
+                multiHitAttack.attack(body, x, y,
+                    specialAttackWidth,
+                    specialAttackHeight, specialAttackDamage,
+                    specialAnimation.getKeyFrameIndex(stateTime));
+
+                if (specialAnimation.isAnimationFinished(stateTime)) {
+                    specialAttacking = false;
+                }
+            } else {
+                int keyFrameIndex = specialAnimation.getKeyFrameIndex(stateTime);
+                if (basicAttackBox.isDestroyed() && keyFrameIndex == specialAttackStartFrame) {
+                    basicAttackBox.createHitBox(body, x, y,
+                        specialAttackWidth, specialAttackHeight, specialAttackDamage);
+                }
+
+                if (specialAttackEndFrame != 0 && keyFrameIndex == specialAttackEndFrame) {
+                    basicAttackBox.destroyAttackSensor();
+                }
+
+                if (specialAnimation.isAnimationFinished(stateTime)) {
+                    specialAttacking = false;
+                    basicAttackBox.destroyAttackSensor();
+                }
+            }
+            movingSpeed = 0;
         }
     }
 
@@ -167,12 +244,15 @@ public abstract class Hero extends Entity {
     }
 
     public boolean isIdle() {
-        return !isDeath && !attacking && onGround && !takingHit;
+        return !isDeath && !attacking && onGround && !takingHit && !specialAttacking;
     }
 
 
     private void updateAnimation() {
         animationPriority.add(AnimationState.IDLE);
+        if (specialAttacking) {
+            animationPriority.add(AnimationState.SPECIAL_ATTACK);
+        }
         if (attacking) {
             animationPriority.add(AnimationState.ATTACK);
             if (!onGround)

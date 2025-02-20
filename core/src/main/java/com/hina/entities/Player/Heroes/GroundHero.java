@@ -12,5 +12,10 @@ public class GroundHero extends Hero {
 
         setBasicAttackAt(4, 5);
         setAttackBoxSize(ATTACK_BOX_BASE_ATTACK_WIDTH, ATTACK_BOX_BASE_ATTACK_HEIGHT);
+
+        setMultiHitInSpecialAttack(SPECIAL_ATTACK_TURNS,
+            SPECIAL_ATTACK_WIDTH, SPECIAL_ATTACK_HEIGHT, SPECIAL_ATTACK_DAMAGE);
+
+        setSpecialAttackBoxOffsetX(SPECIAL_ATTACK_OFFSET_X);
     }
 }

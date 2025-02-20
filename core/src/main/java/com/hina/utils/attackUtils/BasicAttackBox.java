@@ -1,17 +1,10 @@
-package com.hina.utils;
+package com.hina.utils.attackUtils;
 
 import com.badlogic.gdx.physics.box2d.*;
 
-import static com.hina.utils.Bin.*;
-
-public class BasicAttackBox {
-    private Body hitBox;
-    private Body entity;
-    private final World world;
-    private float damage;
-
+public class BasicAttackBox extends AttackAbstract{
     public BasicAttackBox(Body entity) {
-        this.world = entity.getWorld();
+        super(entity);
     }
 
     public void createHitBox(Body entity, float x, float y, float width, float height, float damage) {
@@ -34,24 +27,5 @@ public class BasicAttackBox {
         hitBox.setUserData(this);
 
         attackShape.dispose();
-    }
-
-    public void destroyAttackSensor() {
-        if (hitBox != null) {
-            bodiesToDestroy.add(hitBox);
-            hitBox = null;
-        }
-    }
-
-    public boolean isDestroyed() {
-        return hitBox == null;
-    }
-
-    public Body getEntity() {
-        return entity;
-    }
-
-    public float getDamage() {
-        return damage;
     }
 }

@@ -12,5 +12,13 @@ public class CrystalHero extends Hero {
 
         setBasicAttackAt(4, 5);
         setAttackBoxSize(ATTACK_BOX_BASE_ATTACK_WIDTH, ATTACK_BOX_BASE_ATTACK_HEIGHT);
+        setBasicSpecialAttack(SPECIAL_ATTACK_WIDTH,
+            SPECIAL_ATTACK_HEIGHT,
+            SPECIAL_ATTACK_START_FRAME,
+            SPECIAL_ATTACK_END_FRAME,
+            SPECIAL_ATTACK_DAMAGE
+        );
+
+        setSpecialAttackBoxOffsetX(SPECIAL_ATTACK_OFFSET_X);
     }
 }
