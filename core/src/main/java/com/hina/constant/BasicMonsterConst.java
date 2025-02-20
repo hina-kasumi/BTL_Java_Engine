@@ -5,6 +5,9 @@ public class BasicMonsterConst {
     public static final float BASIC_ENEMY_WIDTH = 0.5f;
     public static final float BASIC_ENEMY_HEIGHT = 1f;
     public static final float BASIC_ENEMY_DENSITY = 1.5f;
+    public static final float BASIC_MONSTER_ATTACK_BOX_WIDTH = 1;
+    public static final float BASIC_MONSTER_ATTACK_BOX_HEIGHT = 1;
+    public static final float BASIC_MONSTER_DAMAGE = 10f;
 
     public static class GoblinConst {
         public static final float GOBLIN_MAX_HEALTH = 20f;

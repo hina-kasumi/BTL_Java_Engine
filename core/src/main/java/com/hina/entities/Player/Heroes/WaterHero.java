@@ -11,6 +11,6 @@ public class WaterHero extends Hero {
         super(world, bornPosition, HERO_MAX_HEALTH, SRC, OFFSET_Y);
 
         setAttackAt(4, 5);
-        setAttackBoxSize(ATTACK_BOX_WIDTH,ATTACK_BOX_HEIGHT);
+        setAttackBoxSize(ATTACK_BOX_BASE_ATTACK_WIDTH, ATTACK_BOX_BASE_ATTACK_HEIGHT);
     }
 }

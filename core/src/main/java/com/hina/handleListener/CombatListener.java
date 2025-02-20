@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.hina.entities.Entity;
 import com.hina.entities.Player.Hero;
-import com.hina.utils.AttackBox;
+import com.hina.utils.BasicAttackBox;
 
 public class CombatListener implements ContactListener {
     @Override
@@ -17,14 +17,14 @@ public class CombatListener implements ContactListener {
         var userDataA = fixtureA.getBody().getUserData();
         var userDataB = fixtureB.getBody().getUserData();
 
-        if ((userDataA instanceof AttackBox && userDataB instanceof Entity) ||
-            (userDataB instanceof AttackBox && userDataA instanceof Entity)) {
-            AttackBox attackBox = (AttackBox) (userDataA instanceof AttackBox ? userDataA : userDataB);
+        if ((userDataA instanceof BasicAttackBox && userDataB instanceof Entity) ||
+            (userDataB instanceof BasicAttackBox && userDataA instanceof Entity)) {
+            BasicAttackBox basicAttackBox = (BasicAttackBox) (userDataA instanceof BasicAttackBox ? userDataA : userDataB);
             Entity entity = (Entity) (userDataA instanceof Entity ? userDataA : userDataB);
 
-            if (attackBox.getEntity() != entity.getBody() &&
-                !(attackBox.getEntity().getUserData() instanceof Hero && entity instanceof Hero)) {
-                entity.takeDamage(attackBox.getDamage());
+            if (basicAttackBox.getEntity() != entity.getBody() &&
+                !(basicAttackBox.getEntity().getUserData() instanceof Hero && entity instanceof Hero)) {
+                entity.takeDamage(basicAttackBox.getDamage());
             }
         }
     }

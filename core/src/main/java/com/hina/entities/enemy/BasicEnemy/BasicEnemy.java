@@ -90,14 +90,19 @@ public abstract class BasicEnemy extends Entity {
 
             int keyFrameIndex = attackAnimation.getKeyFrameIndex(stateTime);
             if (endAttackAt != 0 && keyFrameIndex == endAttackAt) {
-                attackBox.destroyAttackSensor();
+                basicAttackBox.destroyAttackSensor();
             }
-            if (attackBox.isDestroyed() && keyFrameIndex == startAttackAt) {
-                attackBox.createHitBox(body,1, 1, 10f, movingRight);
+            if (basicAttackBox.isDestroyed() && keyFrameIndex == startAttackAt) {
+                basicAttackBox.createHitBox(body,
+                    body.getPosition().x + BASIC_MONSTER_ATTACK_BOX_WIDTH * (movingRight ? 1 : -1),
+                    body.getPosition().y,
+                    BASIC_MONSTER_ATTACK_BOX_WIDTH,
+                    BASIC_MONSTER_ATTACK_BOX_HEIGHT,
+                    BASIC_MONSTER_DAMAGE);
             }
             if (attackAnimation.isAnimationFinished(stateTime)) {
                 attacking = false;
-                attackBox.destroyAttackSensor();
+                basicAttackBox.destroyAttackSensor();
             }
             blockMoving();
             animationPriority.add(AnimationState.ATTACK);
@@ -113,7 +118,7 @@ public abstract class BasicEnemy extends Entity {
                 movingRight = prevMoveRight;
             }
             attacking = false;
-            attackBox.destroyAttackSensor();
+            basicAttackBox.destroyAttackSensor();
             animationPriority.add(AnimationState.TAKE_HIT);
             blockMoving();
         }

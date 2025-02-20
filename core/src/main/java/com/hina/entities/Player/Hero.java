@@ -127,16 +127,18 @@ public abstract class Hero extends Entity {
             }
 
             int keyFrameIndex = attackAnimation.getKeyFrameIndex(stateTime);
-            if (attackBox.isDestroyed() && keyFrameIndex == startAttackAt) {
-                attackBox.createHitBox(body, attackBoxWidth, attackBoxHeight, ATTACK_DAMAGE, movingRight);
+            if (basicAttackBox.isDestroyed() && keyFrameIndex == startAttackAt) {
+                basicAttackBox.createHitBox(body,
+                    getPosition().x + attackBoxWidth * (movingRight ? 1 : -1), getPosition().y,
+                    attackBoxWidth, attackBoxHeight, ATTACK_DAMAGE);
             }
             if (endAttackAt != 0 && keyFrameIndex == endAttackAt) {
-                attackBox.destroyAttackSensor();
+                basicAttackBox.destroyAttackSensor();
             }
 
             if (attackAnimation.isAnimationFinished(stateTime)) {
                 attacking = false;
-                attackBox.destroyAttackSensor();
+                basicAttackBox.destroyAttackSensor();
             }
         }
     }
@@ -148,7 +150,7 @@ public abstract class Hero extends Entity {
                 takingHit = false;
             }
             attacking = false;
-            attackBox.destroyAttackSensor();
+            basicAttackBox.destroyAttackSensor();
             animationPriority.add(AnimationState.TAKE_HIT);
             blockMoving();
         }

@@ -9,14 +9,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.hina.utils.AnimationPriority;
-import com.hina.utils.AttackBox;
+import com.hina.utils.BasicAttackBox;
 
 import static com.hina.utils.Bin.bodiesToDestroy;
 
 public abstract class Entity {
     protected World world;
     protected Body body;
-    protected final AttackBox attackBox;
+    protected final BasicAttackBox basicAttackBox;
     protected float scale;
     protected final float entityWidth;
     protected final float entityHeight;
@@ -59,7 +59,7 @@ public abstract class Entity {
         fixtureDef.friction = 0f;
         body.createFixture(fixtureDef);
 
-        this.attackBox = new AttackBox(this.body);
+        this.basicAttackBox = new BasicAttackBox(this.body);
 
         shape.dispose();
     }
@@ -111,14 +111,14 @@ public abstract class Entity {
             }
             resetStateTime();
         }
-        attackBox.destroyAttackSensor();
+        basicAttackBox.destroyAttackSensor();
         attacking = false;
     }
 
     protected void death() {
         if (body != null) {
             bodiesToDestroy.add(body);
-            attackBox.destroyAttackSensor();
+            basicAttackBox.destroyAttackSensor();
             body = null;
         }
     }
