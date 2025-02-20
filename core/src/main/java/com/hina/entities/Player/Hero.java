@@ -49,6 +49,7 @@ public abstract class Hero extends Entity {
     private int specialAttackEndFrame;
     private float specialAttackDamage;
     private float specialAttackBoxOffsetX;
+    private boolean rolling;
 
 
     public Hero(World world, Vector2 bornPosition, float maxHealth, String heroSrc, float offsetY) {
@@ -96,16 +97,32 @@ public abstract class Hero extends Entity {
         attackUpdate(prevMoveRight);
         specialAttackUpdate(prevMoveRight);
         jumpUpdate();
+        rollUpdate(prevMoveRight);
 
         body.setLinearVelocity(movingSpeed, body.getLinearVelocity().y);
         updateAnimation();
     }
 
+    private void rollUpdate(boolean prevMoveRight) {
+        if (Gdx.input.isKeyPressed(Input.Keys.L) && isIdle()) {
+            resetStateTime();
+            rolling = true;
+        }
+
+        if (rolling) {
+            if (prevMoveRight != movingRight) {
+                movingRight = prevMoveRight;
+            }
+            if (rollAnimation.isAnimationFinished(stateTime)) {
+                rolling = false;
+            }
+            movingSpeed = 12f * (movingRight ? 1 : -1);
+        }
+    }
+
 
     private void runUpdate() {
         final float speed = 10f;
-        movingSpeed = 0;
-
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             movingSpeed -= speed;
             movingRight = false;
@@ -118,17 +135,15 @@ public abstract class Hero extends Entity {
 
     private void jumpUpdate() {
         final float jumpStrength = Math.min(entityHeight, entityWidth) * 100;
-        if (Gdx.input.isKeyPressed(Input.Keys.K) && onGround && !specialAttacking) {
+        if (Gdx.input.isKeyPressed(Input.Keys.K) && onGround && !specialAttacking && !rolling) {
             body.applyLinearImpulse(new Vector2(0, jumpStrength), body.getWorldCenter(), true);
             onGround = false;
         }
     }
 
     private void attackUpdate(boolean prevMoveRight) {
-        if (Gdx.input.isKeyPressed(Input.Keys.J)) {
-            if (!attacking && !takingHit && !specialAttacking) {
-                resetStateTime();
-            }
+        if (Gdx.input.isKeyPressed(Input.Keys.J) && !attacking && !takingHit && !specialAttacking && !rolling) {
+            resetStateTime();
             attacking = true;
         }
         if (attacking && !takingHit) {
@@ -170,7 +185,7 @@ public abstract class Hero extends Entity {
         }
     }
 
-    protected void setMultiHitInSpecialAttack(int[] specialAttackTurns,float width, float height, float damage) {
+    protected void setMultiHitInSpecialAttack(int[] specialAttackTurns, float width, float height, float damage) {
         this.multiHitInSpecialAttack = true;
         this.multiHitAttack.setTurn(specialAttackTurns);
         this.specialAttackWidth = width;
@@ -191,10 +206,8 @@ public abstract class Hero extends Entity {
     }
 
     private void specialAttackUpdate(boolean prevMoveRight) {
-        if (Gdx.input.isKeyPressed(Input.Keys.I)) {
-            if (!attacking && !takingHit && !specialAttacking) {
-                resetStateTime();
-            }
+        if (Gdx.input.isKeyPressed(Input.Keys.I) && !attacking && !takingHit && !specialAttacking && !rolling) {
+            resetStateTime();
             specialAttacking = true;
         }
         if (specialAttacking) {
@@ -244,7 +257,7 @@ public abstract class Hero extends Entity {
     }
 
     public boolean isIdle() {
-        return !isDeath && !attacking && onGround && !takingHit && !specialAttacking;
+        return !isDeath && !attacking && onGround && !takingHit && !specialAttacking && !rolling;
     }
 
 
@@ -258,6 +271,10 @@ public abstract class Hero extends Entity {
             if (!onGround)
                 animationPriority.add(AnimationState.AIR_ATTACK);
             return;
+        }
+
+        if (rolling) {
+            animationPriority.add(AnimationState.ROLL);
         }
         if (body.getLinearVelocity().x != 0) {
             animationPriority.add(AnimationState.RUN);
