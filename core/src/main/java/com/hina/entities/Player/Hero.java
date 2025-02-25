@@ -84,6 +84,10 @@ public abstract class Hero extends Entity {
         deathAnimation = newImportAnimation(heroSrc + HeroState.DEATH.getFileName(), 0.15f);
     }
 
+    protected void setHeroImage(String heroImageSrc){
+        playerHealthBar.setHeroImage(heroImageSrc);
+    }
+
     private void blockFlip(boolean prevMoveRight) {
         if (prevMoveRight != movingRight) {
             movingRight = prevMoveRight;

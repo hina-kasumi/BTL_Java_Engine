@@ -21,5 +21,6 @@ public class CrystalHero extends Hero {
 
         setSpecialAttackBoxOffsetX(SPECIAL_ATTACK_OFFSET_X);
         setDefendAnimationAt(DEFEND_AT);
+        setHeroImage(HERO_IMAGE_SRC);
     }
 }

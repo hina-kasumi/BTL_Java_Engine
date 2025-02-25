@@ -12,8 +12,16 @@ public class WindHero extends Hero {
 
         setBasicAttackAt(BASIC_ATTACK_START_AT, BASIC_ATTACK_END_AT);
         setAttackBoxSize(ATTACK_BOX_BASE_ATTACK_WIDTH, ATTACK_BOX_BASE_ATTACK_HEIGHT);
-        setMultiHitInSpecialAttack(SPECIAL_ATTACK_TURNS, SPECIAL_ATTACK_WIDTH, SPECIAL_ATTACK_HEIGHT, SPECIAL_ATTACK_DAMAGE);
+
+        setMultiHitInSpecialAttack(
+            SPECIAL_ATTACK_TURNS,
+            SPECIAL_ATTACK_WIDTH,
+            SPECIAL_ATTACK_HEIGHT,
+            SPECIAL_ATTACK_DAMAGE
+        );
+
         setSpecialAttackBoxOffsetX(SPECIAL_ATTACK_OFFSET_X);
         setDefendAnimationAt(DEFEND_AT);
+        setHeroImage(HERO_IMAGE_SRC);
     }
 }

@@ -16,6 +16,7 @@ public class PlayerHealthBar {
     private float curHealth;
     private Texture noHeartFull;
     private Texture heartEmpty;
+    private Texture heroImage;
 
     public PlayerHealthBar(Hero hero) {
         this.hero = hero;
@@ -23,12 +24,16 @@ public class PlayerHealthBar {
         this.maxHealth = hero.getMaxHeath();
         this.curHealth = hero.getMaxHeath();
 
-        String path = "textures/Player health bar/";
+        String path = "textures/new Player health bar/";
         this.noHeartFull = new Texture(path + "standard-1.png");
         this.heartEmpty = new Texture(path + "standard-empty-1.png");
 
         this.healthBarWidth = noHeartFull.getWidth() / PPM;
         this.healthBarHeight = noHeartFull.getHeight() / PPM;
+    }
+
+    public void setHeroImage(String heroImageSrc) {
+        this.heroImage = new Texture(heroImageSrc);
     }
 
     public void update() {
@@ -39,19 +44,25 @@ public class PlayerHealthBar {
         float healthPercent = curHealth / maxHealth;
 
         // xử lý cắt ảnh xóa lấy phần dư
-        float offsetX = 23;
+        float offsetX = 30;
         Sprite healthSprite = new Sprite(noHeartFull, (int) offsetX, 0,
             (int) (noHeartFull.getWidth() - offsetX), noHeartFull.getHeight());
 
         healthSprite = new Sprite(healthSprite, 0, 0,
             (int) (healthSprite.getWidth() * healthPercent), (int) healthSprite.getHeight());
 
-        final float scale = 7f;
+        final float scale = 8f;
         final float pixelScale = scale / PPM;
         float width = healthBarWidth * scale;
         float height = healthBarHeight * scale;
         float x = camera.position.x - viewport.getWorldWidth() / 2;
         float y = camera.position.y + viewport.getWorldHeight() / 2 - height;
+
+        // ve hero image
+        if (heroImage != null) {
+            batch.draw(heroImage, x + 5 * pixelScale, y + 4 * pixelScale,
+                23 * pixelScale, 23 * pixelScale);
+        }
 
         // vẽ cục máu
         batch.draw(healthSprite, x + offsetX * pixelScale, y,
