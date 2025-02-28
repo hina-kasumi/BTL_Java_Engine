@@ -46,6 +46,8 @@ public abstract class BossEnemy extends Entity {
         boolean ableAttackPlayer = heroManager.getPosition().dst(body.getPosition()) <= 5;
         animationPriority.add(AnimationState.IDLE);
 
+        movingRight = distantToPlayer >= 0;
+
         attackUpdate(prevMoveRight, distantToPlayer, ableAttackPlayer);
     }
 
