@@ -26,6 +26,7 @@ public abstract class BasicEnemy extends Entity {
     protected int startAttackAt;
     protected int endAttackAt;
     protected HealthBar healthBar;
+    private float attackAreaWidth;
 
     public BasicEnemy(World world, HeroManager heroManager, float x, float y, float maxHeath) {
         super(world, x, y, BASIC_ENEMY_WIDTH, BASIC_ENEMY_HEIGHT, maxHeath, BASIC_ENEMY_DENSITY);
@@ -38,6 +39,10 @@ public abstract class BasicEnemy extends Entity {
 
         body.setGravityScale(5);
         body.setUserData(this);
+    }
+
+    protected void setAttackAreaWidth(float attackAreaWidth) {
+        this.attackAreaWidth = attackAreaWidth;
     }
 
     @Override
@@ -78,7 +83,7 @@ public abstract class BasicEnemy extends Entity {
     }
 
     protected void attackUpdate(boolean prevMoveRight, float distantToPlayer, boolean ableAttackPlayer) {
-        if (Math.abs(distantToPlayer) <= 2 && ableAttackPlayer && !takingHit) {
+        if (Math.abs(distantToPlayer) <= attackAreaWidth && ableAttackPlayer && !takingHit) {
             if (!attacking)
                 stateTime = 0;
             attacking = true;
@@ -177,11 +182,11 @@ public abstract class BasicEnemy extends Entity {
     protected void setAttackTime(int startAttackAt, int endAttackAt) {
         if (startAttackAt > endAttackAt)
             return;
-        this.startAttackAt = startAttackAt;
-        this.endAttackAt = endAttackAt;
+        this.startAttackAt = startAttackAt - 1;
+        this.endAttackAt = endAttackAt - 1;
     }
 
     protected void setAttackTime(int startAttackAt) {
-        this.startAttackAt = startAttackAt;
+        this.startAttackAt = startAttackAt - 1;
     }
 }

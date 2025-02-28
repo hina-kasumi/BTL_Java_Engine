@@ -1,15 +1,19 @@
 package com.hina.entities.enemy.BossEnemy.FireWorm;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.hina.entities.Player.Hero;
 import com.hina.entities.Player.HeroManager;
 import com.hina.entities.enemy.BossEnemy.BossEnemy;
+
 import static com.hina.constant.BossMonsterConst.FireWorm.*;
 
 public class FireWorm extends BossEnemy {
     public FireWorm(World world, HeroManager heroManager, float x, float y) {
         super(world, heroManager, x, y, FIRE_WORM_MAX_HEALTH);
         this.scale = FIRE_WORM_SCALE;
+        setAttackTime(12, 13);
+        setBasicAttackDamage(BOSS_MONSTER_ATTACK_BOX_DAMAGE);
+        setBasicAttackBoxSize(BOSS_MONSTER_ATTACK_BOX_WIDTH, BOSS_MONSTER_ATTACK_BOX_HEIGHT);
+        setAttackArea(BOSS_MONSTER_ATTACK_AREA);
 
         createAnimation();
     }

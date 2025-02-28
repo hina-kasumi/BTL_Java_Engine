@@ -13,18 +13,21 @@ public class BasicMonsterConst {
         public static final float GOBLIN_MAX_HEALTH = 20f;
         public static final float GOBLIN_SCALE = 4f;
         public static final float GOBLIN_DENSITY = 1.5f;
+        public static final float ATTACK_AREA = 2f;
     }
 
     public static class MushroomConst {
         public static final float MUSHROOM_MAX_HEALTH = 20f;
         public static final float MUSHROOM_SCALE = 3.9f;
         public static final float MUSHROOM_DENSITY = 1.5f;
+        public static final float ATTACK_AREA = 2f;
     }
 
     public static class SkeletonConst {
         public static final float SKELETON_MAX_HEALTH = 20f;
         public static final float SKELETON_SCALE = 3.8f;
         public static final float SKELETON_DENSITY = 1.5f;
+        public static final float ATTACK_AREA = 2f;
 
     }
 }

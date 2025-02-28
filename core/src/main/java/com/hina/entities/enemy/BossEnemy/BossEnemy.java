@@ -21,6 +21,10 @@ public abstract class BossEnemy extends Entity {
     protected Animation<TextureRegion> deathAnimation;
     protected int startAttackAt;
     protected int endAttackAt;
+    private float basicAttackDamage;
+    private float basicAttackBoxWidth;
+    private float basicAttackBoxHeight;
+    private float attackArea;
 
     public BossEnemy(World world, HeroManager heroManager, float x, float y, float maxHealth) {
         super(world, x, y, BOSS_WIDTH, BOSS_HEIGHT, maxHealth, BOSS_DENSITY);
@@ -31,9 +35,74 @@ public abstract class BossEnemy extends Entity {
         body.setUserData(this);
     }
 
+
     @Override
     public void update(float delta) {
+        deathUpdate();
+        if (isDeath)
+            return;
+        boolean prevMoveRight = movingRight;
+        float distantToPlayer = heroManager.getPosition().x - body.getPosition().x;
+        boolean ableAttackPlayer = heroManager.getPosition().dst(body.getPosition()) <= 5;
         animationPriority.add(AnimationState.IDLE);
+
+        attackUpdate(prevMoveRight, distantToPlayer, ableAttackPlayer);
+    }
+
+    private void deathUpdate() {
+        if (isDeath) {
+            if (!isBodyNull())
+                blockMoving();
+            if (deathAnimation.isAnimationFinished(stateTime)) {
+                death();
+            }
+            animationPriority.add(AnimationState.DEATH);
+        }
+    }
+
+    protected void setAttackArea(float attackArea) {
+        this.attackArea = attackArea;
+    }
+
+    protected void setBasicAttackDamage(float basicAttackDamage) {
+        this.basicAttackDamage = basicAttackDamage;
+    }
+
+    protected void setBasicAttackBoxSize(float width, float height) {
+        this.basicAttackBoxWidth = width;
+        this.basicAttackBoxHeight = height;
+    }
+
+    protected void attackUpdate(boolean prevMoveRight, float distantToPlayer, boolean ableAttackPlayer) {
+        if (Math.abs(distantToPlayer) <= attackArea && ableAttackPlayer) {
+            if (!attacking)
+                stateTime = 0;
+            attacking = true;
+        }
+        if (attacking) {
+            if (prevMoveRight != movingRight && !attackAnimation.isAnimationFinished(stateTime)) {
+                movingRight = prevMoveRight;
+            }
+
+            int keyFrameIndex = attackAnimation.getKeyFrameIndex(stateTime);
+            if (endAttackAt != 0 && keyFrameIndex == endAttackAt) {
+                basicAttackBox.destroyAttackSensor();
+            }
+            if (basicAttackBox.isDestroyed() && keyFrameIndex == startAttackAt) {
+                basicAttackBox.createHitBox(body,
+                    body.getPosition().x + basicAttackBoxWidth * (movingRight ? 1 : -1),
+                    body.getPosition().y,
+                    basicAttackBoxWidth,
+                    basicAttackBoxHeight,
+                    basicAttackDamage);
+            }
+            if (attackAnimation.isAnimationFinished(stateTime)) {
+                attacking = false;
+                basicAttackBox.destroyAttackSensor();
+            }
+            blockMoving();
+            animationPriority.add(AnimationState.ATTACK);
+        }
     }
 
     @Override
@@ -62,6 +131,35 @@ public abstract class BossEnemy extends Entity {
             currentFrame.getRegionWidth() * scale / PPM,
             currentFrame.getRegionHeight() * scale / PPM
         );
+    }
+
+    protected void setAttackTime(int startAttackAt, int endAttackAt) {
+        if (startAttackAt > endAttackAt)
+            return;
+        this.startAttackAt = startAttackAt - 1;
+        this.endAttackAt = endAttackAt - 1;
+    }
+
+    protected void setAttackTime(int startAttackAt) {
+        this.startAttackAt = startAttackAt - 1;
+    }
+
+    @Override
+    public void takeDamage(float damage) {
+        if (isDeath)
+            return;
+        if (immortal)
+            return;
+        if (curHealth > 0) {
+            curHealth -= damage;
+            takingHit = true;
+
+            if (curHealth <= 0) {
+                resetStateTime();
+                isDeath = true;
+                takingHit = false;
+            }
+        }
     }
 
     @Override

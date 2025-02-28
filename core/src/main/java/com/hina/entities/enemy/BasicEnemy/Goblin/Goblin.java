@@ -10,6 +10,7 @@ public class Goblin extends BasicEnemy {
     public Goblin(World world, HeroManager heroManager, float x, float y) {
         super(world, heroManager, x, y, GOBLIN_MAX_HEALTH);
         this.scale = GOBLIN_SCALE;
+        setAttackAreaWidth(ATTACK_AREA);
 
         createAnimation();
     }

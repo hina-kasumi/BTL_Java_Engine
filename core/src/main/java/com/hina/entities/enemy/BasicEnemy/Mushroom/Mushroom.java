@@ -10,6 +10,7 @@ public class Mushroom extends BasicEnemy {
     public Mushroom(World world, HeroManager heroManager, float x, float y) {
         super(world, heroManager, x, y, MUSHROOM_MAX_HEALTH);
         this.scale = MUSHROOM_SCALE;
+        setAttackAreaWidth(ATTACK_AREA);
 
         createAnimation();
     }

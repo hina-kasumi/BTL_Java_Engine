@@ -10,6 +10,7 @@ public class Skeleton extends BasicEnemy {
     public Skeleton(World world, HeroManager heroManager, float x, float y) {
         super(world, heroManager, x, y, SKELETON_MAX_HEALTH);
         this.scale = SKELETON_SCALE;
+        setAttackAreaWidth(ATTACK_AREA);
 
         createAnimation();
     }

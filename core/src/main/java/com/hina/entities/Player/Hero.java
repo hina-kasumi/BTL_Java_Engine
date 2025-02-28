@@ -212,6 +212,7 @@ public abstract class Hero extends Entity {
             }
             attacking = false;
             specialAttacking = false;
+            rolling = false;
             defending = false;
             basicAttackBox.destroyAttackSensor();
             animationPriority.add(AnimationState.TAKE_HIT);

@@ -16,7 +16,7 @@ public class BasicEnemyManager {
     public BasicEnemyManager(World world, HeroManager heroManager) {
         basicEnemies = new ArrayList<>();
 
-        add(new Mushroom(world, heroManager, 10, 10));
+//        add(new Mushroom(world, heroManager, 10, 10));
     }
 
     public void add(BasicEnemy basicEnemy) {
