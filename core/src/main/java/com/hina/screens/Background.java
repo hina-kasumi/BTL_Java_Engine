@@ -9,7 +9,7 @@ public class Background {
     private final Texture background;
 
     public Background() {
-        this.background = new Texture("maps/oak_woods_v1.0/background/background_layer_1.png");
+        this.background = new Texture("background/background_layer_1.png");
     }
 
     public void draw(SpriteBatch spriteBatch, Camera camera, FitViewport viewport) {
