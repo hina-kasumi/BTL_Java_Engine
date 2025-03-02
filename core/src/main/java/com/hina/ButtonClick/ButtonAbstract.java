@@ -34,8 +34,8 @@ public abstract class ButtonAbstract {
         this.normalTexture = new Texture(normalSrc);
         this.hoverTexture = new Texture(hoverSrc);
 
-        TextureRegionDrawable normalDrawAble = new TextureRegionDrawable(new TextureRegion(normalTexture));
-        TextureRegionDrawable hoverDrawAble = new TextureRegionDrawable(new TextureRegion(hoverTexture));
+        TextureRegionDrawable normalDrawAble = new TextureRegionDrawable(normalTexture);
+        TextureRegionDrawable hoverDrawAble = new TextureRegionDrawable(hoverTexture);
 
         ImageButton.ImageButtonStyle buttonStyle = new ImageButton.ImageButtonStyle();
         buttonStyle.imageUp = normalDrawAble;
