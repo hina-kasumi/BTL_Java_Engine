@@ -53,7 +53,9 @@ public class LevelSelectionScreen implements Screen {
         //nút âm thanh
         SoundButton soundButton = new SoundButton(
             "GUI/png/Buttons/Square/SoundOn/Default.png",
-            "GUI/png/Buttons/Square/SoundOn/Hover.png"
+            "GUI/png/Buttons/Square/SoundOn/Hover.png",
+            "GUI/png/Buttons/Square/SoundOff/Default.png",
+            "GUI/png/Buttons/Square/SoundOff/Hover.png"
         );
         soundButton.setScale(SQUARE_SCALE);
         soundButton.setPosition(PADDING_MAIN_MENU, PADDING_MAIN_MENU);

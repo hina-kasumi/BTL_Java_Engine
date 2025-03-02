@@ -79,6 +79,8 @@ public abstract class ButtonAbstract {
     }
 
     public void dispose() {
+        normalTexture.dispose();
+        hoverTexture.dispose();
         texture.dispose();
     }
 }
