@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.hina.screens.GameScreen.GameScreen;
 import com.hina.screens.LevelSelectionScreen;
 
 public class PlayButton extends ButtonAbstract {
@@ -32,7 +31,7 @@ public class PlayButton extends ButtonAbstract {
         imageButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new LevelSelectionScreen(game, viewport, camera));
+                game.setScreen(new LevelSelectionScreen(game, viewport, camera, game.getScreen()));
             }
         });
     }
