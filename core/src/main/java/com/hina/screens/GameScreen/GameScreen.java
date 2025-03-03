@@ -17,10 +17,10 @@ import static com.hina.utils.Bin.clearBin;
 public class GameScreen implements Screen {
     private final Game game;
     private World world;
-    private OrthographicCamera camera;
+    private final OrthographicCamera camera;
+    private final FitViewport viewport;
     private Box2DDebugRenderer box2DDebugRenderer;
     private SpriteBatch batch;
-    private FitViewport viewport;
     private GameManager gameManager;
 
     public GameScreen(Game game, FitViewport viewport, OrthographicCamera camera) {

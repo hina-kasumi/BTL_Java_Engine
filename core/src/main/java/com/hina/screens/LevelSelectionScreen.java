@@ -5,6 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -33,6 +36,8 @@ public class LevelSelectionScreen implements Screen {
     private ButtonList buttons;
     private MyPanelList myPanels;
     private LevelButtonList levelButtonList;
+    private BitmapFont font;
+    private SpriteBatch batch;
 
     public LevelSelectionScreen(Game game, FitViewport viewport, OrthographicCamera camera, Screen mainMenuScreen) {
         this.game = game;
@@ -48,6 +53,7 @@ public class LevelSelectionScreen implements Screen {
         buttons = new ButtonList();
         myPanels = new MyPanelList();
         levelButtonList = new LevelButtonList();
+        batch = new SpriteBatch();
 
         initLabel();
         initButton();
@@ -56,6 +62,16 @@ public class LevelSelectionScreen implements Screen {
         myPanels.stageAddActor(stage);
         buttons.stageAddActor(stage);
         levelButtonList.stageAddActor(stage);
+
+        //tạo font
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Homenaje-Regular.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = FONT_SIZE; // Kích thước chữ
+        parameter.color = Color.valueOf(FONT_COLOR);
+        font = generator.generateFont(parameter);
+        font.getData().setScale(FONT_SCALE);
+
+        generator.dispose(); // Giải phóng bộ nhớ
     }
 
     private void initLabel() {
@@ -137,6 +153,14 @@ public class LevelSelectionScreen implements Screen {
         ScreenUtils.clear(Color.BLACK);
         stage.act(v);
         stage.draw();
+
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+
+        levelButtonList.draw(font, batch);
+
+        batch.end();
     }
 
     @Override
@@ -165,5 +189,7 @@ public class LevelSelectionScreen implements Screen {
         buttons.dispose();
         myPanels.dispose();
         levelButtonList.dispose();
+        font.dispose();
+        batch.dispose();
     }
 }

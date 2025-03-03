@@ -1,5 +1,7 @@
 package com.hina.ButtonClick.LevelButton;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ public class LevelButtonList {
             if (i >= (currentPage - 1) * (maxCol * maxRow) && i < currentPage * (maxRow * maxCol)) {
                 levelButtons.get(i).setVisible(true);
             }
+            levelButtons.get(i).setLevel(i + 1);
             levelButtons.get(i).setPosition(
                 x + (i % maxCol) * (levelButtons.get(i).getWidth() + gap),
                 y - (float) ((i / maxCol) % maxRow + 1) * (levelButtons.get(i).getHeight() + gap));
@@ -51,7 +54,7 @@ public class LevelButtonList {
             currentPage--;
         for (int i = 0; i < levelButtons.size(); i++) {
             levelButtons.get(i).setVisible(false);
-            if (i >= (currentPage - 1) * (maxCol * maxRow) && i < currentPage * (maxRow * maxCol)) {
+            if (inPage(i)) {
                 levelButtons.get(i).setVisible(true);
             }
         }
@@ -59,15 +62,26 @@ public class LevelButtonList {
 
     public void decreaseCurrentPage() {
         currentPage--;
-        if (currentPage < 1){
+        if (currentPage < 1) {
             currentPage = 1;
         }
         for (int i = 0; i < levelButtons.size(); i++) {
             levelButtons.get(i).setVisible(false);
-            if (i >= (currentPage - 1) * (maxCol * maxRow) && i < currentPage * (maxRow * maxCol)) {
+            if (inPage(i)) {
                 levelButtons.get(i).setVisible(true);
             }
         }
+    }
+
+    public void draw(BitmapFont font, SpriteBatch batch) {
+        for (int i = 0; i < levelButtons.size(); i++) {
+            if (inPage(i))
+                levelButtons.get(i).draw(font, batch);
+        }
+    }
+
+    private boolean inPage(int i) {
+        return i >= (currentPage - 1) * (maxCol * maxRow) && i < currentPage * (maxRow * maxCol);
     }
 
     public float getWidth() {
