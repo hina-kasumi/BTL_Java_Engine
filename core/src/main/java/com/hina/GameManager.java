@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hina.entities.Player.Hero;
@@ -17,15 +18,15 @@ import com.hina.screens.Background;
 public class GameManager {
     private final HeroManager heroManager;
     private final Background background;
-    private Map map;
-    private ShapeRenderer shapeRenderer;
+    private final Map map;
+    private final ShapeRenderer shapeRenderer;
     private final BasicEnemyManager basicEnemyManager;
     private final BossManager bossManager;
     public static boolean isGameStop;
 
-    public GameManager(World world, OrthographicCamera camera) {
-        this.heroManager = new HeroManager(world);
-        this.map = new Map(camera, world);
+    public GameManager(World world, OrthographicCamera camera, Vector2 playerSpawnPosition, String fileMapName) {
+        this.heroManager = new HeroManager(world, playerSpawnPosition);
+        this.map = new Map(camera, world, fileMapName);
         this.background = new Background();
         this.shapeRenderer = new ShapeRenderer();
         this.basicEnemyManager = new BasicEnemyManager(world, heroManager);

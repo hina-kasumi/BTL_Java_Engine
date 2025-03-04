@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -135,18 +136,11 @@ public class LevelSelectionScreen implements Screen {
     }
 
     private void initLevelButtons() {
-        levelButtonList.add(new LevelButton(game, new GameScreen(game, viewport, camera)), LEVEL_SELECTION_SCALE);
-        levelButtonList.add(new LevelButton(game, new GameScreen(game, viewport, camera)), LEVEL_SELECTION_SCALE);
-        levelButtonList.add(new LevelButton(game, new GameScreen(game, viewport, camera)), LEVEL_SELECTION_SCALE);
-        levelButtonList.add(new LevelButton(game, new GameScreen(game, viewport, camera)), LEVEL_SELECTION_SCALE);
-        levelButtonList.add(new LevelButton(game, new GameScreen(game, viewport, camera)), LEVEL_SELECTION_SCALE);
-        levelButtonList.add(new LevelButton(game, new GameScreen(game, viewport, camera)), LEVEL_SELECTION_SCALE);
-        levelButtonList.add(new LevelButton(game, new GameScreen(game, viewport, camera)), LEVEL_SELECTION_SCALE);
-        levelButtonList.add(new LevelButton(game, new GameScreen(game, viewport, camera)), LEVEL_SELECTION_SCALE);
-        levelButtonList.add(new LevelButton(game, new GameScreen(game, viewport, camera)), LEVEL_SELECTION_SCALE);
-        levelButtonList.add(new LevelButton(game, new GameScreen(game, viewport, camera)), LEVEL_SELECTION_SCALE);
-        levelButtonList.add(new LevelButton(game, new GameScreen(game, viewport, camera)), LEVEL_SELECTION_SCALE);
-        levelButtonList.add(new LevelButton(game, new GameScreen(game, viewport, camera)), LEVEL_SELECTION_SCALE);
+        levelButtonList.add(
+            new LevelButton(game,
+                new GameScreen(game, viewport, camera, new Vector2(0, 10), "maps/map.tmx")),
+            LEVEL_SELECTION_SCALE);
+
         levelButtonList.setPosition((viewport.getWorldWidth() - levelButtonList.getWidth()) / 2,
             viewport.getWorldHeight() - LEVEL_SELECTION_MARGIN_TOP);
     }

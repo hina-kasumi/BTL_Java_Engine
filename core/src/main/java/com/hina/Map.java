@@ -14,15 +14,15 @@ import static com.hina.constant.GameConst.GROUND_TAG;
 import static com.hina.constant.GameConst.PPM;
 
 public class Map {
-    private OrthographicCamera camera;
+    private final OrthographicCamera camera;
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private final float scale = 2f;
 
-    public Map(OrthographicCamera camera, World world) {
+    public Map(OrthographicCamera camera, World world, String fileName) {
         this.camera = camera;
 
-        tiledMap = new TmxMapLoader().load("maps/map.tmx");
+        tiledMap = new TmxMapLoader().load(fileName);
         createGroundFromTiledMap(world, tiledMap);
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / PPM * scale);
     }

@@ -18,12 +18,12 @@ public class HeroManager {
     private Vector2 position;
     private boolean movingRight;
 
-    public HeroManager(World world) {
+    public HeroManager(World world, Vector2 position) {
         heroes = new ArrayList<>();
         currentHeroIndex = 0;
         movingRight = true;
 
-        position = new Vector2(0, 10);
+        this.position = position;
 
         add(new CrystalHero(world, position));
         add(new FireHero(world, position));

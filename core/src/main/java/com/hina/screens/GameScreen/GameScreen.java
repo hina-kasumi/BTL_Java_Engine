@@ -22,11 +22,15 @@ public class GameScreen implements Screen {
     private Box2DDebugRenderer box2DDebugRenderer;
     private SpriteBatch batch;
     private GameManager gameManager;
+    private final Vector2 playerSpawnPosition;
+    private final String fileMapName;
 
-    public GameScreen(Game game, FitViewport viewport, OrthographicCamera camera) {
+    public GameScreen(Game game, FitViewport viewport, OrthographicCamera camera, Vector2 playerSpawnPosition, String fileMapName) {
         this.game = game;
         this.viewport = viewport;
         this.camera = camera;
+        this.playerSpawnPosition = playerSpawnPosition;
+        this.fileMapName = fileMapName;
     }
 
     @Override
@@ -35,7 +39,7 @@ public class GameScreen implements Screen {
         batch = new SpriteBatch();
         box2DDebugRenderer = new Box2DDebugRenderer();
 
-        gameManager = new GameManager(world, camera);
+        gameManager = new GameManager(world, camera, playerSpawnPosition, fileMapName);
     }
 
     @Override
