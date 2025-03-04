@@ -7,12 +7,15 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.hina.constant.LevelSelectionScreenConst.LEVEL_SELECTION_MAX_COL;
+import static com.hina.constant.LevelSelectionScreenConst.LEVEL_SELECTION_MAX_ROW;
+
 public class LevelButtonList {
     private final List<LevelButton> levelButtons;
     private float x = 1;
     private float y = 1;
-    private final int maxCol = 4;
-    private final int maxRow = 2;
+    private final int maxCol = LEVEL_SELECTION_MAX_COL;
+    private final int maxRow = LEVEL_SELECTION_MAX_ROW;
     private final float gap = 2;
     private float width;
     private float height;

@@ -144,6 +144,9 @@ public class LevelSelectionScreen implements Screen {
         levelButtonList.add(new LevelButton(game, new GameScreen(game, viewport, camera)), LEVEL_SELECTION_SCALE);
         levelButtonList.add(new LevelButton(game, new GameScreen(game, viewport, camera)), LEVEL_SELECTION_SCALE);
         levelButtonList.add(new LevelButton(game, new GameScreen(game, viewport, camera)), LEVEL_SELECTION_SCALE);
+        levelButtonList.add(new LevelButton(game, new GameScreen(game, viewport, camera)), LEVEL_SELECTION_SCALE);
+        levelButtonList.add(new LevelButton(game, new GameScreen(game, viewport, camera)), LEVEL_SELECTION_SCALE);
+        levelButtonList.add(new LevelButton(game, new GameScreen(game, viewport, camera)), LEVEL_SELECTION_SCALE);
         levelButtonList.setPosition((viewport.getWorldWidth() - levelButtonList.getWidth()) / 2,
             viewport.getWorldHeight() - LEVEL_SELECTION_MARGIN_TOP);
     }
