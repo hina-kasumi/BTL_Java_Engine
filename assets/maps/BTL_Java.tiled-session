@@ -16,11 +16,11 @@
             "scaleInEditor": 1
         },
         "map.tmx": {
-            "scale": 0.0625,
-            "selectedLayer": 1,
+            "scale": 1.5,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 856,
-                "y": 2344
+                "x": 825,
+                "y": 905.6666666666666
             }
         },
         "tileset/oak_woods_tileset.tsx": {

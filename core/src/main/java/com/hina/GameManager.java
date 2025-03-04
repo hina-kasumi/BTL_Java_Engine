@@ -26,11 +26,11 @@ public class GameManager {
 
     public GameManager(World world, OrthographicCamera camera, Vector2 playerSpawnPosition, String fileMapName) {
         this.heroManager = new HeroManager(world, playerSpawnPosition);
-        this.map = new Map(camera, world, fileMapName);
         this.background = new Background();
         this.shapeRenderer = new ShapeRenderer();
         this.basicEnemyManager = new BasicEnemyManager(world, heroManager);
         this.bossManager = new BossManager(world, heroManager);
+        this.map = new Map(camera, world, heroManager, fileMapName, this.basicEnemyManager);
 
         world.setContactListener(new MainListener());
     }
