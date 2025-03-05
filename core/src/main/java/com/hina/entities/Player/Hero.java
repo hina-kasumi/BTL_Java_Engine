@@ -53,6 +53,7 @@ public abstract class Hero extends Entity {
     private boolean defending;
     private boolean pauseAnimation;
     private int defendAt;
+    private boolean immuneInSpecialAttack;
 
 
     public Hero(World world, Vector2 bornPosition, float maxHealth, String heroSrc, float offsetY) {
@@ -84,7 +85,7 @@ public abstract class Hero extends Entity {
         deathAnimation = newImportAnimation(heroSrc + HeroState.DEATH.getFileName(), 0.15f);
     }
 
-    protected void setHeroImage(String heroImageSrc){
+    protected void setHeroImage(String heroImageSrc) {
         playerHealthBar.setHeroImage(heroImageSrc);
     }
 
@@ -92,6 +93,10 @@ public abstract class Hero extends Entity {
         if (prevMoveRight != movingRight) {
             movingRight = prevMoveRight;
         }
+    }
+
+    protected void setImmuneInSpecialAttack() {
+        immuneInSpecialAttack = true;
     }
 
     protected void setDefendAnimationAt(int defendAt) {
@@ -112,10 +117,10 @@ public abstract class Hero extends Entity {
         runUpdate();
         takeHitUpdate();
         attackUpdate(prevMoveRight);
-        specialAttackUpdate(prevMoveRight);
         jumpUpdate();
         rollUpdate(prevMoveRight);
         defendUpdate();
+        specialAttackUpdate(prevMoveRight);
 
         body.setLinearVelocity(movingSpeed, body.getLinearVelocity().y);
         updateAnimation();
@@ -246,6 +251,9 @@ public abstract class Hero extends Entity {
             specialAttacking = true;
         }
         if (specialAttacking) {
+            if (immuneInSpecialAttack) {
+                immortal = true;
+            }
             blockFlip(prevMoveRight);
             float x = body.getPosition().x + specialAttackBoxOffsetX * (movingRight ? 1 : -1);
             float y = body.getPosition().y + Math.abs(entityHeight - specialAttackHeight);
@@ -258,6 +266,7 @@ public abstract class Hero extends Entity {
 
                 if (specialAnimation.isAnimationFinished(stateTime)) {
                     specialAttacking = false;
+                    immortal = false;
                 }
             } else {
                 int keyFrameIndex = specialAnimation.getKeyFrameIndex(stateTime);
@@ -272,6 +281,7 @@ public abstract class Hero extends Entity {
 
                 if (specialAnimation.isAnimationFinished(stateTime)) {
                     specialAttacking = false;
+                    immortal = false;
                     basicAttackBox.destroyAttackSensor();
                 }
             }
