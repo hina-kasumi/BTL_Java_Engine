@@ -5,6 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+import static com.hina.Main.musicAndSoundManager;
+
 public class SoundButton extends ButtonAbstract {
     private final Texture soundOnSrc;
     private Texture soundOnHOverSrc;
@@ -29,7 +31,8 @@ public class SoundButton extends ButtonAbstract {
     }
 
     private void init() {
-        changeButtonImage(true);
+        boolean isMusicOn = musicAndSoundManager.isPLaying();
+        changeButtonImage(isMusicOn);
     }
 
     private void changeButtonImage(boolean soundOn) {
@@ -46,6 +49,7 @@ public class SoundButton extends ButtonAbstract {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 changeButtonImage(!soundOn);
+                musicAndSoundManager.setPlaying(soundOn);
             }
         });
     }
