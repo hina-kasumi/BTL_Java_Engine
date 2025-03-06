@@ -41,17 +41,13 @@ public class SoundButton extends ButtonAbstract {
         TextureRegionDrawable hover = new TextureRegionDrawable((soundOn) ? soundOnHOverSrc : soundOffHOverSrc);
         imageButton.getStyle().imageUp = normal;
         imageButton.getStyle().imageOver = hover;
+
+        musicAndSoundManager.setPlaying(soundOn);
     }
 
     @Override
-    public void addListener() {
-        imageButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                changeButtonImage(!soundOn);
-                musicAndSoundManager.setPlaying(soundOn);
-            }
-        });
+    public void addListener(InputEvent event, float x, float y) {
+        changeButtonImage(!soundOn);
     }
 
     @Override

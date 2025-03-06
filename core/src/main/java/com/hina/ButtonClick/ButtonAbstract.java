@@ -2,9 +2,12 @@ package com.hina.ButtonClick;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+import static com.hina.Main.musicAndSoundManager;
 import static com.hina.constant.GameConst.PPM;
 
 public abstract class ButtonAbstract {
@@ -27,7 +30,7 @@ public abstract class ButtonAbstract {
         originHeight = imageButton.getHeight() / PPM;
         imageButton.setSize(originWidth, originHeight);
 
-        addListener();
+        initListener();
     }
 
     public ButtonAbstract(String normalSrc, String hoverSrc) {
@@ -46,8 +49,20 @@ public abstract class ButtonAbstract {
         originHeight = imageButton.getHeight() / PPM;
         imageButton.setSize(originWidth, originHeight);
 
-        addListener();
+        initListener();
     }
+
+    private void initListener() {
+        imageButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                musicAndSoundManager.playButtonClickSound();
+                addListener(event, x, y);
+            }
+        });
+    }
+
+    public abstract void addListener(InputEvent event, float x, float y);
 
     public float getWidth() {
         return originWidth * scale;
@@ -61,8 +76,6 @@ public abstract class ButtonAbstract {
         this.scale = scale;
         imageButton.setSize(originWidth * scale, originHeight * scale);
     }
-
-    public abstract void addListener();
 
     public void setSize(float width, float height) {
         originWidth = width;

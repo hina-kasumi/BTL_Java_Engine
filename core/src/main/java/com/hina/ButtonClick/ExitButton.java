@@ -14,12 +14,7 @@ public class ExitButton extends ButtonAbstract{
     }
 
     @Override
-    public void addListener() {
-        imageButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit(); // Thoát game
-            }
-        });
+    public void addListener(InputEvent event, float x, float y) {
+        Gdx.app.exit(); // Thoát game
     }
 }

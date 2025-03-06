@@ -3,25 +3,27 @@ package com.hina.music;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 
 import static com.hina.constant.SoundAndMusicConst.*;
 
 public class MusicAndSoundManager {
     private final Preferences prefs;
     private final Music backgroundMusic;
-
+    private final Sound buttonClickSound;
 
     public MusicAndSoundManager() {
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(BACKGROUND_MUSIC_SRC));
         backgroundMusic.setLooping(true);
-        this.turnOnVolume();
+        buttonClickSound = Gdx.audio.newSound(Gdx.files.internal(BUTTON_SOUND_CLICK_SRC));
 
+        this.turnOnVolume();
         this.prefs = Gdx.app.getPreferences(PREFERENCES);
     }
 
     public void play() {
         backgroundMusic.play();
-        setPlaying(prefs.getBoolean(BOOLEAN_MUSIC_ON, true));
+        setPlaying(isPLaying());
     }
 
     public boolean isPLaying() {
@@ -37,15 +39,25 @@ public class MusicAndSoundManager {
     }
 
     public void setPlaying(boolean soundOn) {
-        if (soundOn)
-            turnOnVolume();
-        else
-            mute();
-        prefs.putBoolean(BOOLEAN_MUSIC_ON, soundOn);
+        if (soundOn) turnOnVolume();
+        else mute();
+        putBoolean(soundOn);
         prefs.flush();
     }
 
+    private void putBoolean(boolean value) {
+        prefs.putBoolean(BOOLEAN_MUSIC_ON, value);
+    }
+
+    public void playButtonClickSound() {
+        if (isPLaying()) {
+            long id = buttonClickSound.play();
+            buttonClickSound.setVolume(id, BUTTON_CLICK_SOUND_VOLUME);
+        }
+    }
+
     public void dispose() {
+        buttonClickSound.dispose();
         backgroundMusic.dispose();
     }
 }

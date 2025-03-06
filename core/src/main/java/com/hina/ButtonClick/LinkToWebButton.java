@@ -22,16 +22,11 @@ public class LinkToWebButton extends ButtonAbstract {
     }
 
     @Override
-    public void addListener() {
-        imageButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                try {
-                    Desktop.getDesktop().browse(new URI(webAddress));
-                } catch (IOException | URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
+    public void addListener(InputEvent event, float x, float y) {
+        try {
+            Desktop.getDesktop().browse(new URI(webAddress));
+        } catch (IOException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

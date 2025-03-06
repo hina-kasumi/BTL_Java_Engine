@@ -18,12 +18,7 @@ public class PrevLevelsButton extends ButtonAbstract {
     }
 
     @Override
-    public void addListener() {
-        imageButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                levelButtonList.decreaseCurrentPage();
-            }
-        });
+    public void addListener(InputEvent event, float x, float y) {
+        levelButtonList.decreaseCurrentPage();
     }
 }

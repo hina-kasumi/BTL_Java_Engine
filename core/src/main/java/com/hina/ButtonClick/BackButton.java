@@ -22,12 +22,7 @@ public class BackButton extends ButtonAbstract {
     }
 
     @Override
-    public void addListener() {
-        imageButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(prevScreen);
-            }
-        });
+    public void addListener(InputEvent event, float x, float y) {
+        game.setScreen(prevScreen);
     }
 }
