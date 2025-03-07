@@ -1,33 +1,25 @@
 package com.hina.ButtonClick;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hina.screens.LevelSelectionScreen;
+import com.hina.screens.ScreenAbstract;
 
 public class PlayButton extends ButtonAbstract {
-    private final Game game;
-    private final FitViewport viewport;
-    private final OrthographicCamera camera;
+    private final ScreenAbstract screenAbstract;
 
-    public PlayButton(Game game, FitViewport viewport, OrthographicCamera camera, String src) {
+    public PlayButton(ScreenAbstract screenAbstract, String src) {
         super(src);
-        this.game = game;
-        this.viewport = viewport;
-        this.camera = camera;
+        this.screenAbstract = screenAbstract;
     }
 
-    public PlayButton(Game game, FitViewport viewport, OrthographicCamera camera, String normal, String hover) {
+    public PlayButton(ScreenAbstract screenAbstract, String normal, String hover) {
         super(normal, hover);
-        this.game = game;
-        this.viewport = viewport;
-        this.camera = camera;
+        this.screenAbstract = screenAbstract;
     }
 
     @Override
     public void addListener(InputEvent event, float x, float y) {
-        game.setScreen(new LevelSelectionScreen(game, viewport, camera, game.getScreen()));
+        screenAbstract.getGame().setScreen(
+            new LevelSelectionScreen(screenAbstract, screenAbstract.getGame().getScreen()));
     }
 }

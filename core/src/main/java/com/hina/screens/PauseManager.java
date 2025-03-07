@@ -1,6 +1,5 @@
 package com.hina.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -13,7 +12,7 @@ import java.util.List;
 import static com.hina.constant.PauseScreenConst.*;
 
 public class PauseManager {
-    private final Game game;
+    private final ScreenAbstract screen;
     private final FitViewport viewport;
     private final OrthographicCamera camera;
     private final ShapeRenderer shapeRenderer;
@@ -23,10 +22,10 @@ public class PauseManager {
     private PauseButton pauseButton;
     private Stage pauseStage;
 
-    public PauseManager(Game game, FitViewport viewport, OrthographicCamera camera) {
-        this.game = game;
-        this.viewport = viewport;
-        this.camera = camera;
+    public PauseManager(ScreenAbstract screen) {
+        this.screen = screen;
+        this.viewport = screen.getViewport();
+        this.camera = screen.getCamera();
         this.paused = false;
         this.shapeRenderer = new ShapeRenderer();
 
@@ -53,14 +52,13 @@ public class PauseManager {
         );
         buttons.add(soundButton);
 
-        ReplayButton replayButton = new ReplayButton(
+        ReplayButton replayButton = new ReplayButton(screen,
             "GUI/png/Buttons/Square/Repeat/Default.png",
             "GUI/png/Buttons/Square/Repeat/Hover.png"
         );
         buttons.add(replayButton);
 
-        HomeButton homeButton = new HomeButton(
-            game, viewport, camera,
+        HomeButton homeButton = new HomeButton(screen,
             "GUI/png/Buttons/Square/Home/Default.png",
             "GUI/png/Buttons/Square/Home/Hover.png"
         );

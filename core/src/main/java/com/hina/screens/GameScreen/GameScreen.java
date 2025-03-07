@@ -1,25 +1,19 @@
 package com.hina.screens.GameScreen;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hina.GameManager;
 import com.hina.screens.PauseManager;
+import com.hina.screens.ScreenAbstract;
 
 import static com.hina.utils.Bin.clearBin;
 
-public class GameScreen implements Screen {
-    private final Game game;
+public class GameScreen extends ScreenAbstract {
     private World world;
-    private final OrthographicCamera camera;
-    private final FitViewport viewport;
     private Box2DDebugRenderer box2DDebugRenderer;
     private SpriteBatch batch;
     private GameManager gameManager;
@@ -27,10 +21,8 @@ public class GameScreen implements Screen {
     private final String fileMapName;
     private PauseManager pauseManager;
 
-    public GameScreen(Game game, FitViewport viewport, OrthographicCamera camera, Vector2 playerSpawnPosition, String fileMapName) {
-        this.game = game;
-        this.viewport = viewport;
-        this.camera = camera;
+    public GameScreen(ScreenAbstract screenAbstract, Vector2 playerSpawnPosition, String fileMapName) {
+        super(screenAbstract);
         this.playerSpawnPosition = playerSpawnPosition;
         this.fileMapName = fileMapName;
     }
@@ -40,7 +32,7 @@ public class GameScreen implements Screen {
         world = new World(new Vector2(0, -9.8f), true);
         batch = new SpriteBatch();
         box2DDebugRenderer = new Box2DDebugRenderer();
-        pauseManager = new PauseManager(game, viewport, camera);
+        pauseManager = new PauseManager(this);
 
         gameManager = new GameManager(world, camera, playerSpawnPosition, fileMapName);
     }
@@ -104,5 +96,13 @@ public class GameScreen implements Screen {
         world.dispose();
         batch.dispose();
         gameManager.dispose();
+    }
+
+    public Vector2 getPlayerSpawnPosition() {
+        return playerSpawnPosition;
+    }
+
+    public String getFileMapName() {
+        return fileMapName;
     }
 }

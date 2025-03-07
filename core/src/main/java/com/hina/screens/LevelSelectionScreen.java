@@ -1,17 +1,14 @@
 package com.hina.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hina.ButtonClick.BackButton;
 import com.hina.ButtonClick.ButtonList;
 import com.hina.ButtonClick.LevelButton.LevelButton;
@@ -28,10 +25,7 @@ import static com.hina.constant.LevelSelectionScreenConst.*;
 import static com.hina.constant.MainMenuConst.PADDING_MAIN_MENU;
 import static com.hina.constant.MainMenuConst.SQUARE_SCALE;
 
-public class LevelSelectionScreen implements Screen {
-    private final Game game;
-    private final FitViewport viewport;
-    private final OrthographicCamera camera;
+public class LevelSelectionScreen extends ScreenAbstract {
     private final Screen mainMenuScreen;
     private Stage stage;
     private ButtonList buttons;
@@ -40,10 +34,8 @@ public class LevelSelectionScreen implements Screen {
     private BitmapFont font;
     private SpriteBatch batch;
 
-    public LevelSelectionScreen(Game game, FitViewport viewport, OrthographicCamera camera, Screen mainMenuScreen) {
-        this.game = game;
-        this.viewport = viewport;
-        this.camera = camera;
+    public LevelSelectionScreen(ScreenAbstract screenAbstract, Screen mainMenuScreen) {
+        super(screenAbstract);
         this.mainMenuScreen = mainMenuScreen;
     }
 
@@ -138,7 +130,7 @@ public class LevelSelectionScreen implements Screen {
     private void initLevelButtons() {
         levelButtonList.add(
             new LevelButton(game,
-                new GameScreen(game, viewport, camera, new Vector2(0, 10), "maps/map.tmx")),
+                new GameScreen(this, new Vector2(0, 10), "maps/map.tmx")),
             LEVEL_SELECTION_SCALE);
 
         levelButtonList.setPosition((viewport.getWorldWidth() - levelButtonList.getWidth()) / 2,

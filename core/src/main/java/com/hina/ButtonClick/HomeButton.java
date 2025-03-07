@@ -1,34 +1,28 @@
 package com.hina.ButtonClick;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hina.screens.MainMenuScreen;
+import com.hina.screens.ScreenAbstract;
 
-public class HomeButton extends ButtonAbstract{
-    private Game game;
-    private FitViewport viewport;
-    private OrthographicCamera camera;
+public class HomeButton extends ButtonAbstract {
+    private ScreenAbstract screen;
 
-    public HomeButton(Game game, FitViewport viewport, OrthographicCamera camera, String src) {
+    public HomeButton(ScreenAbstract screen, String src) {
         super(src);
-        init(game, viewport, camera);
+        init(screen);
     }
 
-    public HomeButton(Game game, FitViewport viewport, OrthographicCamera camera, String normalSrc, String hoverSrc) {
+    public HomeButton(ScreenAbstract screen, String normalSrc, String hoverSrc) {
         super(normalSrc, hoverSrc);
-        init(game, viewport, camera);
+        init(screen);
     }
 
-    private void init(Game game, FitViewport viewport, OrthographicCamera camera) {
-        this.game = game;
-        this.viewport = viewport;
-        this.camera = camera;
+    private void init(ScreenAbstract screen) {
+        this.screen = screen;
     }
 
     @Override
     public void addListener(InputEvent event, float x, float y) {
-        game.setScreen(new MainMenuScreen(game, viewport, camera));
+        screen.getGame().setScreen(new MainMenuScreen(screen));
     }
 }

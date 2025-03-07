@@ -2,7 +2,6 @@ package com.hina.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,18 +14,17 @@ import com.hina.MyPanel.MyPanelList;
 
 import static com.hina.constant.MainMenuConst.*;
 
-public class MainMenuScreen implements Screen {
-    private final Game game;
-    private final FitViewport viewport;
-    private final OrthographicCamera camera;
+public class MainMenuScreen extends ScreenAbstract {
     private Stage stage;
     private ButtonList buttons;// dùng để nhóm các nút lại
     private MyPanelList myPanels;
 
+    public MainMenuScreen(ScreenAbstract screen) {
+        super(screen);
+    }
+
     public MainMenuScreen(Game game, FitViewport viewport, OrthographicCamera camera) {
-        this.game = game;
-        this.viewport = viewport;
-        this.camera = camera;
+        super(game, viewport, camera);
     }
 
     @Override
@@ -64,7 +62,7 @@ public class MainMenuScreen implements Screen {
         buttons.add(exitButton);
 
         // nút bắt đầu chơi
-        PlayButton playButton = new PlayButton(game, viewport, camera,
+        PlayButton playButton = new PlayButton(this,
             "GUI/png/Buttons/Rect/PlayText/Default.png",
             "GUI/png/Buttons/Rect/PlayText/Hover.png");
         playButton.setScale(RECT_SCALE);
