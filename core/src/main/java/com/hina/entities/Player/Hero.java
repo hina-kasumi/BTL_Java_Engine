@@ -54,6 +54,7 @@ public abstract class Hero extends Entity {
     private boolean pauseAnimation;
     private int defendAt;
     private boolean immuneInSpecialAttack;
+    private TextureRegion prevFrame;
 
 
     public Hero(World world, Vector2 bornPosition, float maxHealth, String heroSrc, float offsetY) {
@@ -346,7 +347,8 @@ public abstract class Hero extends Entity {
 
         switch (animationPriority.get()) {
             case null -> {
-                return;
+                currentFrame = prevFrame;
+                blockMoving();
             }
             case RUN -> currentFrame = movingAnimation.getKeyFrame(stateTime, true);
             case ATTACK -> currentFrame = attackAnimation.getKeyFrame(stateTime, false);
@@ -360,6 +362,7 @@ public abstract class Hero extends Entity {
             case DEFEND -> currentFrame = defendAnimation.getKeyFrame(stateTime, false);
             default -> currentFrame = idleAnimation.getKeyFrame(stateTime, true);
         }
+        prevFrame = currentFrame;
 
         flip(currentFrame);
 

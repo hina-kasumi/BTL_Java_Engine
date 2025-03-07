@@ -23,4 +23,12 @@ public class ButtonList {
     public void stageAddActor(Stage stage) {
         list.forEach(i -> stage.addActor(i.getImageButton()));
     }
+
+    public void setVisible(boolean visible) {
+        list.forEach(i -> i.setVisible(visible));
+    }
+
+    public List<ButtonAbstract> getList() {
+        return list;
+    }
 }

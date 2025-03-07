@@ -25,6 +25,7 @@ public abstract class BossEnemy extends Entity {
     private float basicAttackBoxWidth;
     private float basicAttackBoxHeight;
     private float attackArea;
+    private TextureRegion prevFrame;
 
     public BossEnemy(World world, HeroManager heroManager, float x, float y, float maxHealth) {
         super(world, x, y, BOSS_WIDTH, BOSS_HEIGHT, maxHealth, BOSS_DENSITY);
@@ -116,7 +117,8 @@ public abstract class BossEnemy extends Entity {
 
         switch (animationPriority.get()) {
             case null -> {
-                return;
+                currentFrame = prevFrame;
+                blockMoving();
             }
             case RUN -> currentFrame = runAnimation.getKeyFrame(stateTime, true);
             case ATTACK -> currentFrame = attackAnimation.getKeyFrame(stateTime, false);
@@ -124,6 +126,7 @@ public abstract class BossEnemy extends Entity {
             case DEATH -> currentFrame = deathAnimation.getKeyFrame(stateTime, false);
             default -> currentFrame = idleAnimation.getKeyFrame(stateTime, true);
         }
+        prevFrame = currentFrame;
 
         flip(currentFrame);
 
@@ -166,7 +169,6 @@ public abstract class BossEnemy extends Entity {
 
     @Override
     public void dispose() {
-
     }
 
 }

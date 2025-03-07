@@ -27,6 +27,7 @@ public abstract class BasicEnemy extends Entity {
     protected int endAttackAt;
     protected HealthBar healthBar;
     private float attackAreaWidth;
+    private TextureRegion prevFrame;
 
     public BasicEnemy(World world, HeroManager heroManager, float x, float y, float maxHeath) {
         super(world, x, y, BASIC_ENEMY_WIDTH, BASIC_ENEMY_HEIGHT, maxHeath, BASIC_ENEMY_DENSITY);
@@ -153,7 +154,8 @@ public abstract class BasicEnemy extends Entity {
 
         switch (animationPriority.get()) {
             case null -> {
-                return;
+                currentFrame = prevFrame;
+                blockMoving();
             }
             case RUN -> currentFrame = runAnimation.getKeyFrame(stateTime, true);
             case ATTACK -> currentFrame = attackAnimation.getKeyFrame(stateTime, false);
@@ -161,6 +163,7 @@ public abstract class BasicEnemy extends Entity {
             case DEATH -> currentFrame = deathAnimation.getKeyFrame(stateTime, false);
             default -> currentFrame = idleAnimation.getKeyFrame(stateTime, true);
         }
+        prevFrame = currentFrame;
 
         flip(currentFrame);
 

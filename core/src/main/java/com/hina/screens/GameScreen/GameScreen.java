@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hina.GameManager;
+import com.hina.screens.PauseManager;
 
 import static com.hina.utils.Bin.clearBin;
 
@@ -24,6 +25,7 @@ public class GameScreen implements Screen {
     private GameManager gameManager;
     private final Vector2 playerSpawnPosition;
     private final String fileMapName;
+    private PauseManager pauseManager;
 
     public GameScreen(Game game, FitViewport viewport, OrthographicCamera camera, Vector2 playerSpawnPosition, String fileMapName) {
         this.game = game;
@@ -38,6 +40,7 @@ public class GameScreen implements Screen {
         world = new World(new Vector2(0, -9.8f), true);
         batch = new SpriteBatch();
         box2DDebugRenderer = new Box2DDebugRenderer();
+        pauseManager = new PauseManager(game, viewport, camera);
 
         gameManager = new GameManager(world, camera, playerSpawnPosition, fileMapName);
     }
@@ -45,17 +48,18 @@ public class GameScreen implements Screen {
     @Override
     public void render(float v) {
         update();
-        draw();
+        draw(v);
     }
 
     private void update() {
         world.step(Gdx.graphics.getDeltaTime(), 6, 2); // Cập nhật vật lý
         clearBin(world);
 
-        gameManager.update();
+        if (!pauseManager.isPaused())
+            gameManager.update();
     }
 
-    private void draw() {
+    private void draw(float v) {
         ScreenUtils.clear(0, 0, 0, 1); // Xóa màn hình đen
 
         viewport.apply();
@@ -69,6 +73,7 @@ public class GameScreen implements Screen {
         batch.end();
 
         gameManager.renderHealthBat(camera);
+        pauseManager.draw(v);
 
         box2DDebugRenderer.render(world, camera.combined);
     }
@@ -95,6 +100,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+        pauseManager.dispose();
         world.dispose();
         batch.dispose();
         gameManager.dispose();

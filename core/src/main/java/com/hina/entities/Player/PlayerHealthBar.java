@@ -14,8 +14,8 @@ public class PlayerHealthBar {
     private final float healthBarHeight;
     private final float maxHealth;
     private float curHealth;
-    private Texture noHeartFull;
-    private Texture heartEmpty;
+    private final Texture noHeartFull;
+    private final Texture heartEmpty;
     private Texture heroImage;
 
     public PlayerHealthBar(Hero hero) {

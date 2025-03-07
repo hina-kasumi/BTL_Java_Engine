@@ -96,4 +96,8 @@ public abstract class ButtonAbstract {
         hoverTexture.dispose();
         texture.dispose();
     }
+
+    public void setVisible(boolean visible) {
+        imageButton.setVisible(visible);
+    }
 }
