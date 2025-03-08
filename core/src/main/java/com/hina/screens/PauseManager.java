@@ -1,6 +1,7 @@
 package com.hina.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -87,7 +88,14 @@ public class PauseManager {
         return paused;
     }
 
+    public void update() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+            paused = !paused;
+        }
+    }
+
     public void draw(float v) {
+        update();
         if (paused) {
             Gdx.input.setInputProcessor(stage);
             List<ButtonAbstract> list = buttons.getList();
