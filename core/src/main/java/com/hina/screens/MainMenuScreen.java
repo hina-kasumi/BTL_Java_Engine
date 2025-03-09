@@ -59,7 +59,6 @@ public class MainMenuScreen extends ScreenAbstract {
         exitButton.setScale(RECT_SCALE);
         exitButton.setPosition((viewport.getWorldWidth() - exitButton.getWidth()) / 2,
             EXIT_BUTTON_MARGIN_BOTTOM);
-        buttons.add(exitButton);
 
         // nút bắt đầu chơi
         PlayButton playButton = new PlayButton(this,
@@ -68,7 +67,6 @@ public class MainMenuScreen extends ScreenAbstract {
         playButton.setScale(RECT_SCALE);
         playButton.setPosition((viewport.getWorldWidth() - playButton.getWidth()) / 2,
             EXIT_BUTTON_MARGIN_BOTTOM + exitButton.getHeight() + GAP_RECT_BUTTON);
-        buttons.add(playButton);
 
         //nút âm thanh
         SoundButton soundButton = new SoundButton(
@@ -79,7 +77,6 @@ public class MainMenuScreen extends ScreenAbstract {
         );
         soundButton.setScale(SQUARE_SCALE);
         soundButton.setPosition(PADDING_MAIN_MENU, PADDING_MAIN_MENU);
-        buttons.add(soundButton);
 
         // nối với trang chủ
         LinkToWebButton linkToWebButton = new LinkToWebButton(
@@ -91,7 +88,8 @@ public class MainMenuScreen extends ScreenAbstract {
         linkToWebButton.setPosition(
             viewport.getWorldWidth() - linkToWebButton.getWidth() - PADDING_MAIN_MENU,
             PADDING_MAIN_MENU);
-        buttons.add(linkToWebButton);
+
+        buttons.add(playButton, exitButton, soundButton, linkToWebButton);
     }
 
     @Override
