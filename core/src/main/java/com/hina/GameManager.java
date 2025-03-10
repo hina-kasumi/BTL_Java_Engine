@@ -13,6 +13,7 @@ import com.hina.entities.enemy.BasicEnemy.BasicEnemyManager;
 import com.hina.entities.enemy.BossEnemy.BossManager;
 import com.hina.handleListener.MainListener;
 import com.hina.screens.Background;
+import com.hina.screens.GameScreen.GameScreen;
 
 
 public class GameManager {
@@ -22,17 +23,16 @@ public class GameManager {
     private final ShapeRenderer shapeRenderer;
     private final BasicEnemyManager basicEnemyManager;
     private final BossManager bossManager;
-    public static boolean isGameStop;
 
-    public GameManager(World world, OrthographicCamera camera, Vector2 playerSpawnPosition, String fileMapName) {
-        this.heroManager = new HeroManager(world, playerSpawnPosition);
+    public GameManager(GameScreen gameScreen, OrthographicCamera camera, Vector2 playerSpawnPosition, String fileMapName) {
+        this.heroManager = new HeroManager(gameScreen, playerSpawnPosition);
         this.background = new Background();
         this.shapeRenderer = new ShapeRenderer();
-        this.basicEnemyManager = new BasicEnemyManager(world, heroManager);
-        this.bossManager = new BossManager(world, heroManager);
-        this.map = new Map(camera, world, heroManager, fileMapName, this.basicEnemyManager);
+        this.basicEnemyManager = new BasicEnemyManager(gameScreen.getWorld(), heroManager);
+        this.bossManager = new BossManager(gameScreen.getWorld(), heroManager);
+        this.map = new Map(camera, gameScreen.getWorld(), heroManager, fileMapName, this.basicEnemyManager);
 
-        world.setContactListener(new MainListener());
+        gameScreen.getWorld().setContactListener(new MainListener());
     }
 
     public void update() {

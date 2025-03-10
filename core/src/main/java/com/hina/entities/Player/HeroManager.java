@@ -5,9 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hina.entities.Player.Heroes.*;
+import com.hina.screens.GameScreen.GameScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,20 +18,20 @@ public class HeroManager {
     private Vector2 position;
     private boolean movingRight;
 
-    public HeroManager(World world, Vector2 position) {
+    public HeroManager(GameScreen gameScreen, Vector2 position) {
         heroes = new ArrayList<>();
         currentHeroIndex = 0;
         movingRight = true;
 
         this.position = position;
 
-        add(new CrystalHero(world, position));
-        add(new FireHero(world, position));
-        add(new GroundHero(world, position));
-        add(new LeafHero(world, position));
-        add(new MetalHero(world, position));
-        add(new WaterHero(world, position));
-        add(new WindHero(world, position));
+        add(new CrystalHero(gameScreen, position));
+        add(new FireHero(gameScreen, position));
+        add(new GroundHero(gameScreen, position));
+        add(new LeafHero(gameScreen, position));
+        add(new MetalHero(gameScreen, position));
+        add(new WaterHero(gameScreen, position));
+        add(new WindHero(gameScreen, position));
 
         heroes.forEach(hero -> hero.getBody().setActive(false));
 

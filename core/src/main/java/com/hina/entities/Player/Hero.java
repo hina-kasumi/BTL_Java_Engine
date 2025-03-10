@@ -12,14 +12,15 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hina.entities.AnimationState;
 import com.hina.entities.Entity;
+import com.hina.screens.GameScreen.GameScreen;
 import com.hina.utils.attackUtils.MultiHitAttack;
 
 import static com.hina.constant.PlayerConst.*;
 import static com.hina.constant.GameConst.*;
-import static com.hina.GameManager.isGameStop;
 import static com.hina.utils.ImportTextureUtil.newImportAnimation;
 
 public abstract class Hero extends Entity {
+    private final GameScreen gameScreen;
     protected Animation<TextureRegion> idleAnimation;
     protected Animation<TextureRegion> movingAnimation;
     protected Animation<TextureRegion> jumpAnimation;
@@ -57,9 +58,10 @@ public abstract class Hero extends Entity {
     private TextureRegion prevFrame;
 
 
-    public Hero(World world, Vector2 bornPosition, float maxHealth, String heroSrc, float offsetY) {
-        super(world, bornPosition.x, bornPosition.y, 0.5f, 1f, maxHealth, 1.5f);
+    public Hero(GameScreen gameScreen, Vector2 bornPosition, float maxHealth, String heroSrc, float offsetY) {
+        super(gameScreen.getWorld(), bornPosition.x, bornPosition.y, 0.5f, 1f, maxHealth, 1.5f);
 
+        this.gameScreen = gameScreen;
         body.setGravityScale(5);
         body.setUserData(this);
 
@@ -157,7 +159,7 @@ public abstract class Hero extends Entity {
             if (rollAnimation.isAnimationFinished(stateTime)) {
                 rolling = false;
             }
-            movingSpeed = 12f * (movingRight ? 1 : -1);
+            movingSpeed = 11f * (movingRight ? 1 : -1);
         }
     }
 
@@ -294,7 +296,7 @@ public abstract class Hero extends Entity {
         if (isDeath) {
             blockMoving();
             if (deathAnimation.isAnimationFinished(stateTime)) {
-                isGameStop = true;
+                this.gameScreen.getGameOverScreen().setGameOver(true);
             }
             animationPriority.add(AnimationState.DEATH);
         }

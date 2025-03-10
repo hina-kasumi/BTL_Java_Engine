@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.hina.GameManager;
+import com.hina.screens.GameOverScreen;
 import com.hina.screens.PauseManager;
 import com.hina.screens.ScreenAbstract;
 
@@ -20,6 +21,7 @@ public class GameScreen extends ScreenAbstract {
     private final Vector2 playerSpawnPosition;
     private final String fileMapName;
     private PauseManager pauseManager;
+    private GameOverScreen gameOverScreen;
 
     public GameScreen(ScreenAbstract screenAbstract, Vector2 playerSpawnPosition, String fileMapName) {
         super(screenAbstract);
@@ -33,8 +35,9 @@ public class GameScreen extends ScreenAbstract {
         batch = new SpriteBatch();
         box2DDebugRenderer = new Box2DDebugRenderer();
         pauseManager = new PauseManager(this);
+        gameOverScreen = new GameOverScreen(this);
 
-        gameManager = new GameManager(world, camera, playerSpawnPosition, fileMapName);
+        gameManager = new GameManager(this, camera, playerSpawnPosition, fileMapName);
     }
 
     @Override
@@ -47,6 +50,10 @@ public class GameScreen extends ScreenAbstract {
         world.step(Gdx.graphics.getDeltaTime(), 6, 2); // Cập nhật vật lý
         clearBin(world);
 
+        if (gameOverScreen.isGameOver()) {
+            gameOverScreen.update();
+            return;
+        }
         if (!pauseManager.isPaused())
             gameManager.update();
     }
@@ -65,7 +72,12 @@ public class GameScreen extends ScreenAbstract {
         batch.end();
 
         gameManager.renderHealthBat(camera);
-        pauseManager.draw(v);
+
+        if (gameOverScreen.isGameOver()) {
+            gameOverScreen.draw(v);
+        } else {
+            pauseManager.draw(v);
+        }
 
         box2DDebugRenderer.render(world, camera.combined);
     }
@@ -104,5 +116,13 @@ public class GameScreen extends ScreenAbstract {
 
     public String getFileMapName() {
         return fileMapName;
+    }
+
+    public GameOverScreen getGameOverScreen() {
+        return gameOverScreen;
+    }
+
+    public World getWorld() {
+        return world;
     }
 }

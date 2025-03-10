@@ -96,8 +96,6 @@ public class PauseManager extends InnerScreen {
                 camera.position.y + viewport.getWorldHeight() / 2 - BUTTON_OFFSET_TOP
             );
 
-            pauseStage.addActor(pauseButton.getImageButton());
-
             pauseStage.act(v);
             pauseStage.draw();
         }
