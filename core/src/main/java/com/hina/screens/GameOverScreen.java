@@ -72,8 +72,9 @@ public class GameOverScreen extends InnerScreen {
             camera.position.x - myPanel.getWidth() / 2,
             camera.position.y + PANEL_MARGIN_BOTTOM);
 
-        buttons.getList().getFirst().setPosition(
-            camera.position.x - BUTTON_GAP,
+        ButtonAbstract firstButton = buttons.getList().getFirst();
+        firstButton.setPosition(
+            camera.position.x - firstButton.getWidth() - BUTTON_GAP,
             camera.position.y - BUTTON_MARGIN_TOP
         );
 
