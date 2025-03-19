@@ -1,4 +1,4 @@
-package com.hina.entities.Player;
+package com.hina.manager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.hina.entities.Player.Hero;
 import com.hina.entities.Player.Heroes.*;
 import com.hina.screens.GameScreen.GameScreen;
 

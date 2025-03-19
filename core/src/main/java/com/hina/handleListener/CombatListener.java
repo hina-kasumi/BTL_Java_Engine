@@ -6,10 +6,15 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.hina.entities.Entity;
 import com.hina.entities.Player.Hero;
+import com.hina.entities.enemy.BasicEnemy.BasicEnemy;
 import com.hina.utils.attackUtils.AttackAbstract;
 import com.hina.utils.attackUtils.BasicAttackBox;
 
+import static com.hina.manager.CoinManager.*;
+
 public class CombatListener implements ContactListener {
+    private Entity prevEntity = null;
+
     @Override
     public void beginContact(Contact contact) {
         Fixture fixtureA = contact.getFixtureA();
@@ -26,6 +31,14 @@ public class CombatListener implements ContactListener {
             if (attackAbstract.getEntity() != entity.getBody() &&
                 !(attackAbstract.getEntity().getUserData() instanceof Hero && entity instanceof Hero)) {
                 entity.takeDamage(attackAbstract.getDamage());
+
+                if (entity instanceof BasicEnemy) {
+                    if (entity.isDeath() && prevEntity != entity) {
+                        upCoin(30);
+                        System.out.println(getCoin());
+                        prevEntity = entity;
+                    }
+                }
             }
         }
     }

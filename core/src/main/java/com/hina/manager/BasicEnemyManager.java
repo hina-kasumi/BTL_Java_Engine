@@ -1,11 +1,10 @@
-package com.hina.entities.enemy.BasicEnemy;
+package com.hina.manager;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.hina.entities.Entity;
-import com.hina.entities.Player.HeroManager;
-import com.hina.entities.enemy.BasicEnemy.Mushroom.Mushroom;
+import com.hina.entities.enemy.BasicEnemy.BasicEnemy;
 
 import java.util.ArrayList;
 import java.util.List;

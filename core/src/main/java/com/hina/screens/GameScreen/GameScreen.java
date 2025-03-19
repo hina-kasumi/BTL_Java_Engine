@@ -6,7 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.hina.GameManager;
+import com.hina.MyPanel.MyPanelList;
+import com.hina.manager.GameManager;
+import com.hina.ui.CoinDisplay;
 import com.hina.screens.GameOverScreen;
 import com.hina.screens.PauseManager;
 import com.hina.screens.ScreenAbstract;
@@ -22,6 +24,7 @@ public class GameScreen extends ScreenAbstract {
     private final String fileMapName;
     private PauseManager pauseManager;
     private GameOverScreen gameOverScreen;
+    private CoinDisplay coinDisplay;
 
     public GameScreen(ScreenAbstract screenAbstract, Vector2 playerSpawnPosition, String fileMapName) {
         super(screenAbstract);
@@ -36,6 +39,7 @@ public class GameScreen extends ScreenAbstract {
         box2DDebugRenderer = new Box2DDebugRenderer();
         pauseManager = new PauseManager(this);
         gameOverScreen = new GameOverScreen(this);
+        coinDisplay = new CoinDisplay(this);
 
         gameManager = new GameManager(this, camera, playerSpawnPosition, fileMapName);
     }
@@ -56,6 +60,8 @@ public class GameScreen extends ScreenAbstract {
         }
         if (!pauseManager.isPaused())
             gameManager.update();
+
+        coinDisplay.update();
     }
 
     private void draw(float v) {
@@ -77,6 +83,7 @@ public class GameScreen extends ScreenAbstract {
             gameOverScreen.draw(v);
         } else {
             pauseManager.draw(v);
+            coinDisplay.draw(v);
         }
 
         box2DDebugRenderer.render(world, camera.combined);
@@ -108,6 +115,7 @@ public class GameScreen extends ScreenAbstract {
         world.dispose();
         batch.dispose();
         gameManager.dispose();
+        coinDisplay.dispose();
     }
 
     public Vector2 getPlayerSpawnPosition() {

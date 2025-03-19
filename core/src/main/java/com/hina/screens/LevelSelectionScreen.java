@@ -20,6 +20,7 @@ import com.hina.ButtonClick.SoundButton;
 import com.hina.MyPanel.MainMenuBackground;
 import com.hina.MyPanel.MyPanelList;
 import com.hina.screens.GameScreen.GameScreen;
+import com.hina.ui.MyText;
 
 import static com.hina.constant.LevelSelectionScreenConst.*;
 import static com.hina.constant.MainMenuConst.PADDING_MAIN_MENU;
@@ -31,7 +32,7 @@ public class LevelSelectionScreen extends ScreenAbstract {
     private ButtonList buttons;
     private MyPanelList myPanels;
     private LevelButtonList levelButtonList;
-    private BitmapFont font;
+    private MyText myText;
     private SpriteBatch batch;
 
     public LevelSelectionScreen(ScreenAbstract screenAbstract, Screen mainMenuScreen) {
@@ -56,15 +57,7 @@ public class LevelSelectionScreen extends ScreenAbstract {
         buttons.stageAddActor(stage);
         levelButtonList.stageAddActor(stage);
 
-        //tạo font
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Homenaje-Regular.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = FONT_SIZE; // Kích thước chữ
-        parameter.color = Color.valueOf(FONT_COLOR);
-        font = generator.generateFont(parameter);
-        font.getData().setScale(FONT_SCALE);
-
-        generator.dispose(); // Giải phóng bộ nhớ
+        myText = new MyText();
     }
 
     private void initLabel() {
@@ -147,7 +140,7 @@ public class LevelSelectionScreen extends ScreenAbstract {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
-        levelButtonList.draw(font, batch);
+        levelButtonList.draw(myText, batch);
 
         batch.end();
     }
@@ -178,7 +171,7 @@ public class LevelSelectionScreen extends ScreenAbstract {
         buttons.dispose();
         myPanels.dispose();
         levelButtonList.dispose();
-        font.dispose();
+        myText.dispose();
         batch.dispose();
     }
 }

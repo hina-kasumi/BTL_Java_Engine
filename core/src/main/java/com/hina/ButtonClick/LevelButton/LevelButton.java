@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.hina.ButtonClick.ButtonAbstract;
+import com.hina.ui.MyText;
 
 import static com.hina.constant.LevelSelectionScreenConst.*;
 
@@ -25,20 +26,13 @@ public class LevelButton extends ButtonAbstract {
         this.level = level;
     }
 
-    public void draw(BitmapFont font, SpriteBatch batch) {
+    public void draw(MyText myText, SpriteBatch batch) {
         float x = imageButton.getX();
         float y = imageButton.getY();
-        int mod = level % (LEVEL_SELECTION_MAX_ROW * LEVEL_SELECTION_MAX_COL);
-        if (mod >= 1 && mod <= LEVEL_SELECTION_MAX_COL) {
-            font.draw(batch, level + "", x + MARGIN_LEFT_NUMBER, y + getHeight());
-        } else {
-            font.draw(batch, level + "", x + MARGIN_LEFT_NUMBER,
-                y + getHeight() + MARGIN_BOTTOM_SECOND_ROW_NUMBER);
-        }
-    }
-
-    public void setVisible(boolean visible) {
-        imageButton.setVisible(visible);
+        float width = myText.getWidth(level, FONT_SCALE);
+        myText.drawText(batch,
+            x + getWidth() / 2 - width / 2,
+            y + 2, level, FONT_SCALE);
     }
 
     @Override

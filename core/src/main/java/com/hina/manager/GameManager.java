@@ -1,16 +1,13 @@
-package com.hina;
+package com.hina.manager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.hina.Map;
 import com.hina.entities.Player.Hero;
-import com.hina.entities.Player.HeroManager;
-import com.hina.entities.enemy.BasicEnemy.BasicEnemyManager;
-import com.hina.entities.enemy.BossEnemy.BossManager;
 import com.hina.handleListener.MainListener;
 import com.hina.screens.Background;
 import com.hina.screens.GameScreen.GameScreen;

@@ -3,6 +3,7 @@ package com.hina.ButtonClick.LevelButton;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.hina.ui.MyText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,10 +77,10 @@ public class LevelButtonList {
         }
     }
 
-    public void draw(BitmapFont font, SpriteBatch batch) {
+    public void draw(MyText myText, SpriteBatch batch) {
         for (int i = 0; i < levelButtons.size(); i++) {
             if (inPage(i))
-                levelButtons.get(i).draw(font, batch);
+                levelButtons.get(i).draw(myText, batch);
         }
     }
 

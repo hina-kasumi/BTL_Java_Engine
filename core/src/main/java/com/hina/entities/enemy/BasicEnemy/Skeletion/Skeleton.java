@@ -1,7 +1,7 @@
 package com.hina.entities.enemy.BasicEnemy.Skeletion;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.hina.entities.Player.HeroManager;
+import com.hina.manager.HeroManager;
 import com.hina.entities.enemy.BasicEnemy.BasicEnemy;
 
 import static com.hina.constant.BasicMonsterConst.SkeletonConst.*;

@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.hina.entities.AnimationState;
 import com.hina.entities.Entity;
-import com.hina.entities.Player.HeroManager;
+import com.hina.manager.HeroManager;
 import com.hina.utils.HealthBar;
 
 import static com.hina.constant.BasicMonsterConst.*;

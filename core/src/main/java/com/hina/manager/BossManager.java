@@ -1,11 +1,10 @@
-package com.hina.entities.enemy.BossEnemy;
+package com.hina.manager;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.hina.entities.Entity;
-import com.hina.entities.Player.HeroManager;
-import com.hina.entities.enemy.BossEnemy.FireWorm.FireWorm;
+import com.hina.entities.enemy.BossEnemy.BossEnemy;
 
 import java.util.ArrayList;
 import java.util.List;

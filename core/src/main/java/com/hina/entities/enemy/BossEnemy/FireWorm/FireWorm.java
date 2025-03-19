@@ -1,7 +1,7 @@
 package com.hina.entities.enemy.BossEnemy.FireWorm;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.hina.entities.Player.HeroManager;
+import com.hina.manager.HeroManager;
 import com.hina.entities.enemy.BossEnemy.BossEnemy;
 
 import static com.hina.constant.BossMonsterConst.FireWorm.*;
