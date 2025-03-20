@@ -1,9 +1,8 @@
-package com.hina.ButtonClick;
+package com.hina.ui.ButtonClick;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class BackButton extends ButtonAbstract {
     private final Game game;

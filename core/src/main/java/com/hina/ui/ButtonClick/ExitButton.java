@@ -1,8 +1,7 @@
-package com.hina.ButtonClick;
+package com.hina.ui.ButtonClick;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class ExitButton extends ButtonAbstract{
     public ExitButton(String src) {

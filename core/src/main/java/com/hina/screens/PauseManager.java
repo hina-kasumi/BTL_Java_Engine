@@ -3,7 +3,7 @@ package com.hina.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.hina.ButtonClick.*;
+import com.hina.ui.ButtonClick.*;
 
 import java.util.List;
 

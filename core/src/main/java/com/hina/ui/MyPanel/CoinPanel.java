@@ -1,4 +1,4 @@
-package com.hina.MyPanel;
+package com.hina.ui.MyPanel;
 
 public class CoinPanel extends MyPanel {
     public CoinPanel() {

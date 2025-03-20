@@ -1,4 +1,4 @@
-package com.hina.ButtonClick;
+package com.hina.ui.ButtonClick;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.hina.screens.GameScreen.GameScreen;

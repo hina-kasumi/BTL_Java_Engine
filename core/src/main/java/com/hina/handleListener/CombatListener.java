@@ -8,8 +8,8 @@ import com.hina.entities.Entity;
 import com.hina.entities.Player.Hero;
 import com.hina.entities.enemy.BasicEnemy.BasicEnemy;
 import com.hina.utils.attackUtils.AttackAbstract;
-import com.hina.utils.attackUtils.BasicAttackBox;
 
+import static com.hina.constant.CoinConst.UP_COIN;
 import static com.hina.manager.CoinManager.*;
 
 public class CombatListener implements ContactListener {
@@ -34,7 +34,7 @@ public class CombatListener implements ContactListener {
 
                 if (entity instanceof BasicEnemy) {
                     if (entity.isDeath() && prevEntity != entity) {
-                        upCoin(30);
+                        upCoin(UP_COIN);
                         System.out.println(getCoin());
                         prevEntity = entity;
                     }

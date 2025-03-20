@@ -1,8 +1,7 @@
-package com.hina.ButtonClick;
+package com.hina.ui.ButtonClick;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import static com.hina.Main.musicAndSoundManager;

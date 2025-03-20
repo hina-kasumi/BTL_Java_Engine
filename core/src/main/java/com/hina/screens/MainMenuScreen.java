@@ -7,10 +7,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.hina.ButtonClick.*;
-import com.hina.MyPanel.Logotype;
-import com.hina.MyPanel.MainMenuBackground;
-import com.hina.MyPanel.MyPanelList;
+import com.hina.ui.ButtonClick.*;
+import com.hina.ui.MyPanel.Logotype;
+import com.hina.ui.MyPanel.MainMenuBackground;
+import com.hina.ui.MyPanel.MyPanelList;
 
 import static com.hina.constant.MainMenuConst.*;
 

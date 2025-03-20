@@ -1,4 +1,4 @@
-package com.hina.MyPanel;
+package com.hina.ui.MyPanel;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 

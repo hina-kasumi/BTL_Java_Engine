@@ -6,13 +6,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.hina.MyPanel.MyPanelList;
 import com.hina.manager.GameManager;
 import com.hina.ui.CoinDisplay;
 import com.hina.screens.GameOverScreen;
 import com.hina.screens.PauseManager;
 import com.hina.screens.ScreenAbstract;
 
+import static com.hina.constant.GameScreenConst.*;
 import static com.hina.utils.Bin.clearBin;
 
 public class GameScreen extends ScreenAbstract {
@@ -34,7 +34,7 @@ public class GameScreen extends ScreenAbstract {
 
     @Override
     public void show() {
-        world = new World(new Vector2(0, -9.8f), true);
+        world = new World(new Vector2(0, GRAVITY), true);
         batch = new SpriteBatch();
         box2DDebugRenderer = new Box2DDebugRenderer();
         pauseManager = new PauseManager(this);
@@ -83,7 +83,7 @@ public class GameScreen extends ScreenAbstract {
             gameOverScreen.draw(v);
         } else {
             pauseManager.draw(v);
-            coinDisplay.draw(v);
+            coinDisplay.draw(v, COIN_SCALE);
         }
 
         box2DDebugRenderer.render(world, camera.combined);

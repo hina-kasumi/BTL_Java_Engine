@@ -10,14 +10,15 @@ public class CoinManager {
         return coin;
     }
 
-    public static void upCoin(long dCoin) {
+    public static void upCoin(int dCoin) {
         coin += dCoin;
     }
 
-    public static void downCoin(long dCoin) {
+    public static void downCoin(int dCoin) {
         if (coin >= dCoin) {
             coin -= dCoin;
+        } else {
+            System.out.println("không đủ coin");
         }
-        System.out.println("không đủ coin");
     }
 }

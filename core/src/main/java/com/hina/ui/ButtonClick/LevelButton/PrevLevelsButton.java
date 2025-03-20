@@ -1,8 +1,7 @@
-package com.hina.ButtonClick.LevelButton;
+package com.hina.ui.ButtonClick.LevelButton;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.hina.ButtonClick.ButtonAbstract;
+import com.hina.ui.ButtonClick.ButtonAbstract;
 
 public class PrevLevelsButton extends ButtonAbstract {
     private final LevelButtonList levelButtonList;

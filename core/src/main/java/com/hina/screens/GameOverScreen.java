@@ -1,12 +1,12 @@
 package com.hina.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.hina.ButtonClick.ButtonAbstract;
-import com.hina.ButtonClick.HomeButton;
-import com.hina.ButtonClick.ReplayButton;
-import com.hina.MyPanel.Logotype;
-import com.hina.MyPanel.MyPanel;
-import com.hina.MyPanel.MyPanelList;
+import com.hina.ui.ButtonClick.ButtonAbstract;
+import com.hina.ui.ButtonClick.HomeButton;
+import com.hina.ui.ButtonClick.ReplayButton;
+import com.hina.ui.MyPanel.Logotype;
+import com.hina.ui.MyPanel.MyPanel;
+import com.hina.ui.MyPanel.MyPanelList;
 
 import static com.hina.constant.GameOverScreenConst.*;
 

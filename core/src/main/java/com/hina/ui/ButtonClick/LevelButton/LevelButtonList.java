@@ -1,6 +1,5 @@
-package com.hina.ButtonClick.LevelButton;
+package com.hina.ui.ButtonClick.LevelButton;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.hina.ui.MyText;

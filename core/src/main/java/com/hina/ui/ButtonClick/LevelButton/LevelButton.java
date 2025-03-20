@@ -1,12 +1,10 @@
-package com.hina.ButtonClick.LevelButton;
+package com.hina.ui.ButtonClick.LevelButton;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.hina.ButtonClick.ButtonAbstract;
+import com.hina.ui.ButtonClick.ButtonAbstract;
 import com.hina.ui.MyText;
 
 import static com.hina.constant.LevelSelectionScreenConst.*;
