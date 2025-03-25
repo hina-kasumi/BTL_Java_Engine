@@ -53,7 +53,7 @@ public class MainMenuScreen extends ScreenAbstract {
 
     private void initButton() {
         //nút thoát trò chơi
-        ExitButton exitButton = new ExitButton(
+        ButtonAbstract exitButton = new ExitButton(
             "GUI/png/Buttons/Rect/ExitText/Default.png",
             "GUI/png/Buttons/Rect/ExitText/Hover.png");
         exitButton.setScale(RECT_SCALE);
@@ -61,7 +61,7 @@ public class MainMenuScreen extends ScreenAbstract {
             EXIT_BUTTON_MARGIN_BOTTOM);
 
         // nút bắt đầu chơi
-        PlayButton playButton = new PlayButton(this,
+        ButtonAbstract playButton = new PlayButton(this,
             "GUI/png/Buttons/Rect/PlayText/Default.png",
             "GUI/png/Buttons/Rect/PlayText/Hover.png");
         playButton.setScale(RECT_SCALE);
@@ -69,7 +69,7 @@ public class MainMenuScreen extends ScreenAbstract {
             EXIT_BUTTON_MARGIN_BOTTOM + exitButton.getHeight() + GAP_RECT_BUTTON);
 
         //nút âm thanh
-        SoundButton soundButton = new SoundButton(
+        ButtonAbstract soundButton = new SoundButton(
             "GUI/png/Buttons/Square/SoundOn/Default.png",
             "GUI/png/Buttons/Square/SoundOn/Hover.png",
             "GUI/png/Buttons/Square/SoundOff/Default.png",
@@ -79,17 +79,17 @@ public class MainMenuScreen extends ScreenAbstract {
         soundButton.setPosition(PADDING_MAIN_MENU, PADDING_MAIN_MENU);
 
         // nối với trang chủ
-        LinkToWebButton linkToWebButton = new LinkToWebButton(
+        ButtonAbstract changeScreenButton = new ChangeScreenButton(
             "GUI/png/Buttons/Square/Star/Default.png",
             "GUI/png/Buttons/Square/Star/Hover.png",
-            "https://www.youtube.com"
+            game, new LoginScreen(this)
         );
-        linkToWebButton.setScale(SQUARE_SCALE);
-        linkToWebButton.setPosition(
-            viewport.getWorldWidth() - linkToWebButton.getWidth() - PADDING_MAIN_MENU,
+        changeScreenButton.setScale(SQUARE_SCALE);
+        changeScreenButton.setPosition(
+            viewport.getWorldWidth() - changeScreenButton.getWidth() - PADDING_MAIN_MENU,
             PADDING_MAIN_MENU);
 
-        buttons.add(playButton, exitButton, soundButton, linkToWebButton);
+        buttons.add(playButton, exitButton, soundButton, changeScreenButton);
     }
 
     @Override

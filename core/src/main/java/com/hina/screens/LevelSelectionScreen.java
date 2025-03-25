@@ -7,14 +7,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.hina.ui.ButtonClick.BackButton;
-import com.hina.ui.ButtonClick.ButtonList;
+import com.hina.ui.ButtonClick.*;
 import com.hina.ui.ButtonClick.LevelButton.LevelButton;
 import com.hina.ui.ButtonClick.LevelButton.LevelButtonList;
 import com.hina.ui.ButtonClick.LevelButton.NextLevelsButton;
 import com.hina.ui.ButtonClick.LevelButton.PrevLevelsButton;
-import com.hina.ui.ButtonClick.LinkToWebButton;
-import com.hina.ui.ButtonClick.SoundButton;
 import com.hina.ui.MyPanel.MainMenuBackground;
 import com.hina.ui.MyPanel.MyPanelList;
 import com.hina.screens.GameScreen.GameScreen;
@@ -64,17 +61,17 @@ public class LevelSelectionScreen extends ScreenAbstract {
 
     private void initButton() {
         //nút back
-        BackButton backButton = new BackButton(
+        ButtonAbstract changeScreenButton = new ChangeScreenButton(
             "GUI/png/Buttons/Square/ArrowLeft-Thin/Default.png",
             "GUI/png/Buttons/Square/ArrowLeft-Thin/Hover.png",
             game, mainMenuScreen
         );
-        backButton.setScale(SQUARE_SCALE);
-        backButton.setPosition(PADDING_MAIN_MENU,
-            viewport.getWorldHeight() - backButton.getHeight() - PADDING_MAIN_MENU);
-        buttons.add(backButton);
+        changeScreenButton.setScale(SQUARE_SCALE);
+        changeScreenButton.setPosition(PADDING_MAIN_MENU,
+            viewport.getWorldHeight() - changeScreenButton.getHeight() - PADDING_MAIN_MENU);
+        buttons.add(changeScreenButton);
 
-        NextLevelsButton nextLevelsButton = new NextLevelsButton(
+        ButtonAbstract nextLevelsButton = new NextLevelsButton(
             "GUI/png/Buttons/Square/ArrowRight-Bold/Default.png",
             "GUI/png/Buttons/Square/ArrowRight-Bold/Hover.png",
             levelButtonList
@@ -84,7 +81,7 @@ public class LevelSelectionScreen extends ScreenAbstract {
             PADDING_MAIN_MENU + SCROLL_BUTTON_MARGIN_BOTTOM);
         buttons.add(nextLevelsButton);
 
-        PrevLevelsButton prevLevelsButton = new PrevLevelsButton(
+        ButtonAbstract prevLevelsButton = new PrevLevelsButton(
             "GUI/png/Buttons/Square/ArrowLeft-Bold/Default.png",
             "GUI/png/Buttons/Square/ArrowLeft-Bold/Hover.png",
             levelButtonList
@@ -95,7 +92,7 @@ public class LevelSelectionScreen extends ScreenAbstract {
         buttons.add(prevLevelsButton);
 
         //nút âm thanh
-        SoundButton soundButton = new SoundButton(
+        ButtonAbstract soundButton = new SoundButton(
             "GUI/png/Buttons/Square/SoundOn/Default.png",
             "GUI/png/Buttons/Square/SoundOn/Hover.png",
             "GUI/png/Buttons/Square/SoundOff/Default.png",
@@ -106,16 +103,16 @@ public class LevelSelectionScreen extends ScreenAbstract {
         buttons.add(soundButton);
 
         // nối với trang chủ
-        LinkToWebButton linkToWebButton = new LinkToWebButton(
+        ButtonAbstract login = new ChangeScreenButton(
             "GUI/png/Buttons/Square/Star/Default.png",
             "GUI/png/Buttons/Square/Star/Hover.png",
-            "https://www.youtube.com"
+            game, new LoginScreen(this)
         );
-        linkToWebButton.setScale(SQUARE_SCALE);
-        linkToWebButton.setPosition(
-            viewport.getWorldWidth() - linkToWebButton.getWidth() - PADDING_MAIN_MENU,
+        login.setScale(SQUARE_SCALE);
+        login.setPosition(
+            viewport.getWorldWidth() - login.getWidth() - PADDING_MAIN_MENU,
             PADDING_MAIN_MENU);
-        buttons.add(linkToWebButton);
+        buttons.add(login);
     }
 
     private void initLevelButtons() {

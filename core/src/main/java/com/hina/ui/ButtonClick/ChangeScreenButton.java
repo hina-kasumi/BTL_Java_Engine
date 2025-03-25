@@ -4,17 +4,17 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
-public class BackButton extends ButtonAbstract {
+public class ChangeScreenButton extends ButtonAbstract {
     private final Game game;
     private final Screen prevScreen;
 
-    public BackButton(String src,Game game, Screen prevScreen) {
+    public ChangeScreenButton(String src, Game game, Screen prevScreen) {
         super(src);
         this.game = game;
         this.prevScreen = prevScreen;
     }
 
-    public BackButton(String normalSrc, String hoverSrc,Game game, Screen prevScreen) {
+    public ChangeScreenButton(String normalSrc, String hoverSrc, Game game, Screen prevScreen) {
         super(normalSrc, hoverSrc);
         this.game = game;
         this.prevScreen = prevScreen;
