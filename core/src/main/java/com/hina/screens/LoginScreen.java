@@ -37,13 +37,13 @@ public class LoginScreen extends ScreenAbstract {
         pixmap.dispose();
 
         NinePatch ninePatch = new NinePatch(texture, 2, 2, 2, 2);
+        messageLabel = new Label("Welcome!", new Label.LabelStyle(new BitmapFont(), textColor));
 
         initStage();
         initBackground();
         initTextField(ninePatch);
         initButton(ninePatch);
 
-        messageLabel = new Label("Welcome!", new Label.LabelStyle(new BitmapFont(), textColor));
 
         initTable(ninePatch);
     }
@@ -96,7 +96,7 @@ public class LoginScreen extends ScreenAbstract {
                     return;
                 }
 
-                AuthUtils.login(username, password);
+                AuthUtils.login(username, password, messageLabel);
             }
         });
     }
@@ -121,9 +121,6 @@ public class LoginScreen extends ScreenAbstract {
             viewport.getScreenWidth() / 2f - width / 2,
             viewport.getScreenHeight() / 2f - height
         );
-
-        System.out.println(table.getX() + "," + table.getY());
-        System.out.println(table.getWidth() + "," + table.getHeight());
 
         // add element
         table.add(messageLabel).colspan(2).height(height).pad(padding).center();
