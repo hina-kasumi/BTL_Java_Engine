@@ -1,6 +1,6 @@
 package com.hina.dto.request;
 
-public class LoginRequest implements Request {
+public class LoginRequest {
     private String username;
     private String password;
 

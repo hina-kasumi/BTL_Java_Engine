@@ -12,16 +12,26 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.hina.ui.MyPanel.MainMenuBackground;
 import com.hina.ui.MyPanel.MyPanelList;
 import com.hina.utils.AuthUtils;
+import com.hina.utils.ResponseInterface;
+
+import java.io.FileWriter;
+import java.io.IOException;
+
+import static com.hina.constant.GameConst.FILE_AUTH_INFO;
 
 
 public class LoginScreen extends ScreenAbstract {
     private Stage stage;
     private Stage stageWithOutViewPort;
     private TextField usernameField, passwordField;
-    private TextButton loginButton;
+    private TextButton loginButton, registerButton;
     private Label messageLabel;
     private MyPanelList myPanelList;
     private final Color textColor = Color.WHITE;
+    private final float padding = 10;
+    private final float width = 300;
+    private final float height = 50;
+    private Texture texture;
 
 
     public LoginScreen(ScreenAbstract screen) {
@@ -33,7 +43,7 @@ public class LoginScreen extends ScreenAbstract {
         Pixmap pixmap = new Pixmap(5, 5, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.valueOf("#A0C878")); // Màu viền
         pixmap.fill();
-        Texture texture = new Texture(pixmap);
+        texture = new Texture(pixmap);
         pixmap.dispose();
 
         NinePatch ninePatch = new NinePatch(texture, 2, 2, 2, 2);
@@ -43,7 +53,6 @@ public class LoginScreen extends ScreenAbstract {
         initBackground();
         initTextField(ninePatch);
         initButton(ninePatch);
-
 
         initTable(ninePatch);
     }
@@ -77,14 +86,17 @@ public class LoginScreen extends ScreenAbstract {
     }
 
     private void initButton(NinePatch ninePatch) {
+        // style button
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
         NinePatchDrawable buttonBackground = new NinePatchDrawable(ninePatch);
         buttonStyle.font = new BitmapFont();
         buttonStyle.fontColor = textColor;
         buttonStyle.up = buttonBackground;
         buttonStyle.down = buttonBackground;
+
+
         loginButton = new TextButton("Login", buttonStyle);
-        loginButton.pad(10);
+        loginButton.pad(padding);
         loginButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -96,16 +108,30 @@ public class LoginScreen extends ScreenAbstract {
                     return;
                 }
 
-                AuthUtils.login(username, password, messageLabel);
+                AuthUtils.login(username, password, new AuthResponse(username, password));
+            }
+        });
+
+        registerButton = new TextButton("Register", buttonStyle);
+        registerButton.pad(padding);
+        registerButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                String username = usernameField.getText();
+                String password = passwordField.getText();
+
+                if (username.isEmpty() || password.isEmpty()) {
+                    messageLabel.setText("Username or password cannot be empty!");
+                    return;
+                }
+
+                AuthUtils.register(username, password, new AuthResponse(username, password));
             }
         });
     }
 
     private void initTable(NinePatch ninePatch) {
         Table table = new Table();
-        float padding = 10;
-        float width = 300;
-        float height = 50;
 
         // color
         table.setBackground(new NinePatchDrawable(ninePatch));
@@ -125,13 +151,15 @@ public class LoginScreen extends ScreenAbstract {
         // add element
         table.add(messageLabel).colspan(2).height(height).pad(padding).center();
         table.row();
-        table.add(usernameField).width(width).height(height).pad(padding).left();
+        table.add(usernameField).colspan(2).width(width).height(height).pad(padding).left();
         table.row();
-        table.add(passwordField).width(width).height(height).pad(padding).left();
+        table.add(passwordField).colspan(2).width(width).height(height).pad(padding).left();
         table.row();
-        table.add(loginButton).colspan(2).height(height).pad(padding).center();
+        table.add(registerButton).height(height).width(width / 2 - padding).pad(padding).center();
+        table.add(loginButton).height(height).width(width / 2 - padding).pad(padding).center();
 
         stageWithOutViewPort.addActor(table);
+//        table.debug();
     }
 
 
@@ -168,5 +196,35 @@ public class LoginScreen extends ScreenAbstract {
         stage.dispose();
         stageWithOutViewPort.dispose();
         myPanelList.dispose();
+        texture.dispose();
+    }
+
+    private class AuthResponse implements ResponseInterface {
+        private final String username;
+        private final String password;
+
+        public AuthResponse(String username, String password) {
+            this.username = username;
+            this.password = password;
+        }
+
+        @Override
+        public void response(String response) {
+            messageLabel.setText(response);
+
+            try (FileWriter fileWriter = new FileWriter(FILE_AUTH_INFO)) {
+                fileWriter.write(username + "\n" + password);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            // Chạy trên luồng chính
+            Gdx.app.postRunnable(() -> game.setScreen(new MainMenuScreen(game, viewport, camera)));
+        }
+
+        @Override
+        public void error(String error) {
+            messageLabel.setText(error);
+        }
     }
 }
