@@ -17,6 +17,7 @@ public class MainListener implements com.badlogic.gdx.physics.box2d.ContactListe
         contactListeners.add(new PlayerContactEnemyListener());
         contactListeners.add(new CombatListener());
         contactListeners.add(new EnemyCollisionListener());
+        contactListeners.add(new DeathZoneListener());
     }
 
     @Override

@@ -16,8 +16,7 @@ import com.hina.entities.enemy.BasicEnemy.Goblin.Goblin;
 import com.hina.entities.enemy.BasicEnemy.Mushroom.Mushroom;
 import com.hina.entities.enemy.BasicEnemy.Skeletion.Skeleton;
 
-import static com.hina.constant.GameConst.GROUND_TAG;
-import static com.hina.constant.GameConst.PPM;
+import static com.hina.constant.GameConst.*;
 
 public class Map {
     private final World world;
@@ -35,6 +34,7 @@ public class Map {
         tiledMap = new TmxMapLoader().load(fileName);
         createGroundFromTiledMap(world, tiledMap);
         createBasicEnemy(heroManager);
+        createDeathZone();
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / PPM * scale);
     }
 
@@ -86,6 +86,35 @@ public class Map {
             }
         }
     }
+
+    private void createDeathZone() {
+        MapObjects deadzone_layer = tiledMap.getLayers().get("deadzone_layer").getObjects();
+
+        for (MapObject object : deadzone_layer) {
+            if (object instanceof RectangleMapObject) {
+                Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+                BodyDef bodyDef = new BodyDef();
+                bodyDef.type = BodyDef.BodyType.StaticBody;
+                bodyDef.position.set((rect.x + rect.width / 2) / PPM * scale,
+                    (rect.y + rect.height / 2) / PPM * scale);
+
+                Body body = world.createBody(bodyDef);
+                body.setUserData(DEATH_ZONE_TAG);
+
+                PolygonShape shape = new PolygonShape();
+                shape.setAsBox((rect.width / 2) / PPM * scale, (rect.height / 2) / PPM * scale);
+
+                FixtureDef fixtureDef = new FixtureDef();
+                fixtureDef.shape = shape;
+                fixtureDef.friction = 0.5f;
+
+                body.createFixture(fixtureDef);
+                shape.dispose();
+            }
+        }
+    }
+
 
     public void render() {
         mapRenderer.setView(camera);
