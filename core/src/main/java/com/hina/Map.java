@@ -23,8 +23,8 @@ public class Map {
     private final World world;
     private final OrthographicCamera camera;
     private final TiledMap tiledMap;
-    private OrthogonalTiledMapRenderer mapRenderer;
-    private final float scale = 2f;
+    private final OrthogonalTiledMapRenderer mapRenderer;
+    private final float scale = 4f;
     private final BasicEnemyManager basicEnemyManager;
 
     public Map(OrthographicCamera camera, World world, HeroManager heroManager, String fileName, BasicEnemyManager basicEnemyManager) {
@@ -39,7 +39,7 @@ public class Map {
     }
 
     private void createGroundFromTiledMap(World world, TiledMap map) {
-        MapObjects objects = map.getLayers().get("collision").getObjects();
+        MapObjects objects = map.getLayers().get("collision_layer").getObjects();
 
         for (MapObject object : objects) {
             if (object instanceof RectangleMapObject) {
@@ -73,8 +73,8 @@ public class Map {
             for (MapObject mapObject : objectLayer.getObjects()) {
                 if (mapObject instanceof RectangleMapObject) {
                     Rectangle rect = ((RectangleMapObject) mapObject).getRectangle();
-                    float x = rect.x / PPM;
-                    float y = rect.y / PPM;
+                    float x = rect.x / PPM * scale;
+                    float y = rect.y / PPM * scale;
                     int random = (int) (Math.random() * 3);
                     switch (random) {
                         case 0 -> basicEnemyManager.add(new Mushroom(world, heroManager, x, y));

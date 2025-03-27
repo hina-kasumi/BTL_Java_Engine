@@ -118,7 +118,7 @@ public class LevelSelectionScreen extends ScreenAbstract {
     private void initLevelButtons() {
         levelButtonList.add(
             new LevelButton(game,
-                new GameScreen(this, new Vector2(0, 10), "maps/map.tmx")),
+                new GameScreen(this, new Vector2(0, 50), "maps/map_01/map-tmx/map01.tmx")),
             LEVEL_SELECTION_SCALE);
 
         levelButtonList.setPosition((viewport.getWorldWidth() - levelButtonList.getWidth()) / 2,
