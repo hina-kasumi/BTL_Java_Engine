@@ -43,9 +43,9 @@ public class GameManager {
         background.draw(batch, camera, viewport);
         basicEnemyManager.draw(batch);
         bossManager.draw(batch);
+        map.render();
         heroManager.renderHealthBar(batch, camera, viewport);
         heroManager.draw(batch);
-        map.render();
     }
 
     public void renderHealthBat(OrthographicCamera camera) {

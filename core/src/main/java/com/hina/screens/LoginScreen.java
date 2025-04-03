@@ -1,6 +1,7 @@
 package com.hina.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
@@ -9,16 +10,15 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.hina.dto.request.RequestInterface;
+import com.hina.dto.response.AuthResponse;
+import com.hina.dto.response.ResponseInterface;
 import com.hina.ui.MyPanel.MainMenuBackground;
 import com.hina.ui.MyPanel.MyPanelList;
 import com.hina.utils.AuthUtils;
-import com.hina.utils.ResponseInterface;
+import com.hina.utils.RequestUtils;
 
-import java.io.FileWriter;
-import java.io.IOException;
-
-import static com.hina.constant.GameConst.FILE_AUTH_INFO;
-
+import static com.hina.constant.GameConst.DOMAIN;
 
 public class LoginScreen extends ScreenAbstract {
     private Stage stage;
@@ -108,7 +108,8 @@ public class LoginScreen extends ScreenAbstract {
                     return;
                 }
 
-                AuthUtils.login(username, password, new AuthResponse(username, password));
+                AuthUtils.login(username, password,
+                    new AuthResponse(username, password, game, viewport, camera, messageLabel));
             }
         });
 
@@ -125,7 +126,9 @@ public class LoginScreen extends ScreenAbstract {
                     return;
                 }
 
-                AuthUtils.register(username, password, new AuthResponse(username, password));
+                AuthUtils.register(username, password,
+                    new AuthResponse(username, password, game, viewport, camera, messageLabel));
+
             }
         });
     }
@@ -197,34 +200,5 @@ public class LoginScreen extends ScreenAbstract {
         stageWithOutViewPort.dispose();
         myPanelList.dispose();
         texture.dispose();
-    }
-
-    private class AuthResponse implements ResponseInterface {
-        private final String username;
-        private final String password;
-
-        public AuthResponse(String username, String password) {
-            this.username = username;
-            this.password = password;
-        }
-
-        @Override
-        public void response(String response) {
-            messageLabel.setText(response);
-
-            try (FileWriter fileWriter = new FileWriter(FILE_AUTH_INFO)) {
-                fileWriter.write(username + "\n" + password);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-            // Chạy trên luồng chính
-            Gdx.app.postRunnable(() -> game.setScreen(new MainMenuScreen(game, viewport, camera)));
-        }
-
-        @Override
-        public void error(String error) {
-            messageLabel.setText(error);
-        }
     }
 }

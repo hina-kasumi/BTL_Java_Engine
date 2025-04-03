@@ -1,4 +1,4 @@
-package com.hina.utils;
+package com.hina.dto.response;
 
 public interface ResponseInterface {
     void response(String response);

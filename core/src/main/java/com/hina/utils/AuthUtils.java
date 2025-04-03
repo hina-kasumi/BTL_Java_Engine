@@ -1,72 +1,24 @@
 package com.hina.utils;
 
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.net.HttpRequestBuilder;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.hina.dto.request.LoginRequest;
+import com.hina.dto.request.SendRequestInterface;
+import com.hina.dto.response.ResponseInterface;
 
-public class AuthUtils {
+import static com.hina.constant.GameConst.DOMAIN;
+
+public class AuthUtils implements SendRequestInterface {
     public static void login(String username, String password, ResponseInterface responseInterface) {
-        Net.HttpRequest httpRequest = authRequest("http://localhost:8080/login", username, password);
-
-        Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
-            @Override
-            public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                if (httpResponse.getStatus().getStatusCode() != 200) {
-                    throw new RuntimeException(httpResponse.getResultAsString());
-                }
-                Json json = new Json(JsonWriter.OutputType.json);
-                Object responseMessage = json.fromJson(String.class, httpResponse.getResultAsString());
-                System.out.println(responseMessage);
-
-                responseInterface.response(responseMessage.toString());
-            }
-
-            @Override
-            public void failed(Throwable throwable) {
-                throwable.printStackTrace();
-                responseInterface.error(throwable.getMessage());
-                System.out.println("failed");
-            }
-
-            @Override
-            public void cancelled() {
-                System.out.println("cancel");
-            }
-        });
+        Net.HttpRequest httpRequest = authRequest(DOMAIN + "/login", username, password);
+        new AuthUtils().sendRequest(httpRequest, responseInterface);
     }
 
     public static void register(String username, String password, ResponseInterface responseInterface) {
-        Net.HttpRequest httpRequest = authRequest("http://localhost:8080/register", username, password);
-
-        Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
-            @Override
-            public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                if (httpResponse.getStatus().getStatusCode() != 200) {
-                    throw new RuntimeException(httpResponse.getResultAsString());
-                }
-                Json json = new Json(JsonWriter.OutputType.json);
-                Object responseMessage = json.fromJson(String.class, httpResponse.getResultAsString());
-                System.out.println(responseMessage);
-
-                responseInterface.response(responseMessage.toString());
-            }
-
-            @Override
-            public void failed(Throwable throwable) {
-                throwable.printStackTrace();
-                responseInterface.error(throwable.getMessage());
-                System.out.println("failed");
-            }
-
-            @Override
-            public void cancelled() {
-
-            }
-        });
+        Net.HttpRequest httpRequest = authRequest(DOMAIN + "/register", username, password);
+        new AuthUtils().sendRequest(httpRequest, responseInterface);
     }
 
     private static Net.HttpRequest authRequest(String url, String username, String password) {
@@ -74,12 +26,16 @@ public class AuthUtils {
         LoginRequest loginRequest = new LoginRequest(username, password);
         String requestJson = json.toJson(loginRequest);
 
+        // Mã hóa username và password theo dạng "username:password" → Base64
+//        String basicAuth = Base64.getEncoder().encodeToString(("hina:hina").getBytes());
+//        System.out.println(basicAuth);
         HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
         return requestBuilder
             .newRequest()
             .url(url)
             .method(Net.HttpMethods.POST)
             .header("Content-Type", "application/json")
+//            .header("Authorization", "Basic " + basicAuth)
             .content(requestJson)
             .build();
     }

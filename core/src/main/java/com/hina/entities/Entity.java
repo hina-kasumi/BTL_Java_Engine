@@ -152,6 +152,14 @@ public abstract class Entity {
         body.setLinearVelocity(0, body.getLinearVelocity().y);
     }
 
+    public void setMovingRight(boolean movingRight) {
+        this.movingRight = movingRight;
+    }
+
+    public boolean isMovingRight() {
+        return movingRight;
+    }
+
     public abstract void update(float delta);
 
     public abstract void draw(SpriteBatch batch);

@@ -17,9 +17,9 @@ public class DeathZoneListener implements ContactListener {
         var userDataA = fixtureA.getBody().getUserData();
         var userDataB = fixtureB.getBody().getUserData();
 
+        if (userDataA instanceof Entity && DEATH_ZONE_TAG.equals(userDataB) ||
+            userDataB instanceof Entity && DEATH_ZONE_TAG.equals(userDataA)) {
         Entity entity = (Entity) ((userDataA instanceof Entity) ? userDataA : userDataB);
-        if (entity == userDataA && DEATH_ZONE_TAG.equals(userDataB) ||
-            entity == userDataB && DEATH_ZONE_TAG.equals(userDataA)) {
             deathZoneProcess(entity);
         }
     }
@@ -35,11 +35,20 @@ public class DeathZoneListener implements ContactListener {
 
     @Override
     public void preSolve(Contact contact, Manifold manifold) {
+        Fixture fixtureA = contact.getFixtureA();
+        Fixture fixtureB = contact.getFixtureB();
 
+        var userDataA = fixtureA.getBody().getUserData();
+        var userDataB = fixtureB.getBody().getUserData();
+
+        Entity entity = (Entity) ((userDataA instanceof Entity) ? userDataA : userDataB);
+        if (entity == userDataA && DEATH_ZONE_TAG.equals(userDataB) ||
+            entity == userDataB && DEATH_ZONE_TAG.equals(userDataA)) {
+            contact.setEnabled(false);
+        }
     }
 
     @Override
     public void postSolve(Contact contact, ContactImpulse contactImpulse) {
-
     }
 }
