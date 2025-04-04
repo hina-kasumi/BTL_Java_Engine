@@ -17,6 +17,7 @@ import com.hina.ui.MyPanel.MyPanelList;
 import com.hina.screens.GameScreen.GameScreen;
 import com.hina.ui.MyText;
 
+import static com.hina.constant.GameConst.MAP_SCALE;
 import static com.hina.constant.LevelSelectionScreenConst.*;
 import static com.hina.constant.MainMenuConst.PADDING_MAIN_MENU;
 import static com.hina.constant.MainMenuConst.SQUARE_SCALE;
@@ -117,8 +118,15 @@ public class LevelSelectionScreen extends ScreenAbstract {
 
     private void initLevelButtons() {
         levelButtonList.add(
-            new LevelButton(game,
-                new GameScreen(this, new Vector2(0, 50), "maps/map_01/map-tmx/map01.tmx")),
+            new LevelButton(game, new GameScreen(this,
+                new Vector2(1.76f * MAP_SCALE, 5.12f * MAP_SCALE),
+                "maps/map_01/map-tmx/map01.tmx")),
+            LEVEL_SELECTION_SCALE);
+
+        levelButtonList.add(
+            new LevelButton(game, new GameScreen(this,
+                new Vector2(2.88f * MAP_SCALE, 6.08f * MAP_SCALE),
+                "maps/map_01/map-tmx/map02.tmx")),
             LEVEL_SELECTION_SCALE);
 
         levelButtonList.setPosition((viewport.getWorldWidth() - levelButtonList.getWidth()) / 2,

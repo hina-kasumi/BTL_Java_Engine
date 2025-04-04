@@ -23,7 +23,6 @@ public class Map {
     private final OrthographicCamera camera;
     private final TiledMap tiledMap;
     private final OrthogonalTiledMapRenderer mapRenderer;
-    private final float scale = 4f;
     private final BasicEnemyManager basicEnemyManager;
 
     public Map(OrthographicCamera camera, World world, HeroManager heroManager, String fileName, BasicEnemyManager basicEnemyManager) {
@@ -32,29 +31,43 @@ public class Map {
         this.basicEnemyManager = basicEnemyManager;
 
         tiledMap = new TmxMapLoader().load(fileName);
-        createGroundFromTiledMap(world, tiledMap);
+        createGroundFromTiledMap();
         createBasicEnemy(heroManager);
         createDeathZone();
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / PPM * scale);
+        createWinZone();
+        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / PPM * MAP_SCALE);
     }
 
-    private void createGroundFromTiledMap(World world, TiledMap map) {
-        MapObjects objects = map.getLayers().get("collision_layer").getObjects();
+    private void createGroundFromTiledMap() {
+        MapObjects objects = tiledMap.getLayers().get("collision_layer").getObjects();
+        createZone(objects, GROUND_TAG);
+    }
 
+    private void createDeathZone() {
+        MapObjects deadzone_layer = tiledMap.getLayers().get("deadzone_layer").getObjects();
+        createZone(deadzone_layer, DEATH_ZONE_TAG);
+    }
+
+    private void createWinZone() {
+        MapObjects winZone = tiledMap.getLayers().get("winzone_layer").getObjects();
+        createZone(winZone, WIN_ZONE_TAG);
+    }
+
+    private void createZone(MapObjects objects, String tag) {
         for (MapObject object : objects) {
             if (object instanceof RectangleMapObject) {
                 Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
                 BodyDef bodyDef = new BodyDef();
                 bodyDef.type = BodyDef.BodyType.StaticBody;
-                bodyDef.position.set((rect.x + rect.width / 2) / PPM * scale,
-                    (rect.y + rect.height / 2) / PPM * scale);
+                bodyDef.position.set((rect.x + rect.width / 2) / PPM * MAP_SCALE,
+                    (rect.y + rect.height / 2) / PPM * MAP_SCALE);
 
                 Body body = world.createBody(bodyDef);
-                body.setUserData(GROUND_TAG);
+                body.setUserData(tag);
 
                 PolygonShape shape = new PolygonShape();
-                shape.setAsBox((rect.width / 2) / PPM * scale, (rect.height / 2) / PPM * scale);
+                shape.setAsBox((rect.width / 2) / PPM * MAP_SCALE, (rect.height / 2) / PPM * MAP_SCALE);
 
                 FixtureDef fixtureDef = new FixtureDef();
                 fixtureDef.shape = shape;
@@ -73,8 +86,8 @@ public class Map {
             for (MapObject mapObject : objectLayer.getObjects()) {
                 if (mapObject instanceof RectangleMapObject) {
                     Rectangle rect = ((RectangleMapObject) mapObject).getRectangle();
-                    float x = rect.x / PPM * scale;
-                    float y = rect.y / PPM * scale;
+                    float x = rect.x / PPM * MAP_SCALE;
+                    float y = rect.y / PPM * MAP_SCALE;
                     int random = (int) (Math.random() * 3);
                     switch (random) {
                         case 0 -> basicEnemyManager.add(new Mushroom(world, heroManager, x, y));
@@ -87,36 +100,9 @@ public class Map {
         }
     }
 
-    private void createDeathZone() {
-        MapObjects deadzone_layer = tiledMap.getLayers().get("deadzone_layer").getObjects();
-
-        for (MapObject object : deadzone_layer) {
-            if (object instanceof RectangleMapObject) {
-                Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-                BodyDef bodyDef = new BodyDef();
-                bodyDef.type = BodyDef.BodyType.StaticBody;
-                bodyDef.position.set((rect.x + rect.width / 2) / PPM * scale,
-                    (rect.y + rect.height / 2) / PPM * scale);
-
-                Body body = world.createBody(bodyDef);
-                body.setUserData(DEATH_ZONE_TAG);
-
-                PolygonShape shape = new PolygonShape();
-                shape.setAsBox((rect.width / 2) / PPM * scale, (rect.height / 2) / PPM * scale);
-
-                FixtureDef fixtureDef = new FixtureDef();
-                fixtureDef.shape = shape;
-                fixtureDef.friction = 0.5f;
-
-                body.createFixture(fixtureDef);
-                shape.dispose();
-            }
-        }
-    }
-
 
     public void render() {
+        camera.update();
         mapRenderer.setView(camera);
         mapRenderer.render();
     }

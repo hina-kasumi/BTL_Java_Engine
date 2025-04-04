@@ -65,7 +65,7 @@ public abstract class BasicEnemy extends Entity {
     }
 
     protected void runUpdate(float bornToPlayer, float distantToPlayer, boolean ableAttackPlayer) {
-        final float activeArea = 5f;
+        final float activeArea = 2f;
         final float speed = 3f;
 
         float dst = body.getPosition().x - bornPosition.x;

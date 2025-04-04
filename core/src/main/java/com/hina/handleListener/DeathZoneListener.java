@@ -8,7 +8,7 @@ import com.hina.entities.Entity;
 
 import static com.hina.constant.GameConst.DEATH_ZONE_TAG;
 
-public class DeathZoneListener implements ContactListener {
+public class DeathZoneListener implements InvisibleZoneContact {
     @Override
     public void beginContact(Contact contact) {
         Fixture fixtureA = contact.getFixtureA();
@@ -35,17 +35,7 @@ public class DeathZoneListener implements ContactListener {
 
     @Override
     public void preSolve(Contact contact, Manifold manifold) {
-        Fixture fixtureA = contact.getFixtureA();
-        Fixture fixtureB = contact.getFixtureB();
-
-        var userDataA = fixtureA.getBody().getUserData();
-        var userDataB = fixtureB.getBody().getUserData();
-
-        Entity entity = (Entity) ((userDataA instanceof Entity) ? userDataA : userDataB);
-        if (entity == userDataA && DEATH_ZONE_TAG.equals(userDataB) ||
-            entity == userDataB && DEATH_ZONE_TAG.equals(userDataA)) {
-            contact.setEnabled(false);
-        }
+        visibleContact(contact, DEATH_ZONE_TAG);
     }
 
     @Override
