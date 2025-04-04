@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.hina.entities.AnimationState;
 import com.hina.entities.Entity;
@@ -390,6 +389,10 @@ public abstract class Hero extends Entity {
     public void setAttackBoxSize(float width, float height) {
         this.attackBoxWidth = width;
         this.attackBoxHeight = height;
+    }
+
+    public GameScreen getGameScreen() {
+        return gameScreen;
     }
 
     protected void setBasicAttackAt(int start) {

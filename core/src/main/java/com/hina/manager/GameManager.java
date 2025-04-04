@@ -41,9 +41,13 @@ public class GameManager {
 
     public void draw(SpriteBatch batch, OrthographicCamera camera, FitViewport viewport) {
         background.draw(batch, camera, viewport);
+        batch.end();
+
+        map.render();
+
+        batch.begin();
         basicEnemyManager.draw(batch);
         bossManager.draw(batch);
-        map.render();
         heroManager.renderHealthBar(batch, camera, viewport);
         heroManager.draw(batch);
     }

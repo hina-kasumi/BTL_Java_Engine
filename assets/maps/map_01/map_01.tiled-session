@@ -3,10 +3,11 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "map-tmx/map02.tmx",
+    "activeFile": "map-tmx/map_boss_01.tmx",
     "expandedProjectPaths": [
         "assets",
-        "."
+        ".",
+        "map-tmx"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
@@ -125,21 +126,21 @@
                 5
             ],
             "scale": 1,
-            "selectedLayer": 3,
+            "selectedLayer": 0,
             "viewCenter": {
                 "x": 3120,
-                "y": 847.5
+                "y": 546.5
             }
         },
         "map-tmx/map02.tmx": {
             "expandedObjectLayers": [
                 6
             ],
-            "scale": 1.5,
+            "scale": 0.25,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 7854.666666666666,
-                "y": 304.33333333333337
+                "x": 5516,
+                "y": 798
             }
         },
         "map-tmx/map_boss_01.tmx": {
@@ -147,11 +148,11 @@
                 2,
                 3
             ],
-            "scale": 1,
-            "selectedLayer": 2,
+            "scale": 1.5,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 543,
-                "y": 243.5
+                "x": 334.66666666666663,
+                "y": 260.33333333333337
             }
         },
         "map_01.tmx": {
@@ -200,9 +201,9 @@
         "assets/Tiles-LF.tsx",
         "assets/Interior-01-LF.tsx",
         "assets/Buildings-LF.tsx",
-        "map-tmx/map_boss_01.tmx",
-        "map-tmx/map01.tmx",
         "map-tmx/map02.tmx",
+        "map-tmx/map01.tmx",
+        "map-tmx/map_boss_01.tmx",
         "mob/Idle-Sheet-Boar-LF.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",

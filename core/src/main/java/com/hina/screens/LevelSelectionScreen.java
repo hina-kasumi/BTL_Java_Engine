@@ -129,6 +129,12 @@ public class LevelSelectionScreen extends ScreenAbstract {
                 "maps/map_01/map-tmx/map02.tmx")),
             LEVEL_SELECTION_SCALE);
 
+//        levelButtonList.add(
+//            new LevelButton(game, new GameScreen(this,
+//                new Vector2(1.44f * MAP_SCALE, 1.44f * MAP_SCALE),
+//                "maps/map_01/map-tmx/map_boss_01.tmx")),
+//            LEVEL_SELECTION_SCALE);
+
         levelButtonList.setPosition((viewport.getWorldWidth() - levelButtonList.getWidth()) / 2,
             viewport.getWorldHeight() - LEVEL_SELECTION_MARGIN_TOP);
     }

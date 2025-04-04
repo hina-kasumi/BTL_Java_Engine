@@ -31,29 +31,32 @@ public class Map {
         this.basicEnemyManager = basicEnemyManager;
 
         tiledMap = new TmxMapLoader().load(fileName);
-        createGroundFromTiledMap();
         createBasicEnemy(heroManager);
+        createGroundFromTiledMap();
         createDeathZone();
         createWinZone();
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / PPM * MAP_SCALE);
     }
 
     private void createGroundFromTiledMap() {
-        MapObjects objects = tiledMap.getLayers().get("collision_layer").getObjects();
+        MapLayer objects = tiledMap.getLayers().get("collision_layer");
         createZone(objects, GROUND_TAG);
     }
 
     private void createDeathZone() {
-        MapObjects deadzone_layer = tiledMap.getLayers().get("deadzone_layer").getObjects();
+        MapLayer deadzone_layer = tiledMap.getLayers().get("deadzone_layer");
         createZone(deadzone_layer, DEATH_ZONE_TAG);
     }
 
     private void createWinZone() {
-        MapObjects winZone = tiledMap.getLayers().get("winzone_layer").getObjects();
-        createZone(winZone, WIN_ZONE_TAG);
+        MapLayer winZoneLayer = tiledMap.getLayers().get("winzone_layer");
+        createZone(winZoneLayer, WIN_ZONE_TAG);
     }
 
-    private void createZone(MapObjects objects, String tag) {
+    private void createZone(MapLayer layer, String tag) {
+        if (layer == null)
+            return;
+        MapObjects objects = layer.getObjects();
         for (MapObject object : objects) {
             if (object instanceof RectangleMapObject) {
                 Rectangle rect = ((RectangleMapObject) object).getRectangle();

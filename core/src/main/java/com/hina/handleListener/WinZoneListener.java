@@ -1,16 +1,38 @@
 package com.hina.handleListener;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.hina.entities.Player.Hero;
+import com.hina.screens.GameScreen.BossGameScreen;
+import com.hina.screens.GameScreen.GameScreen;
 
+import static com.hina.constant.GameConst.MAP_SCALE;
 import static com.hina.constant.GameConst.WIN_ZONE_TAG;
 
 
 public class WinZoneListener implements InvisibleZoneContact {
     @Override
     public void beginContact(Contact contact) {
+        Fixture fixtureA = contact.getFixtureA();
+        Fixture fixtureB = contact.getFixtureB();
 
+        var userDataA = fixtureA.getBody().getUserData();
+        var userDataB = fixtureB.getBody().getUserData();
+
+        if (userDataA instanceof Hero && WIN_ZONE_TAG.equals(userDataB) ||
+            userDataB instanceof Hero && WIN_ZONE_TAG.equals(userDataA)) {
+            Hero hero = (Hero) (userDataA instanceof Hero ? userDataA : userDataB);
+            loadBossChallenge(hero.getGameScreen());
+        }
+    }
+
+    private void loadBossChallenge(GameScreen gameScreen) {
+        gameScreen.getGame().setScreen(new BossGameScreen(gameScreen,
+            new Vector2(1.44f * MAP_SCALE, 1.44f * MAP_SCALE),
+            "maps/map_01/map-tmx/map_boss_01.tmx"));
     }
 
     @Override
