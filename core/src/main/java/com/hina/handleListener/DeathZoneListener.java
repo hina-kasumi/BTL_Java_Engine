@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.hina.entities.Entity;
 
+import static com.hina.constant.GameConst.CHEAT;
 import static com.hina.constant.GameConst.DEATH_ZONE_TAG;
 
 public class DeathZoneListener implements InvisibleZoneContact {
@@ -19,8 +20,9 @@ public class DeathZoneListener implements InvisibleZoneContact {
 
         if (userDataA instanceof Entity && DEATH_ZONE_TAG.equals(userDataB) ||
             userDataB instanceof Entity && DEATH_ZONE_TAG.equals(userDataA)) {
-        Entity entity = (Entity) ((userDataA instanceof Entity) ? userDataA : userDataB);
-            deathZoneProcess(entity);
+            Entity entity = (Entity) ((userDataA instanceof Entity) ? userDataA : userDataB);
+            if (!CHEAT)
+                deathZoneProcess(entity);
         }
     }
 

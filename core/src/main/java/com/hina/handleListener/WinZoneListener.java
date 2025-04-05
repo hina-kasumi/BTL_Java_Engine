@@ -8,8 +8,8 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.hina.entities.Player.Hero;
 import com.hina.screens.GameScreen.BossGameScreen;
 import com.hina.screens.GameScreen.GameScreen;
+import com.hina.screens.GameScreen.NormalGameScreen;
 
-import static com.hina.constant.GameConst.MAP_SCALE;
 import static com.hina.constant.GameConst.WIN_ZONE_TAG;
 
 
@@ -30,9 +30,15 @@ public class WinZoneListener implements InvisibleZoneContact {
     }
 
     private void loadBossChallenge(GameScreen gameScreen) {
-        gameScreen.getGame().setScreen(new BossGameScreen(gameScreen,
-            new Vector2(1.44f * MAP_SCALE, 1.44f * MAP_SCALE),
-            "maps/map_01/map-tmx/map_boss_01.tmx"));
+        if (gameScreen instanceof NormalGameScreen normalGameScreen) {
+            Vector2 spawnInBoss = normalGameScreen.getSpawnInBoss();
+            System.out.println(spawnInBoss);
+            gameScreen.getGame().setScreen(new BossGameScreen(gameScreen,
+                new Vector2(spawnInBoss.x, spawnInBoss.y),
+                "maps/map_01/map-tmx/map_boss_" +
+                    gameScreen.getLevel() +
+                    ".tmx"));
+        }
     }
 
     @Override

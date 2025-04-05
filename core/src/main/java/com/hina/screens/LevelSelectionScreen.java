@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.hina.screens.GameScreen.NormalGameScreen;
 import com.hina.ui.ButtonClick.*;
 import com.hina.ui.ButtonClick.LevelButton.LevelButton;
 import com.hina.ui.ButtonClick.LevelButton.LevelButtonList;
@@ -118,22 +119,20 @@ public class LevelSelectionScreen extends ScreenAbstract {
 
     private void initLevelButtons() {
         levelButtonList.add(
-            new LevelButton(game, new GameScreen(this,
-                new Vector2(1.76f * MAP_SCALE, 5.12f * MAP_SCALE),
-                "maps/map_01/map-tmx/map01.tmx")),
+            new LevelButton(game, new NormalGameScreen(this,
+                new Vector2(1.76f, 5.12f),
+                "maps/map_01/map-tmx/map01.tmx")
+                .setSpawnInBoss(1.44f, 1.44f)
+            ),
             LEVEL_SELECTION_SCALE);
 
         levelButtonList.add(
-            new LevelButton(game, new GameScreen(this,
-                new Vector2(2.88f * MAP_SCALE, 6.08f * MAP_SCALE),
-                "maps/map_01/map-tmx/map02.tmx")),
+            new LevelButton(game, new NormalGameScreen(this,
+                new Vector2(2.88f, 6.08f),
+                "maps/map_01/map-tmx/map02.tmx")
+                .setSpawnInBoss(3.44f, 1.5f)
+            ),
             LEVEL_SELECTION_SCALE);
-
-//        levelButtonList.add(
-//            new LevelButton(game, new GameScreen(this,
-//                new Vector2(1.44f * MAP_SCALE, 1.44f * MAP_SCALE),
-//                "maps/map_01/map-tmx/map_boss_01.tmx")),
-//            LEVEL_SELECTION_SCALE);
 
         levelButtonList.setPosition((viewport.getWorldWidth() - levelButtonList.getWidth()) / 2,
             viewport.getWorldHeight() - LEVEL_SELECTION_MARGIN_TOP);

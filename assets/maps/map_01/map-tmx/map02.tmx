@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="500" height="60" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="305">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="500" height="60" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="307">
  <tileset firstgid="1" source="../assets/Tiles-LF.tsx"/>
  <tileset firstgid="626" source="../assets/Buildings-LF.tsx"/>
  <tileset firstgid="1251" source="../assets/Interior-01-LF.tsx"/>
@@ -298,6 +298,7 @@
   <object id="275" name="collision" x="5840" y="320" width="32" height="32"/>
   <object id="277" name="collision" x="5872" y="336" width="48" height="48"/>
   <object id="278" name="collision" x="5920" y="272" width="16" height="64"/>
+  <object id="306" name="collision" x="7984" y="192" width="16" height="144"/>
  </objectgroup>
  <objectgroup id="3" name="deadzone_layer">
   <object id="242" name="deadzone" x="7104" y="544" width="32" height="16"/>

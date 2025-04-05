@@ -1,6 +1,7 @@
 package com.hina.screens.GameScreen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -12,10 +13,15 @@ import com.hina.screens.GameOverScreen;
 import com.hina.screens.PauseManager;
 import com.hina.screens.ScreenAbstract;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static com.hina.constant.GameConst.CHEAT;
+import static com.hina.constant.GameConst.MAP_SCALE;
 import static com.hina.constant.GameScreenConst.*;
 import static com.hina.utils.Bin.clearBin;
 
-public class GameScreen extends ScreenAbstract {
+public abstract class GameScreen extends ScreenAbstract {
     private World world;
     private Box2DDebugRenderer box2DDebugRenderer;
     private SpriteBatch batch;
@@ -25,11 +31,18 @@ public class GameScreen extends ScreenAbstract {
     private PauseManager pauseManager;
     private GameOverScreen gameOverScreen;
     private CoinDisplay coinDisplay;
+    private int level;
 
     public GameScreen(ScreenAbstract screenAbstract, Vector2 playerSpawnPosition, String fileMapName) {
         super(screenAbstract);
-        this.playerSpawnPosition = playerSpawnPosition;
+        this.playerSpawnPosition =
+            new Vector2(playerSpawnPosition.x * MAP_SCALE, playerSpawnPosition.y * MAP_SCALE);
         this.fileMapName = fileMapName;
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(fileMapName);
+        while (matcher.find()) {
+            level = Integer.parseInt(matcher.group());
+        }
     }
 
     @Override
@@ -54,6 +67,10 @@ public class GameScreen extends ScreenAbstract {
         world.step(Gdx.graphics.getDeltaTime(), 6, 2); // Cập nhật vật lý
         clearBin(world);
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+            CHEAT = true;
+            System.out.println("switch to cheat mode");
+        }
         if (gameOverScreen.isGameOver()) {
             gameOverScreen.update();
             return;
@@ -119,7 +136,10 @@ public class GameScreen extends ScreenAbstract {
     }
 
     public Vector2 getPlayerSpawnPosition() {
-        return playerSpawnPosition;
+        return new Vector2(
+            playerSpawnPosition.x / MAP_SCALE,
+            playerSpawnPosition.y / MAP_SCALE
+        );
     }
 
     public String getFileMapName() {
@@ -132,5 +152,9 @@ public class GameScreen extends ScreenAbstract {
 
     public World getWorld() {
         return world;
+    }
+
+    public String getLevel() {
+        return ((level < 10) ? "0" : "") + level;
     }
 }
