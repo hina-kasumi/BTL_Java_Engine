@@ -32,7 +32,6 @@ public class WinZoneListener implements InvisibleZoneContact {
     private void loadBossChallenge(GameScreen gameScreen) {
         if (gameScreen instanceof NormalGameScreen normalGameScreen) {
             Vector2 spawnInBoss = normalGameScreen.getSpawnInBoss();
-            System.out.println(spawnInBoss);
             gameScreen.getGame().setScreen(new BossGameScreen(gameScreen,
                 new Vector2(spawnInBoss.x, spawnInBoss.y),
                 "maps/map_01/map-tmx/map_boss_" +
