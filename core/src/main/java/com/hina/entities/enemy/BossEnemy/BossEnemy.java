@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.hina.entities.AnimationState;
 import com.hina.entities.Entity;
@@ -24,19 +25,22 @@ public abstract class BossEnemy extends Entity {
     protected int startAttackAt;
     protected int endAttackAt;
     protected HealthBar healthBar;
+    protected final Vector2 bornPosition;
     private float basicAttackDamage;
     private float basicAttackBoxWidth;
     private float basicAttackBoxHeight;
     private float attackArea;
     private TextureRegion prevFrame;
+    private float excessPixels = 0;
 
-    public BossEnemy(World world, HeroManager heroManager, float x, float y, float maxHealth) {
-        super(world, x, y, BOSS_WIDTH, BOSS_HEIGHT, maxHealth, BOSS_DENSITY);
+    public BossEnemy(World world, HeroManager heroManager, float x, float y, float width, float height, float maxHealth) {
+        super(world, x, y, width, height, maxHealth, BOSS_DENSITY);
 
         this.heroManager = heroManager;
         body.setGravityScale(5);
         body.setUserData(this);
 
+        this.bornPosition = new Vector2(x, y);
         this.healthBar = new HealthBar(this);
         this.healthBar.setGap(100f);
     }
@@ -50,13 +54,22 @@ public abstract class BossEnemy extends Entity {
 
         healthBar.update();
         boolean prevMoveRight = movingRight;
+        float bornToPlayer = heroManager.getPosition().x - bornPosition.x;
         float distantToPlayer = heroManager.getPosition().x - body.getPosition().x;
         boolean ableAttackPlayer = heroManager.getPosition().dst(body.getPosition()) <= 5;
         animationPriority.add(AnimationState.IDLE);
 
         movingRight = distantToPlayer >= 0;
 
+        runUpdate();
         attackUpdate(prevMoveRight, distantToPlayer, ableAttackPlayer);
+    }
+
+    private void runUpdate() {
+        final float speed = 3f;
+
+        animationPriority.add(AnimationState.RUN);
+        body.setLinearVelocity(speed * ((movingRight) ? 1 : -1), body.getLinearVelocity().y);
     }
 
     private void deathUpdate() {
@@ -68,6 +81,10 @@ public abstract class BossEnemy extends Entity {
             }
             animationPriority.add(AnimationState.DEATH);
         }
+    }
+
+    public void setExcessPixels(float excessPixels) {
+        this.excessPixels = excessPixels;
     }
 
     protected void setAttackArea(float attackArea) {
@@ -135,11 +152,11 @@ public abstract class BossEnemy extends Entity {
         }
         prevFrame = currentFrame;
 
-        flip(currentFrame);
+        flip(currentFrame, false);
 
         batch.draw(currentFrame,
             body.getPosition().x - scale * currentFrame.getRegionWidth() / 2 / PPM,
-            body.getPosition().y - scale * currentFrame.getRegionHeight() / 2 / PPM,
+            body.getPosition().y - entityHeight - excessPixels / PPM * scale,
             currentFrame.getRegionWidth() * scale / PPM,
             currentFrame.getRegionHeight() * scale / PPM
         );

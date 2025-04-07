@@ -2,6 +2,7 @@ package com.hina.ui.ButtonClick;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.hina.screens.GameScreen.BossGameScreen;
+import com.hina.screens.GameScreen.GameScreen;
 import com.hina.screens.GameScreen.NormalGameScreen;
 import com.hina.screens.ScreenAbstract;
 
@@ -26,7 +27,7 @@ public class ReplayButton extends ButtonAbstract {
                     new NormalGameScreen(normalGameScreen,
                         normalGameScreen.getPlayerSpawnPosition(),
                         normalGameScreen.getFileMapName()));
-        } else if (screenAbstract instanceof NormalGameScreen gameScreen) {
+        } else if (screenAbstract instanceof GameScreen gameScreen) {
             screenAbstract.getGame().setScreen(
                 new NormalGameScreen(gameScreen,
                     gameScreen.getPlayerSpawnPosition(),

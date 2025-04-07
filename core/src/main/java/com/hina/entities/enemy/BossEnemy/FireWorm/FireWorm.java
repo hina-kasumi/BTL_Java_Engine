@@ -8,12 +8,13 @@ import static com.hina.constant.BossMonsterConst.FireWorm.*;
 
 public class FireWorm extends BossEnemy {
     public FireWorm(World world, HeroManager heroManager, float x, float y) {
-        super(world, heroManager, x, y, FIRE_WORM_MAX_HEALTH);
+        super(world, heroManager, x, y,BOSS_WIDTH, BOSS_HEIGHT, FIRE_WORM_MAX_HEALTH);
         this.scale = FIRE_WORM_SCALE;
-        setAttackTime(12, 13);
+        setAttackTime(ATTACK_START_AT, ATTACK_END_AT);
         setBasicAttackDamage(BOSS_MONSTER_ATTACK_BOX_DAMAGE);
         setBasicAttackBoxSize(BOSS_MONSTER_ATTACK_BOX_WIDTH, BOSS_MONSTER_ATTACK_BOX_HEIGHT);
         setAttackArea(BOSS_MONSTER_ATTACK_AREA);
+        setExcessPixels(EXCESS_PIXELS);
 
         createAnimation();
     }

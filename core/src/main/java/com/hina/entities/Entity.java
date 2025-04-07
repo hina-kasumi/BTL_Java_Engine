@@ -83,12 +83,24 @@ public abstract class Entity {
         return importAnimation(fileName, 0.1f);
     }
 
-    protected void flip(TextureRegion currentFrame) {
-        if (!movingRight && !currentFrame.isFlipX()) {
-            currentFrame.flip(true, false);
-        } else if (movingRight && currentFrame.isFlipX()) {
-            currentFrame.flip(true, false);
+    protected void flip(TextureRegion currentFrame, boolean leftToRight) {
+        if (leftToRight) {
+            if (!movingRight && !currentFrame.isFlipX()) {
+                currentFrame.flip(true, false);
+            } else if (movingRight && currentFrame.isFlipX()) {
+                currentFrame.flip(true, false);
+            }
+        } else {
+            if (movingRight && !currentFrame.isFlipX()) {
+                currentFrame.flip(true, false);
+            } else if (!movingRight && currentFrame.isFlipX()) {
+                currentFrame.flip(true, false);
+            }
         }
+    }
+
+    protected void flip(TextureRegion currentFrame) {
+        flip(currentFrame, true);
     }
 
     public Vector2 getPosition() {
@@ -132,7 +144,7 @@ public abstract class Entity {
         return maxHeath;
     }
 
-    public float getEntityWidth(){
+    public float getEntityWidth() {
         return entityWidth;
     }
 
