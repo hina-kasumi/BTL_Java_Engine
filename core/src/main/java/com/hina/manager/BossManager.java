@@ -14,8 +14,6 @@ public class BossManager {
 
     public BossManager(World world, HeroManager heroManager) {
         this.bossEnemies = new ArrayList<>();
-
-//        add(new FireWorm(world, heroManager, 10, 10));
     }
 
     public void add(BossEnemy bossEnemy) {
@@ -35,7 +33,7 @@ public class BossManager {
     }
 
     public void renderHealthBar(ShapeRenderer shapeRenderer) {
-//        bossEnemies.forEach(bossEnemy -> bossEnemy.renderHealthBar(shapeRenderer));
+        bossEnemies.forEach(bossEnemy -> bossEnemy.renderHealthBar(shapeRenderer));
     }
 
     public void dispose() {

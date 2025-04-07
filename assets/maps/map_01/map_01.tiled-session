@@ -5,9 +5,9 @@
     },
     "activeFile": "map-tmx/map_boss_01.tmx",
     "expandedProjectPaths": [
+        "map-tmx",
         ".",
-        "assets",
-        "map-tmx"
+        "assets"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
@@ -149,11 +149,11 @@
                 3,
                 2
             ],
-            "scale": 0.5,
-            "selectedLayer": 0,
+            "scale": 1.8749,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 480,
-                "y": 239
+                "x": 489.8927942823617,
+                "y": 237.07931089658115
             }
         },
         "map-tmx/map_boss_02.tmx": {

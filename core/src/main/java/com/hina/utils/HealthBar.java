@@ -2,43 +2,48 @@ package com.hina.utils;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.hina.entities.enemy.BasicEnemy.BasicEnemy;
+import com.hina.entities.Entity;
 
 import static com.hina.constant.GameConst.PPM;
 
 public class HealthBar {
-    private final BasicEnemy basicEnemy;
+    private final Entity entity;
     private final float entityWidth;
     private final float entityHeight;
     private final float maxHealth;
     private float x;
     private float y;
     private float curHealth;
+    private float gap = 1;
 
-    public HealthBar(BasicEnemy basicEnemy) {
-        this.basicEnemy = basicEnemy;
+    public HealthBar(Entity entity) {
+        this.entity = entity;
 
-        this.entityWidth = basicEnemy.getEntityWidth();  // Chiều rộng thực tế (vì Box2D dùng nửa chiều dài)
-        this.entityHeight = basicEnemy.getEntityHeight(); // Chiều cao thực tế
+        this.entityWidth = entity.getEntityWidth();  // Chiều rộng thực tế (vì Box2D dùng nửa chiều dài)
+        this.entityHeight = entity.getEntityHeight(); // Chiều cao thực tế
 
-        this.maxHealth = basicEnemy.getMaxHeath();
-        this.curHealth = basicEnemy.getCurHealth();
+        this.maxHealth = entity.getMaxHeath();
+        this.curHealth = entity.getCurHealth();
     }
 
     private void setXY() {
-        this.x = basicEnemy.getPosition().x - entityWidth / 2;
-        this.y = basicEnemy.getPosition().y;
+        this.x = entity.getPosition().x - entityWidth / 2;
+        this.y = entity.getPosition().y;
     }
 
     public void update() {
         setXY();
-        curHealth = basicEnemy.getCurHealth();
+        curHealth = entity.getCurHealth();
+    }
+
+    public void setGap(float gap) {
+        this.gap = gap;
     }
 
     public void render(ShapeRenderer shapeRenderer) {
         float border = 3 / PPM;
         float padding = 20 / PPM;
-        float gap = 1 / PPM;
+        float gap = this.gap / PPM;
         float healthBarHeight = 10f / PPM;
         float healthBatWidth = entityWidth + padding * 2;
         float healthBarX = x - padding;

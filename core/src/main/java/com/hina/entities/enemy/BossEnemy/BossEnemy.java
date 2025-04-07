@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.hina.entities.AnimationState;
 import com.hina.entities.Entity;
 import com.hina.manager.HeroManager;
+import com.hina.utils.HealthBar;
 
 import static com.hina.constant.BossMonsterConst.*;
 import static com.hina.constant.GameConst.PPM;
@@ -21,6 +23,7 @@ public abstract class BossEnemy extends Entity {
     protected Animation<TextureRegion> deathAnimation;
     protected int startAttackAt;
     protected int endAttackAt;
+    protected HealthBar healthBar;
     private float basicAttackDamage;
     private float basicAttackBoxWidth;
     private float basicAttackBoxHeight;
@@ -31,9 +34,11 @@ public abstract class BossEnemy extends Entity {
         super(world, x, y, BOSS_WIDTH, BOSS_HEIGHT, maxHealth, BOSS_DENSITY);
 
         this.heroManager = heroManager;
-
         body.setGravityScale(5);
         body.setUserData(this);
+
+        this.healthBar = new HealthBar(this);
+        this.healthBar.setGap(100f);
     }
 
 
@@ -42,6 +47,8 @@ public abstract class BossEnemy extends Entity {
         deathUpdate();
         if (isDeath)
             return;
+
+        healthBar.update();
         boolean prevMoveRight = movingRight;
         float distantToPlayer = heroManager.getPosition().x - body.getPosition().x;
         boolean ableAttackPlayer = heroManager.getPosition().dst(body.getPosition()) <= 5;
@@ -165,6 +172,11 @@ public abstract class BossEnemy extends Entity {
                 takingHit = false;
             }
         }
+    }
+
+    public void renderHealthBar(ShapeRenderer shapeRenderer) {
+        if (!isDeath)
+            healthBar.render(shapeRenderer);
     }
 
     @Override

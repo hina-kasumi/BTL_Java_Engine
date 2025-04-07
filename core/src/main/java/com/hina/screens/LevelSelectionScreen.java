@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.hina.screens.GameScreen.BossGameScreen;
 import com.hina.screens.GameScreen.NormalGameScreen;
 import com.hina.ui.ButtonClick.*;
 import com.hina.ui.ButtonClick.LevelButton.LevelButton;
@@ -129,6 +130,13 @@ public class LevelSelectionScreen extends ScreenAbstract {
                 new Vector2(2.88f, 6.08f),
                 "maps/map_01/map-tmx/map02.tmx")
                 .setSpawnInBoss(3.44f, 1.5f)
+            ),
+            LEVEL_SELECTION_SCALE);
+
+        levelButtonList.add(
+            new LevelButton(game, new BossGameScreen(this,
+                new Vector2(1.44f, 1.44f),
+                "maps/map_01/map-tmx/map_boss_01.tmx")
             ),
             LEVEL_SELECTION_SCALE);
 
