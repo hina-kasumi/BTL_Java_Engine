@@ -25,9 +25,9 @@ public class GameManager {
         this.heroManager = new HeroManager(gameScreen, playerSpawnPosition);
         this.background = new Background();
         this.shapeRenderer = new ShapeRenderer();
-        this.basicEnemyManager = new BasicEnemyManager(gameScreen.getWorld(), heroManager);
-        this.bossManager = new BossManager(gameScreen.getWorld(), heroManager);
-        this.map = new Map(camera, gameScreen.getWorld(), heroManager, fileMapName, this.basicEnemyManager);
+        this.map = new Map(camera, gameScreen.getWorld(), heroManager, fileMapName);
+        this.basicEnemyManager = map.getBasicEnemyManager();
+        this.bossManager = map.getBossManager();
 
         gameScreen.getWorld().setContactListener(new MainListener());
     }

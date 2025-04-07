@@ -10,6 +10,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
+import com.hina.entities.enemy.BossEnemy.FireWorm.FireWorm;
+import com.hina.manager.BossManager;
 import com.hina.manager.HeroManager;
 import com.hina.manager.BasicEnemyManager;
 import com.hina.entities.enemy.BasicEnemy.Goblin.Goblin;
@@ -24,14 +26,17 @@ public class Map {
     private final TiledMap tiledMap;
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final BasicEnemyManager basicEnemyManager;
+    private final BossManager bossManager;
 
-    public Map(OrthographicCamera camera, World world, HeroManager heroManager, String fileName, BasicEnemyManager basicEnemyManager) {
+    public Map(OrthographicCamera camera, World world, HeroManager heroManager, String fileName) {
         this.world = world;
         this.camera = camera;
-        this.basicEnemyManager = basicEnemyManager;
+        this.basicEnemyManager = new BasicEnemyManager(world, heroManager);
+        bossManager = new BossManager(world, heroManager);
 
         tiledMap = new TmxMapLoader().load(fileName);
         createBasicEnemy(heroManager);
+        createBossEnemy(heroManager);
         createGroundFromTiledMap();
         createDeathZone();
         createWinZone();
@@ -82,6 +87,20 @@ public class Map {
         }
     }
 
+    private void createBossEnemy(HeroManager heroManager) {
+        MapLayer objectLayer = tiledMap.getLayers().get("boss_layer");
+        if (objectLayer != null) {
+            for (MapObject mapObject : objectLayer.getObjects()) {
+                if (mapObject instanceof RectangleMapObject) {
+                    Rectangle rect = ((RectangleMapObject) mapObject).getRectangle();
+                    float x = rect.x / PPM * MAP_SCALE;
+                    float y = rect.y / PPM * MAP_SCALE;
+                    bossManager.add(new FireWorm(world, heroManager, x, y));
+                }
+            }
+        }
+    }
+
     private void createBasicEnemy(HeroManager heroManager) {
         // Lấy Object Layer chứa quái
         MapLayer objectLayer = tiledMap.getLayers().get("enemy_layer");
@@ -113,5 +132,13 @@ public class Map {
     public void dispose() {
         tiledMap.dispose();
         mapRenderer.dispose();
+    }
+
+    public BossManager getBossManager() {
+        return bossManager;
+    }
+
+    public BasicEnemyManager getBasicEnemyManager() {
+        return basicEnemyManager;
     }
 }

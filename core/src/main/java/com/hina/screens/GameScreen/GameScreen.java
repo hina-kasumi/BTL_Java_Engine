@@ -68,8 +68,8 @@ public abstract class GameScreen extends ScreenAbstract {
         clearBin(world);
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-            CHEAT = true;
-            System.out.println("switch to cheat mode");
+            CHEAT = !CHEAT;
+            System.out.println(CHEAT ? "switch to cheat mode" : "switch to play mode");
         }
         if (gameOverScreen.isGameOver()) {
             gameOverScreen.update();

@@ -15,10 +15,8 @@ import com.hina.ui.ButtonClick.LevelButton.NextLevelsButton;
 import com.hina.ui.ButtonClick.LevelButton.PrevLevelsButton;
 import com.hina.ui.MyPanel.MainMenuBackground;
 import com.hina.ui.MyPanel.MyPanelList;
-import com.hina.screens.GameScreen.GameScreen;
 import com.hina.ui.MyText;
 
-import static com.hina.constant.GameConst.MAP_SCALE;
 import static com.hina.constant.LevelSelectionScreenConst.*;
 import static com.hina.constant.MainMenuConst.PADDING_MAIN_MENU;
 import static com.hina.constant.MainMenuConst.SQUARE_SCALE;

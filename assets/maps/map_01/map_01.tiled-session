@@ -3,10 +3,10 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "map-tmx/map01.tmx",
+    "activeFile": "map-tmx/map_boss_01.tmx",
     "expandedProjectPaths": [
-        "assets",
         ".",
+        "assets",
         "map-tmx"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -126,22 +126,22 @@
                 5
             ],
             "scale": 2,
-            "selectedLayer": -1,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 285.5,
-                "y": 385.25
+                "x": 4000,
+                "y": 480.25
             }
         },
         "map-tmx/map02.tmx": {
             "expandedObjectLayers": [
-                2,
-                6
+                6,
+                2
             ],
             "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 4000,
-                "y": 480.5
+                "x": 3993,
+                "y": 858.5
             }
         },
         "map-tmx/map_boss_01.tmx": {
@@ -163,8 +163,8 @@
             "scale": 1,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 478,
-                "y": 235.5
+                "x": 480,
+                "y": 239.5
             }
         },
         "map_01.tmx": {
@@ -183,8 +183,10 @@
     "frame.defaultDuration": 100,
     "last.externalTilesetPath": "C:/Users/Admin/OneDrive/Máy tính/BTL_JAVA/project/map_01/assets",
     "last.imagePath": "C:/Users/Admin/OneDrive/Máy tính/BTL_JAVA/temp_assets/Legacy Fantasy - Debug Map/Assets",
+    "map.fixedSize": true,
     "map.height": 30,
     "map.lastUsedFormat": "tmx",
+    "map.orientation": 1,
     "map.tileHeight": 16,
     "map.tileWidth": 16,
     "map.width": 60,
@@ -214,8 +216,8 @@
         "assets/Buildings-LF.tsx",
         "map-tmx/map02.tmx",
         "map-tmx/map_boss_02.tmx",
-        "map-tmx/map_boss_01.tmx",
-        "map-tmx/map01.tmx"
+        "map-tmx/map01.tmx",
+        "map-tmx/map_boss_01.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
