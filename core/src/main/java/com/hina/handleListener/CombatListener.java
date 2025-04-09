@@ -7,9 +7,14 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.hina.entities.Entity;
 import com.hina.entities.Player.Hero;
 import com.hina.entities.enemy.BasicEnemy.BasicEnemy;
+import com.hina.entities.enemy.BossEnemy.BossEnemy;
+import com.hina.manager.CoinManager;
+import com.hina.utils.CoinUtils;
 import com.hina.utils.attackUtils.AttackAbstract;
 
-import static com.hina.constant.CoinConst.UP_COIN;
+import static com.hina.constant.CoinConst.UP_COIN_BASIC_ENEMY;
+import static com.hina.constant.CoinConst.UP_COIN_BOSS;
+import static com.hina.constant.GameConst.FILE_COIN;
 import static com.hina.manager.CoinManager.*;
 
 public class CombatListener implements ContactListener {
@@ -34,9 +39,15 @@ public class CombatListener implements ContactListener {
 
                 if (entity instanceof BasicEnemy) {
                     if (entity.isDeath() && prevEntity != entity) {
-                        upCoin(UP_COIN);
-                        System.out.println(getCoin());
+                        upCoin(UP_COIN_BASIC_ENEMY);
                         prevEntity = entity;
+                    }
+                } else if (entity instanceof BossEnemy) {
+                    if (entity.isDeath() && prevEntity != entity) {
+                        upCoin(UP_COIN_BOSS);
+                        prevEntity = entity;
+                        CoinUtils.saveCoinToFile(CoinManager.getCoin(), FILE_COIN);
+                        CoinUtils.saveCoinToDatabase(CoinManager.getCoin());
                     }
                 }
             }

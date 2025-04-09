@@ -8,7 +8,6 @@ public class BossGameScreen extends GameScreen {
     public BossGameScreen(ScreenAbstract screenAbstract, Vector2 playerSpawnPosition, String fileMapName) {
         super(screenAbstract, playerSpawnPosition, fileMapName);
         this.screenAbstract = screenAbstract;
-        System.out.println(screenAbstract instanceof NormalGameScreen);
     }
 
     public ScreenAbstract getScreenAbstract() {

@@ -54,7 +54,6 @@ public abstract class BossEnemy extends Entity {
 
         healthBar.update();
         boolean prevMoveRight = movingRight;
-        float bornToPlayer = heroManager.getPosition().x - bornPosition.x;
         float distantToPlayer = heroManager.getPosition().x - body.getPosition().x;
         boolean ableAttackPlayer = heroManager.getPosition().dst(body.getPosition()) <= 5;
         animationPriority.add(AnimationState.IDLE);

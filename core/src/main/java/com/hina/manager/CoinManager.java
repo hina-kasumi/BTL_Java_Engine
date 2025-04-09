@@ -1,9 +1,6 @@
 package com.hina.manager;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Scanner;
+import com.hina.utils.CoinUtils;
 
 import static com.hina.constant.GameConst.FILE_COIN;
 
@@ -11,32 +8,12 @@ public class CoinManager {
     private static int coin;
 
     static {
-        try {
-            File file = new File(FILE_COIN);
-            if (!file.exists()) {
-                if (!file.createNewFile()) {
-                    throw new IOException("Could not create file " + FILE_COIN);
-                }
-            }
-            Scanner scanner = new Scanner(file);
-            if (scanner.hasNextInt()) {
-                coin = scanner.nextInt();
-            } else {
-                scanner.close();
-                FileWriter fw = new FileWriter(file.getAbsoluteFile());
-                fw.write("0");
-                fw.close();
-                coin = 0;
-            }
-            scanner.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            coin = 0;
-        }
+        coin = CoinUtils.getCoinFromFile(FILE_COIN);
+        CoinUtils.getCoinFromDatabase();
     }
 
-    public CoinManager() {
+    public static void setCoin(int coin) {
+        CoinManager.coin = coin;
     }
 
     public static int getCoin() {

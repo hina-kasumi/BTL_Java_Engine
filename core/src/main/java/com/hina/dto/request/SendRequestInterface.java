@@ -25,9 +25,9 @@ public interface SendRequestInterface {
 
             @Override
             public void failed(Throwable throwable) {
-                throwable.printStackTrace();
+//                throwable.printStackTrace();
                 responseInterface.error(throwable.getMessage());
-                System.out.println("failed");
+                System.err.println("failed: " + throwable.getMessage());
             }
 
             @Override
