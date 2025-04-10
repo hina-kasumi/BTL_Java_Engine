@@ -6,10 +6,15 @@ import com.hina.entities.Entity;
 import com.hina.entities.enemy.BossEnemy.BossEnemy;
 import com.hina.screens.GameScreen.BossGameScreen;
 import com.hina.screens.GameScreen.GameScreen;
+import com.hina.utils.CoinUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import static com.hina.constant.CoinConst.UP_COIN_BOSS;
+import static com.hina.constant.GameConst.FILE_COIN;
+import static com.hina.manager.CoinManager.upCoin;
 
 public class BossManager {
     private final List<BossEnemy> bossEnemies;
@@ -36,6 +41,9 @@ public class BossManager {
 
         if (bossEnemies.isEmpty() && gameScreen instanceof BossGameScreen) {
             gameScreen.getWinGameScreen().setWinGame(true);
+            upCoin(UP_COIN_BOSS);
+            CoinUtils.saveCoinToFile(CoinManager.getCoin(), FILE_COIN);
+            CoinUtils.saveCoinToDatabase(CoinManager.getCoin());
         }
     }
 

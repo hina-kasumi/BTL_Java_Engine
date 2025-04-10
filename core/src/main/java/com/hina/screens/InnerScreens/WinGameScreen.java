@@ -1,7 +1,10 @@
 package com.hina.screens.InnerScreens;
 
+import com.hina.screens.LevelSelectionScreen;
+import com.hina.screens.MainMenuScreen;
 import com.hina.screens.ScreenAbstract;
 import com.hina.ui.ButtonClick.ButtonAbstract;
+import com.hina.ui.ButtonClick.ChangeScreenButton;
 import com.hina.ui.ButtonClick.ReplayButton;
 
 public class WinGameScreen extends EndGameScreen {
@@ -14,9 +17,10 @@ public class WinGameScreen extends EndGameScreen {
 
     @Override
     protected ButtonAbstract addButton() {
-        return new ReplayButton(screen,
-            "GUI/png/Buttons/Square/Repeat/Default.png",
-            "GUI/png/Buttons/Square/Repeat/Hover.png"
+        return new ChangeScreenButton(
+            "GUI/png/Buttons/Square/Play/Default.png",
+            "GUI/png/Buttons/Square/Play/Hover.png",
+            screen.getGame(), new LevelSelectionScreen(screen, new MainMenuScreen(screen))
         );
     }
 
