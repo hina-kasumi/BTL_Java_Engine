@@ -4,6 +4,7 @@ import com.hina.dto.request.GetCoinRequest;
 import com.hina.dto.request.SetCoinRequest;
 import com.hina.dto.response.GetCoinResponse;
 import com.hina.dto.response.SetCoinResponse;
+import com.hina.manager.CoinManager;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -15,6 +16,7 @@ public class CoinUtils {
         try {
             FileWriter fileWriter = new FileWriter(fileName);
             fileWriter.write(coin + "");
+            CoinManager.setCoin(coin);
             fileWriter.close();
         } catch (Exception e) {
             e.printStackTrace();

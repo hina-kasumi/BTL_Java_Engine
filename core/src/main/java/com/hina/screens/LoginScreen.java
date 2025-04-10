@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.hina.dto.request.RequestInterface;
 import com.hina.dto.response.AuthResponse;
+import com.hina.dto.response.LoginResponse;
 import com.hina.dto.response.ResponseInterface;
 import com.hina.ui.MyPanel.MainMenuBackground;
 import com.hina.ui.MyPanel.MyPanelList;
@@ -109,7 +110,7 @@ public class LoginScreen extends ScreenAbstract {
                 }
 
                 AuthUtils.login(username, password,
-                    new AuthResponse(username, password, game, viewport, camera, messageLabel));
+                    new LoginResponse(username, password, game, viewport, camera, messageLabel));
             }
         });
 
