@@ -26,7 +26,7 @@ public abstract class GameScreen extends ScreenAbstract {
     private Box2DDebugRenderer box2DDebugRenderer;
     private SpriteBatch batch;
     private GameManager gameManager;
-    private final Vector2 playerSpawnPosition;
+    protected final Vector2 playerSpawnPosition;
     private final String fileMapName;
     private PauseManager pauseManager;
     private GameOverScreen gameOverScreen;
@@ -142,6 +142,10 @@ public abstract class GameScreen extends ScreenAbstract {
         );
     }
 
+    public GameManager getGameManager() {
+        return gameManager;
+    }
+
     public String getFileMapName() {
         return fileMapName;
     }
@@ -156,5 +160,10 @@ public abstract class GameScreen extends ScreenAbstract {
 
     public String getLevel() {
         return ((level < 10) ? "0" : "") + level;
+    }
+
+    public void setGameManager(GameManager gameManager) {
+        this.gameManager.dispose();
+        this.gameManager = gameManager;
     }
 }

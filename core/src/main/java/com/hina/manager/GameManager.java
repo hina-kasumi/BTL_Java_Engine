@@ -14,15 +14,15 @@ import com.hina.screens.GameScreen.GameScreen;
 
 
 public class GameManager {
-    private final HeroManager heroManager;
+    private HeroManager heroManager;
     private final Background background;
     private final Map map;
     private final ShapeRenderer shapeRenderer;
     private final BasicEnemyManager basicEnemyManager;
     private final BossManager bossManager;
 
-    public GameManager(GameScreen gameScreen, OrthographicCamera camera, Vector2 playerSpawnPosition, String fileMapName) {
-        this.heroManager = new HeroManager(gameScreen, playerSpawnPosition);
+    public GameManager(GameScreen gameScreen, OrthographicCamera camera, HeroManager heroManager, String fileMapName) {
+        this.heroManager = heroManager;
         this.background = new Background();
         this.shapeRenderer = new ShapeRenderer();
         this.map = new Map(camera, gameScreen.getWorld(), heroManager, fileMapName);
@@ -30,6 +30,10 @@ public class GameManager {
         this.bossManager = map.getBossManager();
 
         gameScreen.getWorld().setContactListener(new MainListener());
+    }
+
+    public GameManager(GameScreen gameScreen, OrthographicCamera camera, Vector2 playerSpawnPosition, String fileMapName) {
+        this(gameScreen, camera,new HeroManager(gameScreen, playerSpawnPosition), fileMapName);
     }
 
     public void update() {
@@ -65,6 +69,14 @@ public class GameManager {
 
     public Hero getHero() {
         return heroManager.getCurrentHero();
+    }
+
+    public void setHeroManager(HeroManager heroManager) {
+        this.heroManager = heroManager;
+    }
+
+    public HeroManager getHeroManager() {
+        return heroManager;
     }
 
     public void dispose() {

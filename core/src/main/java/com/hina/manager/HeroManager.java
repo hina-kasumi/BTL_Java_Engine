@@ -23,9 +23,23 @@ public class HeroManager {
         heroes = new ArrayList<>();
         currentHeroIndex = 0;
         movingRight = true;
+        this.position = position;
+        addAllHero(gameScreen);
+    }
 
+    public HeroManager(GameScreen gameScreen, HeroManager heroManager, Vector2 position) {
+        heroes = new ArrayList<>();
+        this.currentHeroIndex = heroManager.currentHeroIndex;
+        movingRight = heroManager.movingRight;
         this.position = position;
 
+        addAllHero(gameScreen);
+        for (int i = 0; i < heroes.size(); i++) {
+            heroes.get(i).setCurHealth(heroManager.heroes.get(i).getCurHealth());
+        }
+    }
+
+    private void addAllHero(GameScreen gameScreen) {
         add(new CrystalHero(gameScreen, position));
         add(new FireHero(gameScreen, position));
         add(new GroundHero(gameScreen, position));
@@ -33,13 +47,11 @@ public class HeroManager {
         add(new MetalHero(gameScreen, position));
         add(new WaterHero(gameScreen, position));
         add(new WindHero(gameScreen, position));
-
-        heroes.forEach(hero -> hero.getBody().setActive(false));
-
     }
 
     public void add(Hero hero) {
         heroes.add(hero);
+        hero.getBody().setActive(false);
     }
 
     public void update(float delta) {

@@ -22,7 +22,7 @@ public class PlayerHealthBar {
         this.hero = hero;
 
         this.maxHealth = hero.getMaxHeath();
-        this.curHealth = hero.getMaxHeath();
+        this.curHealth = hero.getCurHealth();
 
         String path = "textures/new Player health bar/";
         this.noHeartFull = new Texture(path + "standard-1.png");

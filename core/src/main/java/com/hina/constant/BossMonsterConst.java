@@ -31,7 +31,7 @@ public class BossMonsterConst {
     }
 
     public static class FrostGuardian {
-        public static final float FROST_GUARDIAN_MAX_HEALTH = 20f;
+        public static final float FROST_GUARDIAN_MAX_HEALTH = 200f;
         public static final float BOSS_WIDTH = 2f;
         public static final float BOSS_HEIGHT = 2f;
         public static final float BOSS_MONSTER_ATTACK_BOX_DAMAGE = 20f;

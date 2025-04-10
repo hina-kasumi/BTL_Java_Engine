@@ -172,6 +172,12 @@ public abstract class Entity {
         return movingRight;
     }
 
+    public void setCurHealth(float curHealth) {
+        if (curHealth <= 0 || curHealth > maxHeath)
+            throw new IllegalArgumentException("curHealth must be between 0 and max heath");
+        this.curHealth = curHealth;
+    }
+
     public abstract void update(float delta);
 
     public abstract void draw(SpriteBatch batch);
