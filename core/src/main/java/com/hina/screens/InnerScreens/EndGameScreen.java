@@ -1,30 +1,28 @@
-package com.hina.screens;
+package com.hina.screens.InnerScreens;
 
 import com.badlogic.gdx.Gdx;
+import com.hina.screens.ScreenAbstract;
 import com.hina.ui.ButtonClick.ButtonAbstract;
 import com.hina.ui.ButtonClick.HomeButton;
-import com.hina.ui.ButtonClick.ReplayButton;
 import com.hina.ui.MyPanel.Logotype;
 import com.hina.ui.MyPanel.MyPanel;
 import com.hina.ui.MyPanel.MyPanelList;
 
-import static com.hina.constant.GameOverScreenConst.*;
+import static com.hina.constant.EndGameScreenConst.*;
 
-public class GameOverScreen extends InnerScreen {
-    private MyPanelList myPanels;
-    private boolean gameOver;
-    private MyPanel myPanel;
+public abstract class EndGameScreen extends InnerScreen {
+    protected MyPanelList myPanels;
+    protected MyPanel myPanel;
 
-    public GameOverScreen(ScreenAbstract screen) {
+    public EndGameScreen(ScreenAbstract screen, String filename) {
         super(screen);
-        initPanel();
-        gameOver = false;
+        initPanel(filename);
     }
 
-    private void initPanel() {
+    private void initPanel(String filename) {
         myPanels = new MyPanelList();
 
-        myPanel = new Logotype("GUI/end-game/you-died.png");
+        myPanel = new Logotype(filename);
         myPanel.setScale(PANEL_SCALE);
 
         myPanels.add(myPanel);
@@ -35,27 +33,18 @@ public class GameOverScreen extends InnerScreen {
     protected void initButton() {
         Gdx.input.setInputProcessor(stage);
 
-        ReplayButton replayButton = new ReplayButton(screen,
-            "GUI/png/Buttons/Square/Repeat/Default.png",
-            "GUI/png/Buttons/Square/Repeat/Hover.png"
-        );
-
         HomeButton homeButton = new HomeButton(screen,
             "GUI/png/Buttons/Square/Home/Default.png",
             "GUI/png/Buttons/Square/Home/Hover.png"
         );
+        buttons.add(homeButton);
+        buttons.add(addButton());
 
-        buttons.add(homeButton, replayButton);
         buttons.getList().forEach(i -> i.setScale(BUTTON_SCALE));
     }
 
-    public boolean isGameOver() {
-        return gameOver;
-    }
-
-    public void setGameOver(boolean gameOver) {
-        this.gameOver = gameOver;
-    }
+    protected abstract ButtonAbstract addButton();
+    protected abstract boolean conditionReturn();
 
     @Override
     public void update() {
@@ -64,7 +53,7 @@ public class GameOverScreen extends InnerScreen {
 
     @Override
     public void draw(float v) {
-        if (!isGameOver())
+        if (conditionReturn())
             return;
         drawShadowBackground();
 

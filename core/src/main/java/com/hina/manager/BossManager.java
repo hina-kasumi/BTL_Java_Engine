@@ -2,18 +2,22 @@ package com.hina.manager;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.physics.box2d.World;
 import com.hina.entities.Entity;
 import com.hina.entities.enemy.BossEnemy.BossEnemy;
+import com.hina.screens.GameScreen.BossGameScreen;
+import com.hina.screens.GameScreen.GameScreen;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class BossManager {
     private final List<BossEnemy> bossEnemies;
+    private final GameScreen gameScreen;
 
-    public BossManager(World world, HeroManager heroManager) {
+    public BossManager(GameScreen gameScreen, HeroManager heroManager) {
         this.bossEnemies = new ArrayList<>();
+        this.gameScreen = gameScreen;
     }
 
     public void add(BossEnemy bossEnemy) {
@@ -21,7 +25,18 @@ public class BossManager {
     }
 
     public void update(float delta) {
-        bossEnemies.forEach(bossEnemy -> bossEnemy.update(delta));
+        Iterator<BossEnemy> iterator = bossEnemies.iterator();
+        while (iterator.hasNext()) {
+            BossEnemy bossEnemy = iterator.next();
+            bossEnemy.update(delta);
+            if (bossEnemy.isDeath()) {
+                iterator.remove();
+            }
+        }
+
+        if (bossEnemies.isEmpty() && gameScreen instanceof BossGameScreen) {
+            gameScreen.getWinGameScreen().setWinGame(true);
+        }
     }
 
     public void draw(SpriteBatch batch) {

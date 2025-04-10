@@ -1,17 +1,9 @@
 package com.hina.screens.GameScreen;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
 import com.hina.manager.GameManager;
 import com.hina.manager.HeroManager;
-import com.hina.screens.GameOverScreen;
-import com.hina.screens.PauseManager;
 import com.hina.screens.ScreenAbstract;
-import com.hina.ui.CoinDisplay;
-
-import static com.hina.constant.GameScreenConst.GRAVITY;
 
 public class BossGameScreen extends GameScreen {
     private final ScreenAbstract screenAbstract;

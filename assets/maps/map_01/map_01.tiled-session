@@ -3,11 +3,11 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "map-tmx/map_boss_01.tmx",
+    "activeFile": "map-tmx/map01.tmx",
     "expandedProjectPaths": [
         ".",
-        "assets",
-        "map-tmx"
+        "map-tmx",
+        "assets"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
@@ -128,7 +128,7 @@
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 4000,
+                "x": 184.25,
                 "y": 480.25
             }
         },
@@ -146,13 +146,13 @@
         },
         "map-tmx/map_boss_01.tmx": {
             "expandedObjectLayers": [
-                2,
-                3
+                3,
+                2
             ],
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 448.99999999999994,
+                "x": 369.66666666666663,
                 "y": 242.99999999999997
             }
         },
@@ -216,8 +216,8 @@
         "assets/Buildings-LF.tsx",
         "map-tmx/map02.tmx",
         "map-tmx/map_boss_02.tmx",
-        "map-tmx/map01.tmx",
-        "map-tmx/map_boss_01.tmx"
+        "map-tmx/map_boss_01.tmx",
+        "map-tmx/map01.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {

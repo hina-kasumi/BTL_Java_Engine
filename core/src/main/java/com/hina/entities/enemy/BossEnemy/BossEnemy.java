@@ -6,16 +6,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.hina.entities.AnimationState;
 import com.hina.entities.Entity;
 import com.hina.manager.HeroManager;
+import com.hina.screens.GameScreen.GameScreen;
 import com.hina.utils.HealthBar;
 
 import static com.hina.constant.BossMonsterConst.*;
 import static com.hina.constant.GameConst.PPM;
 
 public abstract class BossEnemy extends Entity {
+    private final GameScreen gameScreen;
     protected final HeroManager heroManager;
     protected Animation<TextureRegion> idleAnimation;
     protected Animation<TextureRegion> attackAnimation;
@@ -33,10 +34,11 @@ public abstract class BossEnemy extends Entity {
     private TextureRegion prevFrame;
     private float excessPixels = 0;
 
-    public BossEnemy(World world, HeroManager heroManager, float x, float y, float width, float height, float maxHealth) {
-        super(world, x, y, width, height, maxHealth, BOSS_DENSITY);
+    public BossEnemy(GameScreen gameScreen, HeroManager heroManager, float x, float y, float width, float height, float maxHealth) {
+        super(gameScreen.getWorld(), x, y, width, height, maxHealth, BOSS_DENSITY);
 
         this.heroManager = heroManager;
+        this.gameScreen = gameScreen;
         body.setGravityScale(5);
         body.setUserData(this);
 

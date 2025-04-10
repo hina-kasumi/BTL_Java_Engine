@@ -1,7 +1,7 @@
 package com.hina.ui.ButtonClick;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.hina.screens.PauseManager;
+import com.hina.screens.InnerScreens.PauseManager;
 
 public class PauseButton extends ButtonAbstract{
     private final PauseManager pauseManager;

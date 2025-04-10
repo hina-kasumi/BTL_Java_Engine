@@ -1,8 +1,9 @@
-package com.hina.screens;
+package com.hina.screens.InnerScreens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.hina.screens.ScreenAbstract;
 import com.hina.ui.ButtonClick.*;
 
 import java.util.List;

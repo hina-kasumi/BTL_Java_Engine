@@ -19,22 +19,25 @@ import com.hina.manager.BasicEnemyManager;
 import com.hina.entities.enemy.BasicEnemy.Goblin.Goblin;
 import com.hina.entities.enemy.BasicEnemy.Mushroom.Mushroom;
 import com.hina.entities.enemy.BasicEnemy.Skeletion.Skeleton;
+import com.hina.screens.GameScreen.GameScreen;
 
 import static com.hina.constant.GameConst.*;
 
 public class Map {
     private final World world;
+    private final GameScreen gameScreen;
     private final OrthographicCamera camera;
     private final TiledMap tiledMap;
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final BasicEnemyManager basicEnemyManager;
     private final BossManager bossManager;
 
-    public Map(OrthographicCamera camera, World world, HeroManager heroManager, String fileName) {
-        this.world = world;
+    public Map(OrthographicCamera camera, GameScreen gameScreen, HeroManager heroManager, String fileName) {
+        this.world = gameScreen.getWorld();
+        this.gameScreen = gameScreen;
         this.camera = camera;
         this.basicEnemyManager = new BasicEnemyManager(world, heroManager);
-        bossManager = new BossManager(world, heroManager);
+        bossManager = new BossManager(gameScreen, heroManager);
 
         tiledMap = new TmxMapLoader().load(fileName);
         createBasicEnemy(heroManager);
@@ -97,7 +100,7 @@ public class Map {
                     Rectangle rect = ((RectangleMapObject) mapObject).getRectangle();
                     float x = rect.x / PPM * MAP_SCALE;
                     float y = rect.y / PPM * MAP_SCALE;
-                    bossManager.add(new FrostGuardian(world, heroManager, x, y));
+                    bossManager.add(new FrostGuardian(gameScreen, heroManager, x, y));
                 }
             }
         }

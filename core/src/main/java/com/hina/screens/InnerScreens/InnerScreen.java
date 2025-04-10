@@ -1,10 +1,11 @@
-package com.hina.screens;
+package com.hina.screens.InnerScreens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.hina.screens.ScreenAbstract;
 import com.hina.ui.ButtonClick.ButtonList;
 
 public abstract class InnerScreen {

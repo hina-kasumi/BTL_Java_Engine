@@ -4,14 +4,15 @@ package com.hina.entities.enemy.BossEnemy.FrostGuardian;
 import com.badlogic.gdx.physics.box2d.World;
 import com.hina.entities.enemy.BossEnemy.BossEnemy;
 import com.hina.manager.HeroManager;
+import com.hina.screens.GameScreen.GameScreen;
 
 import static com.hina.constant.BossMonsterConst.FrostGuardian.*;
 import static com.hina.utils.ImportTextureUtil.newImportAnimation;
 
 public class FrostGuardian extends BossEnemy {
 
-    public FrostGuardian(World world, HeroManager heroManager, float x, float y) {
-        super(world, heroManager, x, y, BOSS_WIDTH, BOSS_HEIGHT, FROST_GUARDIAN_MAX_HEALTH);
+    public FrostGuardian(GameScreen gameScreen, HeroManager heroManager, float x, float y) {
+        super(gameScreen, heroManager, x, y, BOSS_WIDTH, BOSS_HEIGHT, FROST_GUARDIAN_MAX_HEALTH);
         this.scale = FROST_GUARDIAN_SCALE;
 
         setBasicAttackDamage(BOSS_MONSTER_ATTACK_BOX_DAMAGE);

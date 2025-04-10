@@ -8,9 +8,10 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.hina.manager.GameManager;
+import com.hina.screens.InnerScreens.WinGameScreen;
 import com.hina.ui.CoinDisplay;
-import com.hina.screens.GameOverScreen;
-import com.hina.screens.PauseManager;
+import com.hina.screens.InnerScreens.GameOverScreen;
+import com.hina.screens.InnerScreens.PauseManager;
 import com.hina.screens.ScreenAbstract;
 
 import java.util.regex.Matcher;
@@ -30,6 +31,7 @@ public abstract class GameScreen extends ScreenAbstract {
     private final String fileMapName;
     private PauseManager pauseManager;
     private GameOverScreen gameOverScreen;
+    private WinGameScreen winGameScreen;
     private CoinDisplay coinDisplay;
     private int level;
 
@@ -52,6 +54,7 @@ public abstract class GameScreen extends ScreenAbstract {
         box2DDebugRenderer = new Box2DDebugRenderer();
         pauseManager = new PauseManager(this);
         gameOverScreen = new GameOverScreen(this);
+        winGameScreen = new WinGameScreen(this);
         coinDisplay = new CoinDisplay(this);
 
         gameManager = new GameManager(this, camera, playerSpawnPosition, fileMapName);
@@ -70,6 +73,10 @@ public abstract class GameScreen extends ScreenAbstract {
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             CHEAT = !CHEAT;
             System.out.println(CHEAT ? "switch to cheat mode" : "switch to play mode");
+        }
+        if (winGameScreen.isWinGame()) {
+            winGameScreen.update();
+            return;
         }
         if (gameOverScreen.isGameOver()) {
             gameOverScreen.update();
@@ -96,7 +103,10 @@ public abstract class GameScreen extends ScreenAbstract {
 
         gameManager.renderHealthBat(camera);
 
-        if (gameOverScreen.isGameOver()) {
+        if (winGameScreen.isWinGame()) {
+            winGameScreen.draw(v);
+        }
+        else if (gameOverScreen.isGameOver()) {
             gameOverScreen.draw(v);
         } else {
             pauseManager.draw(v);
@@ -165,5 +175,9 @@ public abstract class GameScreen extends ScreenAbstract {
     public void setGameManager(GameManager gameManager) {
         this.gameManager.dispose();
         this.gameManager = gameManager;
+    }
+
+    public WinGameScreen getWinGameScreen() {
+        return winGameScreen;
     }
 }
