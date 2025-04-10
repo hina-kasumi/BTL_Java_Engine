@@ -15,6 +15,10 @@ public class NormalGameScreen extends GameScreen {
         spawnInBoss.set(x, y);
         return this;
     }
+    public NormalGameScreen setSpawnInBoss(Vector2 newSpawn) {
+        spawnInBoss.set(newSpawn);
+        return this;
+    }
 
     public Vector2 getSpawnInBoss() {
         return spawnInBoss;

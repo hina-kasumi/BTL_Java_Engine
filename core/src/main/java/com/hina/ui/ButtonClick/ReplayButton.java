@@ -1,5 +1,6 @@
 package com.hina.ui.ButtonClick;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.hina.screens.GameScreen.BossGameScreen;
 import com.hina.screens.GameScreen.GameScreen;
@@ -23,10 +24,23 @@ public class ReplayButton extends ButtonAbstract {
     public void addListener(InputEvent event, float x, float y) {
         if (screenAbstract instanceof BossGameScreen bossGameScreen &&
             bossGameScreen.getScreenAbstract() instanceof NormalGameScreen normalGameScreen) {
-                screenAbstract.getGame().setScreen(
-                    new NormalGameScreen(normalGameScreen,
-                        normalGameScreen.getPlayerSpawnPosition(),
-                        normalGameScreen.getFileMapName()));
+            Vector2 playerSpawnPosition = normalGameScreen.getPlayerSpawnPosition();
+            String fileMapName = normalGameScreen.getFileMapName();
+            Vector2 spawnInBoss = normalGameScreen.getSpawnInBoss();
+
+            screenAbstract.getGame().setScreen(
+                new NormalGameScreen(normalGameScreen,
+                    playerSpawnPosition,
+                    fileMapName
+                ).setSpawnInBoss(spawnInBoss)
+            );
+        } else if (screenAbstract instanceof NormalGameScreen gameScreen) {
+            screenAbstract.getGame().setScreen(
+                new NormalGameScreen(gameScreen,
+                    gameScreen.getPlayerSpawnPosition(),
+                    gameScreen.getFileMapName()
+                ).setSpawnInBoss(gameScreen.getSpawnInBoss())
+            );
         } else if (screenAbstract instanceof GameScreen gameScreen) {
             screenAbstract.getGame().setScreen(
                 new NormalGameScreen(gameScreen,
