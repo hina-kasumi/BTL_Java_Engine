@@ -2,12 +2,12 @@ package com.hina.dto.request;
 
 import com.badlogic.gdx.Net;
 
-import static com.hina.constant.GameConst.DOMAIN;
+import static com.hina.constant.GameConst.getDOMAIN;
 
 public class GetCoinRequest implements RequestInterface{
     @Override
     public String getURL() {
-        return DOMAIN + "/coin";
+        return getDOMAIN() + "/coin";
     }
 
     @Override

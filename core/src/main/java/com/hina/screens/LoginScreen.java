@@ -1,7 +1,6 @@
 package com.hina.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Net;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
@@ -10,16 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
-import com.hina.dto.request.RequestInterface;
 import com.hina.dto.response.AuthResponse;
 import com.hina.dto.response.LoginResponse;
-import com.hina.dto.response.ResponseInterface;
 import com.hina.ui.MyPanel.MainMenuBackground;
 import com.hina.ui.MyPanel.MyPanelList;
 import com.hina.utils.AuthUtils;
-import com.hina.utils.RequestUtils;
-
-import static com.hina.constant.GameConst.DOMAIN;
 
 public class LoginScreen extends ScreenAbstract {
     private Stage stage;

@@ -9,17 +9,16 @@ import com.hina.dto.request.RegisterRequest;
 import com.hina.dto.request.SendRequestInterface;
 import com.hina.dto.response.ResponseInterface;
 
-import static com.hina.constant.GameConst.DOMAIN;
-import static com.hina.constant.GameConst.FILE_COIN;
+import static com.hina.constant.GameConst.*;
 
 public class AuthUtils implements SendRequestInterface {
     public static void login(String username, String password, ResponseInterface responseInterface) {
-        Net.HttpRequest httpRequest = authRequest(DOMAIN + "/login", new LoginRequest(username, password));
+        Net.HttpRequest httpRequest = authRequest(getDOMAIN() + "/login", new LoginRequest(username, password));
         new AuthUtils().sendRequest(httpRequest, responseInterface);
     }
 
     public static void register(String username, String password, ResponseInterface responseInterface) {
-        Net.HttpRequest httpRequest = authRequest(DOMAIN + "/register",
+        Net.HttpRequest httpRequest = authRequest(getDOMAIN() + "/register",
             new RegisterRequest(username, password, CoinUtils.getCoinFromFile(FILE_COIN)));
         new AuthUtils().sendRequest(httpRequest, responseInterface);
     }
