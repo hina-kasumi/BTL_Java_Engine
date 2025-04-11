@@ -17,8 +17,7 @@ import com.hina.screens.ScreenAbstract;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.hina.constant.GameConst.CHEAT;
-import static com.hina.constant.GameConst.MAP_SCALE;
+import static com.hina.constant.GameConst.*;
 import static com.hina.constant.GameScreenConst.*;
 import static com.hina.utils.Bin.clearBin;
 
@@ -105,15 +104,15 @@ public abstract class GameScreen extends ScreenAbstract {
 
         if (winGameScreen.isWinGame()) {
             winGameScreen.draw(v);
-        }
-        else if (gameOverScreen.isGameOver()) {
+        } else if (gameOverScreen.isGameOver()) {
             gameOverScreen.draw(v);
         } else {
             pauseManager.draw(v);
             coinDisplay.draw(v, COIN_SCALE);
         }
 
-        box2DDebugRenderer.render(world, camera.combined);
+        if (isDEBUG())
+            box2DDebugRenderer.render(world, camera.combined);
     }
 
     @Override
