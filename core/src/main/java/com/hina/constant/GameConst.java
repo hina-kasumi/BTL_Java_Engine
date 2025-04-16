@@ -56,7 +56,7 @@ public class GameConst {
 
     private static Map<String, String> getFromInit() {
         File file = new File(INIT_FILE);
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         try {
             if (!file.exists()) {
                 if (file.createNewFile()) {

@@ -7,10 +7,13 @@
  <tile id="81" probability="0.4"/>
  <tile id="177" probability="0.3"/>
  <tile id="178" probability="0.22"/>
- <tile id="254" probability="0.11"/>
- <tile id="255" probability="0.11"/>
- <tile id="279" probability="0.11"/>
- <tile id="280" probability="0.11"/>
+ <tile id="254" probability="0.2"/>
+ <tile id="255" probability="0.2"/>
+ <tile id="259" probability="0.2"/>
+ <tile id="279" probability="0.2"/>
+ <tile id="280" probability="0.2"/>
+ <tile id="284" probability="0.2"/>
+ <tile id="309" probability="0.2"/>
  <tile id="431">
   <animation>
    <frame tileid="428" duration="150"/>

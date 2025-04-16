@@ -27,7 +27,7 @@
         },
         "assets/Hive-LF.tsx": {
             "dynamicWrapping": false,
-            "scaleInDock": 1.5,
+            "scaleInDock": 3,
             "scaleInEditor": 1
         },
         "assets/Hive-Legacy-Fantasy.tsx": {
@@ -73,7 +73,7 @@
         },
         "assets/Tiles-debug-LF.tsx": {
             "dynamicWrapping": false,
-            "scaleInDock": 1,
+            "scaleInDock": 0.75,
             "scaleInEditor": 1
         },
         "assets/Tiles_Legacy_Fantasy.tsx": {
@@ -128,46 +128,47 @@
             "expandedObjectLayers": [
                 5
             ],
-            "scale": 1.5,
-            "selectedLayer": 0,
+            "scale": 0.5,
+            "selectedLayer": 6,
             "viewCenter": {
-                "x": 4017.6666666666665,
-                "y": 599
+                "x": 2106,
+                "y": 634
             }
         },
         "map-tmx/map02.tmx": {
             "expandedObjectLayers": [
-                6,
-                2
+                2,
+                6
             ],
             "scale": 0.33,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 4001.515151515151,
-                "y": 480.30303030303025
+                "x": 4048.484848484848,
+                "y": 480.3030303030303
             }
         },
         "map-tmx/map_boss_01.tmx": {
             "expandedObjectLayers": [
-                3,
-                2
+                2,
+                3
             ],
-            "scale": 0.5,
+            "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 479,
-                "y": 239
+                "x": 480,
+                "y": 239.33333333333331
             }
         },
         "map-tmx/map_boss_02.tmx": {
             "expandedObjectLayers": [
+                2,
                 3
             ],
             "scale": 0.75,
-            "selectedLayer": 2,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 479.33333333333326,
-                "y": 239.33333333333326
+                "x": 480,
+                "y": 239.33333333333331
             }
         },
         "map_01.tmx": {
@@ -201,8 +202,8 @@
         "assets/Interior-01-LF.tsx",
         "assets/Buildings-LF.tsx",
         "map-tmx/map02.tmx",
-        "map-tmx/map_boss_02.tmx",
         "map-tmx/map01.tmx",
+        "map-tmx/map_boss_02.tmx",
         "map-tmx/map_boss_01.tmx",
         "assets/Portal.tsx"
     ],
@@ -217,9 +218,9 @@
         "assets/Interior-01-LF.tsx",
         "assets/Buildings-LF.tsx",
         "map-tmx/map02.tmx",
-        "map-tmx/map_boss_02.tmx",
         "assets/Portal.tsx",
-        "map-tmx/map_boss_01.tmx"
+        "map-tmx/map_boss_01.tmx",
+        "map-tmx/map_boss_02.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
