@@ -9,7 +9,7 @@ public class Background {
     private final Texture background;
 
     public Background() {
-        this.background = new Texture("background/background_layer_1.png");
+        this.background = new Texture("maps/temp_assets/Final Taiga Forest/baner.png");
     }
 
     public void draw(SpriteBatch spriteBatch, Camera camera, FitViewport viewport) {

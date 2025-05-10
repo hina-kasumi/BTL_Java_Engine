@@ -17,7 +17,7 @@
         },
         "assets/Buildings-LF.tsx": {
             "dynamicWrapping": false,
-            "scaleInDock": 0.75,
+            "scaleInDock": 1,
             "scaleInEditor": 2
         },
         "assets/Buildings-Legacy-Fantasy.tsx": {
@@ -27,7 +27,7 @@
         },
         "assets/Hive-LF.tsx": {
             "dynamicWrapping": false,
-            "scaleInDock": 3,
+            "scaleInDock": 1.5,
             "scaleInEditor": 1
         },
         "assets/Hive-Legacy-Fantasy.tsx": {
@@ -81,7 +81,7 @@
             "scaleInEditor": 1
         },
         "assets/Tree-Assets-LF.tsx": {
-            "scaleInDock": 0.75,
+            "scaleInDock": 1,
             "scaleInEditor": 3
         },
         "assets/Tree-Assets-Legacy-Fantasy.tsx": {
@@ -131,44 +131,44 @@
             "scale": 0.5,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 2106,
-                "y": 634
+                "x": 7034,
+                "y": 592
             }
         },
         "map-tmx/map02.tmx": {
             "expandedObjectLayers": [
-                2,
-                6
+                6,
+                2
             ],
             "scale": 0.33,
-            "selectedLayer": 1,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 4048.484848484848,
-                "y": 480.3030303030303
+                "x": 5545.454545454546,
+                "y": 569.6969696969697
             }
         },
         "map-tmx/map_boss_01.tmx": {
             "expandedObjectLayers": [
-                2,
-                3
+                3,
+                2
             ],
             "scale": 0.75,
-            "selectedLayer": 0,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 480,
-                "y": 239.33333333333331
+                "x": 526.6666666666667,
+                "y": 239.99999999999994
             }
         },
         "map-tmx/map_boss_02.tmx": {
             "expandedObjectLayers": [
-                2,
-                3
+                3,
+                2
             ],
-            "scale": 0.75,
+            "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 480,
-                "y": 239.33333333333331
+                "x": 632,
+                "y": 314
             }
         },
         "map_01.tmx": {
@@ -193,33 +193,28 @@
     "map.tileWidth": 16,
     "map.width": 60,
     "openFiles": [
-        "assets/Tiles-debug-LF.tsx",
-        "assets/Back-ground.tsx",
         "assets/Props-Rocks-LF.tsx",
         "assets/Tree-Assets-LF.tsx",
-        "assets/Hive-LF.tsx",
         "assets/Tiles-LF.tsx",
         "assets/Interior-01-LF.tsx",
         "assets/Buildings-LF.tsx",
         "map-tmx/map02.tmx",
         "map-tmx/map01.tmx",
-        "map-tmx/map_boss_02.tmx",
-        "map-tmx/map_boss_01.tmx",
         "assets/Portal.tsx"
     ],
     "project": "map_01.tiled-project",
     "recentFiles": [
-        "assets/Tiles-debug-LF.tsx",
-        "assets/Back-ground.tsx",
         "assets/Props-Rocks-LF.tsx",
         "assets/Tree-Assets-LF.tsx",
-        "assets/Hive-LF.tsx",
         "assets/Tiles-LF.tsx",
         "assets/Interior-01-LF.tsx",
         "assets/Buildings-LF.tsx",
         "map-tmx/map02.tmx",
         "assets/Portal.tsx",
-        "map-tmx/map_boss_01.tmx",
+        "map-tmx/map01.tmx",
+        "assets/Hive-LF.tsx",
+        "assets/Back-ground.tsx",
+        "assets/Tiles-debug-LF.tsx",
         "map-tmx/map_boss_02.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",

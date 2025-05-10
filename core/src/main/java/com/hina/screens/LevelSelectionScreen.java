@@ -127,7 +127,7 @@ public class LevelSelectionScreen extends ScreenAbstract {
 
         levelButtonList.add(
             new LevelButton(game, new NormalGameScreen(this,
-                new Vector2(2.88f, 6.08f),
+                new Vector2(0.64f, 8.64f),
                 "maps/map_01/map-tmx/map02.tmx")
                 .setSpawnInBoss(3.44f, 1.5f)
             ),
